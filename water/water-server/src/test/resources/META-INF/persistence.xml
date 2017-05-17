@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+
+	<persistence-unit name="scias" transaction-type="JTA">
+		<jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
+        <class>eu.imagecode.scias.model.jpa.AnalysisEntity</class>
+        <class>eu.imagecode.scias.model.jpa.BatchEntity</class>
+        <class>eu.imagecode.scias.model.jpa.ClientEntity</class>
+        <class>eu.imagecode.scias.model.jpa.ClientVersionEntity</class>
+        <class>eu.imagecode.scias.model.jpa.ImageEntity</class>
+        <class>eu.imagecode.scias.model.jpa.InputDataEntity</class>
+        <class>eu.imagecode.scias.model.jpa.ResultEntity</class>
+        <class>eu.imagecode.scias.model.jpa.ResultSetEntity</class>
+        <class>eu.imagecode.scias.model.jpa.SciasRoleEntity</class>
+        <class>eu.imagecode.scias.model.jpa.SciasUserEntity</class>
+        <class>eu.imagecode.scias.model.jpa.StationEntity</class>
+        <class>eu.imagecode.scias.model.jpa.StationGroupEntity</class>
+        <class>eu.imagecode.scias.model.jpa.SubjectEntity</class>
+        <class>eu.imagecode.scias.model.jpa.UnclassifiedObjectEntity</class>
+		<properties>
+			<property name="hibernate.show_sql" value="true"/>
+			<property name="hibernate.flushMode" value="FLUSH_AUTO" />
+			<property name="hibernate.hbm2ddl.auto" value="update" />
+		</properties>
+	</persistence-unit>
+	
+</persistence>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="urn:scias:server:water-analysis:0.1"
+    targetNamespace="urn:scias:server:water-analysis:0.1" elementFormDefault="qualified" attributeFormDefault="unqualified"
+    version="0.1">
+
+    <!-- we use camelCase because of automated conversion into javascript to avoid references with hyphens -->
+    <!-- TODO switch to camel-case also in tns to be consistent across whole xsd -->
+
+    <xs:element name="batch">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:integer" />
+                <xs:element name="subject" type="xs:integer" />
+                <xs:element name="finished" type="xs:boolean" />
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element name="analysis" type="tns:analysis" minOccurs="1" />
+                </xs:choice>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="analysis">
+        <xs:sequence>
+            <xs:element name="id" type="xs:integer" />
+            <xs:element name="created" type="xs:dateTime" /> <!-- YYYY-MM-DDThh:mm:ss -->
+            <xs:element name="algorithmVersion" type="xs:string" />
+            <xs:element name="trainDataVersion" type="xs:string" />
+            <xs:element name="inputData" minOccurs="1" maxOccurs="1" type="tns:input-data" />
+            <xs:element name="resultSet" type="tns:result-set" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="input-data">
+        <xs:sequence>
+            <xs:element name="id" type="xs:integer" />
+            <xs:element name="image" minOccurs="1" maxOccurs="1" type="tns:image" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="result-set">
+        <xs:sequence>
+            <xs:element name="id" type="xs:integer" />
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element name="result" type="tns:result" />
+            </xs:choice>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element name="unclassifiedObject" type="tns:unclassified-object" />
+            </xs:choice>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="image">
+        <xs:sequence>
+            <xs:element name="id" type="xs:integer" />
+            <xs:element name="name" type="xs:string" />
+            <xs:element name="sha256" type="xs:string" />
+            <xs:element name="pixelSize" type="xs:double" />
+            <xs:element name="height" type="xs:integer" />
+            <xs:element name="width" type="xs:integer" />
+            <xs:element name="mimeType" type="tns:mime-type" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:simpleType name="mime-type"> <!--we support the following formats only -->
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="image/jpeg" />
+            <xs:enumeration value="image/png" />
+            <xs:enumeration value="image/tiff" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="result">
+        <xs:sequence>
+            <xs:element name="id" type="xs:integer" />
+            <xs:element name="idClass" type="xs:integer" />
+            <xs:element name="amount" type="xs:double" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="unclassified-object">
+        <xs:sequence>
+            <xs:element name="id" type="xs:integer" />
+            <xs:element name="idClass" type="xs:integer" />
+            <xs:element name="image" type="tns:image" minOccurs="1" maxOccurs="1" />
+            <xs:element name="resolved" minOccurs="0" maxOccurs="1" type="xs:boolean" />
+            <xs:element name="resolvedBy" minOccurs="0" maxOccurs="1" type="tns:user" />
+            <xs:element name="resolvedTime" minOccurs="0" maxOccurs="1" type="xs:dateTime" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="user">
+        <xs:sequence>
+            <xs:element name="id" type="xs:integer" />
+            <xs:element name="name" type="xs:string" />
+            <xs:element name="surname" type="xs:string" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="user" type="tns:user" />
+    <xs:element name="analysis" type="tns:analysis" />
+
+</xs:schema>

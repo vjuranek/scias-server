@@ -1,0 +1,19 @@
+= Running the tests
+
+== In memory tests
+To run tests with default in-memory DB (H2), simply run 
+
+[source, shell]
+----
+mvn clean verify
+----
+No prerequisites are required and these tests run by default.
+
+== Tests with PostgreSQL
+Running the tests against PostgreSQL completely simulates production environment.
+These tests don't run by default and to run them seccessfuly assumes that PostgreSQL is running and database schema (and other config. like authetication) is properly set up.
+To run the tests agains PostgreSQL, use profile `postgres`:
+[source, shell]
+----
+mvn clean verify -Ppostgres
+----

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<batch xmlns="urn:scias:server:water-analysis:0.1">
+    <id>1</id>
+    <subject>1</subject>
+    <finished>true</finished>
+    <analysis>
+        <id>1</id>
+        <created>2016-10-19T22:30:00</created> <!-- YYYY-MM-DDThh:mm:ss -->
+        <algorithmVersion>1.0</algorithmVersion>
+        <trainDataVersion>1.0</trainDataVersion>
+        <inputData>
+            <id>1</id>
+            <image>
+                <id>1</id>
+                <name>Image01.jpg</name>
+                <sha256>7172698439171a96716f2190061f214c55a22feadafa460ca5b8b8e2ebf6482e</sha256>
+                <pixelSize>1.0</pixelSize>
+                <width>300</width>
+                <height>300</height>
+                <mimeType>image/png</mimeType>
+            </image>
+        </inputData>
+
+        <resultSet>
+            <id>1</id>
+            <result>
+                <id>1</id>
+                <idClass>1</idClass>
+                <amount>3.0</amount>
+            </result>
+            <result>
+                <id>2</id>
+                <idClass>2</idClass>
+                <amount>3.0</amount>
+            </result>
+            <unclassifiedObject>
+                <id>1</id>
+                <idClass>1</idClass>
+                <image>
+                    <id>2</id>
+                    <name>Image02.jpg</name>
+                    <sha256>3976c3224ad94051967af80136cee09c0860478e08a26eda56f82196591c6f86</sha256>
+                    <pixelSize>1.0</pixelSize>
+                    <width>300</width>
+                    <height>300</height>
+                    <mimeType>image/jpeg</mimeType>
+                </image>
+            </unclassifiedObject>
+        </resultSet>
+    </analysis>
+</batch>
