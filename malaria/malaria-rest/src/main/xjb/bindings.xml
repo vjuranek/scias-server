@@ -1,0 +1,19 @@
+<bindings xmlns="http://java.sun.com/xml/ns/jaxb" version="2.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<globalBindings>
+		<!-- xs:integer is generated as BigInteger, convert to Integer -->
+		<javaType name="int" 
+			xmlType="xs:integer" 
+			parseMethod="eu.imagecode.scias.jaxb.IntegerConverter.parseInteger"
+			printMethod="eu.imagecode.scias.jaxb.IntegerConverter.printInteger" />
+		<!-- xs:dateTime is generated as XMLGregorianCalendar, convert to java.util.Date -->
+		<javaType name="java.util.Date" 
+			xmlType="xs:dateTime" 
+			parseMethod="eu.imagecode.scias.jaxb.DateConverter.parseDate"
+			printMethod="eu.imagecode.scias.jaxb.DateConverter.printDate" />
+        <!-- xs:date is generated as XMLGregorianCalendar, convert to java.util.Date -->
+        <javaType name="java.util.Date" 
+            xmlType="xs:date" 
+            parseMethod="eu.imagecode.scias.jaxb.DateConverter.parseDate"
+            printMethod="eu.imagecode.scias.jaxb.DateConverter.printDate" />
+	</globalBindings>
+</bindings>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="urn:scias:server:malaria-analysis:0.1"
+    targetNamespace="urn:scias:server:malaria-analysis:0.1" elementFormDefault="qualified" attributeFormDefault="unqualified"
+    version="0.1">
+    <!-- the root element -->
+    <xs:element name="batch">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:integer" />
+                <xs:element name="patient" type="tns:patient" />
+                <xs:element name="finished" type="xs:boolean" />
+                <xs:element name="sample" type="tns:sample" minOccurs="1" maxOccurs="unbounded" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:complexType name="sample">
+        <xs:sequence>
+            <xs:element name="id" type="xs:integer" />
+            <xs:element name="timestamp" type="xs:dateTime" />
+            <xs:element name="finished" type="xs:boolean" />
+            <xs:element name="locality" type="tns:locality" />
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element name="analysis" type="tns:analysis" minOccurs="1" />
+            </xs:choice>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="locality">
+        <xs:sequence>
+            <xs:element name="id" type="xs:integer" />
+            <xs:element name="longtitude" type="xs:double" />
+            <xs:element name="latitude" type="xs:double" />
+            <xs:element name="altitude" type="xs:double" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="patient">
+        <xs:sequence>
+            <xs:element name="id" type="xs:integer" />
+            <xs:element name="firstName" type="xs:string" />
+            <xs:element name="middleName" type="xs:string" />
+            <xs:element name="lastName" type="xs:string" />
+            <xs:element name="dateOfBirth" type="xs:date" />
+            <xs:element name="customId" type="xs:string" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="analysis">
+        <xs:sequence>
+            <xs:element name="id" type="xs:integer" />
+            <xs:element name="created" type="xs:dateTime" />
+            <xs:element name="algorithmVersion" type="xs:string" />
+            <xs:element name="trainDataVersion" type="xs:string" />
+            <xs:element name="inputData" type="tns:input-data" />
+            <xs:element name="resultSet" type="tns:result-set" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="input-data">
+        <xs:sequence>
+            <xs:element name="id" type="xs:integer" />
+            <xs:element name="image" type="tns:image" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- definition of image-type used by input-data and unclassified-object-type -->
+    <xs:complexType name="image">
+        <xs:sequence>
+            <xs:element name="id" type="xs:integer" />
+            <xs:element name="name" type="xs:string" />
+            <xs:element name="sha256" type="xs:string" />
+            <xs:element name="pixelSize" type="xs:double" />
+            <xs:element name="height" type="xs:integer" />
+            <xs:element name="width" type="xs:integer" />
+            <xs:element name="mimeType" type="tns:mime-type"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="result-set">
+        <xs:sequence>
+            <xs:element name="id" type="xs:integer" />
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element name="result" type="tns:result" />
+            </xs:choice>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element name="unclassifiedObject" type="tns:unclassified-object" />
+            </xs:choice>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="result">
+        <xs:sequence>
+            <xs:element name="id" type="xs:integer" />
+            <xs:element name="idClass" type="xs:integer" />
+            <xs:element name="amount" type="xs:double" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="unclassified-object">
+        <xs:sequence>
+            <xs:element name="id" type="xs:integer" />
+            <xs:element name="idClass" type="xs:integer" />
+            <xs:element name="image" type="tns:image" />
+            <xs:choice minOccurs="0" maxOccurs="1">
+                <xs:sequence>
+                    <xs:element name="resolved" type="xs:boolean" />
+                    <xs:element name="resolvedBy" type="tns:user" /><!--id of an existing user -->
+                    <xs:element name="resolvedTime" type="xs:dateTime" />
+                </xs:sequence>
+            </xs:choice>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:simpleType name="mime-type"> <!--we support the following formats only -->
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="image/jpeg" />
+            <xs:enumeration value="image/png" />
+            <xs:enumeration value="image/tiff" />
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:complexType name="user">
+        <xs:sequence>
+            <xs:element name="id" type="xs:integer" />
+            <xs:element name="name" type="xs:string" />
+            <xs:element name="surname" type="xs:string" />
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:element name="user" type="tns:user" />
+    <xs:element name="analysis" type="tns:analysis" />
+
+</xs:schema>
