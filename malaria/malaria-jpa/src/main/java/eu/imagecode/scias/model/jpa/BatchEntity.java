@@ -67,7 +67,7 @@ public class BatchEntity implements java.io.Serializable {
         this.finished = finished;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "batch")
     public List<SampleEntity> getSamples() {
         return this.samples;
     }

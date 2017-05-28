@@ -24,7 +24,6 @@ import javax.persistence.TemporalType;
 public class PatientEntity implements java.io.Serializable {
 
     private int id;
-    private BatchEntity batch;
     private int localId;
     private String firstName;
     private String middleName;
@@ -43,7 +42,6 @@ public class PatientEntity implements java.io.Serializable {
     public PatientEntity(int id, BatchEntity batch, int localId, String firstName,
                     String middleName, String lastName, Date dayOfBirth) {
         this.id = id;
-        this.batch = batch;
         this.localId = localId;
         this.firstName = firstName;
         this.middleName = middleName;
@@ -61,16 +59,6 @@ public class PatientEntity implements java.io.Serializable {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "batch")
-    public BatchEntity getBatch() {
-        return this.batch;
-    }
-
-    public void setBatch(BatchEntity batch) {
-        this.batch = batch;
     }
 
     @Column(name = "local_id", nullable = false)
