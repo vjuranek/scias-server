@@ -75,10 +75,6 @@ public class ImageEntity implements java.io.Serializable {
         return this.id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id")
     public ClientEntity getClient() {

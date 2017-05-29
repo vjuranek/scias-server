@@ -36,6 +36,14 @@ public class BatchEntity implements java.io.Serializable {
     private List<SampleEntity> samples = new ArrayList<>(0);
     private PatientEntity patient = new PatientEntity();
     private StationEntity station;
+    
+    public BatchEntity() {
+    }
+    
+    public BatchEntity(int id, int localId) {
+        this.id = id;
+        this.localId = localId;
+    }
    
     @Id
     @SequenceGenerator(name = "BATCH_ID_GENERATOR", sequenceName = "BATCH_ID_SEQ")
@@ -43,10 +51,6 @@ public class BatchEntity implements java.io.Serializable {
     @Column(name = "id", unique = true, nullable = false)
     public int getId() {
         return this.id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     @Column(name = "local_id", nullable = false)

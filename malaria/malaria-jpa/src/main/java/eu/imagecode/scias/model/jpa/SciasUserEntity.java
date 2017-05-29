@@ -28,6 +28,10 @@ public class SciasUserEntity implements java.io.Serializable {
     public SciasUserEntity() {
     }
 
+    public SciasUserEntity(int id) {
+        this.id = id;
+    }
+    
     public SciasUserEntity(int id, String username, String password) {
         this.id = id;
         this.username = username;
@@ -49,10 +53,6 @@ public class SciasUserEntity implements java.io.Serializable {
     @Column(name = "id", unique = true, nullable = false)
     public int getId() {
         return this.id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     @Column(name = "username", nullable = false, length = 256)

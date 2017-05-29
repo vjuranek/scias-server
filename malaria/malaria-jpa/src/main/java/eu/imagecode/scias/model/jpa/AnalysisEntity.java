@@ -68,10 +68,6 @@ public class AnalysisEntity implements java.io.Serializable {
         return this.id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sample_id")
     public SampleEntity getSample() {

@@ -55,10 +55,6 @@ public class ResultSetEntity implements java.io.Serializable {
         return this.id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     @Column(name = "local_id", nullable = false)
     public int getLocalId() {
         return this.localId;

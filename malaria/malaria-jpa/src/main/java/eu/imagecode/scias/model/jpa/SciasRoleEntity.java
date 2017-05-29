@@ -47,10 +47,6 @@ public class SciasRoleEntity implements java.io.Serializable {
         return this.id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     @Column(name = "role", nullable = false, length = 32)
     public String getRole() {
         return this.role;

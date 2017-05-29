@@ -51,10 +51,6 @@ public class ClientVersionEntity implements java.io.Serializable {
         return this.id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     @Column(name = "major")
     public Short getMajor() {
         return this.major;

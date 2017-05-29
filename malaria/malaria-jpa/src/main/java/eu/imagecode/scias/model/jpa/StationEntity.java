@@ -45,13 +45,13 @@ public class StationEntity implements Serializable {
 
     public StationEntity() {
     }
+    
+    public StationEntity(Integer id) {
+        this.id = id;
+    }
 
     public Integer getId() {
         return this.id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getUuid() {

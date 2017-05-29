@@ -53,10 +53,6 @@ public class InputDataEntity implements java.io.Serializable {
         return this.id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "analysis_id", unique = true)
     public AnalysisEntity getAnalysis() {

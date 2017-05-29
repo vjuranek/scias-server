@@ -29,6 +29,11 @@ public class LocalityEntity implements java.io.Serializable {
     public LocalityEntity() {
     }
 
+    public LocalityEntity(int id, int localId) {
+        this.id = id;
+        this.localId = localId;
+    }
+    
     public LocalityEntity(int id, double longtitude, double latitude, double altitude) {
         this.id = id;
         this.longtitude = longtitude;
@@ -50,10 +55,6 @@ public class LocalityEntity implements java.io.Serializable {
     @Column(name = "id", unique = true, nullable = false)
     public int getId() {
         return this.id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     @Column(name = "local_id", nullable = false)

@@ -61,10 +61,6 @@ public class UnclassifiedObjectEntity implements java.io.Serializable {
         return this.id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "image_id")
     public ImageEntity getImage() {
