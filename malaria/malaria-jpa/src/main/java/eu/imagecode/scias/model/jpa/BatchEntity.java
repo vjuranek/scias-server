@@ -24,7 +24,8 @@ import javax.persistence.Table;
 @Table(name = "batch")
 @NamedQueries({
     @NamedQuery(name = "BatchEntity.findAll", query = "SELECT b FROM BatchEntity b"),
-    @NamedQuery(name = "BatchEntity.findById", query = "SELECT b FROM BatchEntity b WHERE b.id = :batchId")
+    @NamedQuery(name = "BatchEntity.findById", query = "SELECT b FROM BatchEntity b WHERE b.id = :batchId"),
+    @NamedQuery(name = "BatchEntity.findByLocalIdAndStation", query = "select b.id, b.localId, b.station, s.id, s.uuid from BatchEntity b, StationEntity s where b.localId = :localId and b.station.id = s.id and s.uuid = :stationUUID")
 })
 public class BatchEntity implements Serializable {
 

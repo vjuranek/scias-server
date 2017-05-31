@@ -29,6 +29,10 @@ public class BatchService {
         return em.createNamedQuery("BatchEntity.findById", BatchEntity.class).setParameter("batchId", id).getSingleResult();
     }
     
+    public BatchEntity getBatchByLocalId(int localId, String stationUuid) {
+        return em.createNamedQuery("BatchEntity.findByLocalIdAndStation", BatchEntity.class).setParameter("localId", localId).setParameter("stationUUID", stationUuid).getSingleResult();
+    }
+    
     /**
      * Uploads batch of samples into the database.
      * 

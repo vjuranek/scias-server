@@ -47,8 +47,12 @@ public class BatchResourceImpl implements BatchResource {
         Map<String, InputPart> imgInputMap = SciasFunctions.formInputToImageMap(parts.get(MULTIPART_NAME_IMAGES));
 
         Batch batch = batchParts.get(0).getBody(Batch.class, null);
-        BatchEntity be = batchService.uploadBatch(batch, stationId); // TODO run in transaction and eventually abort
+        
+        BatchEntity be = batchService.getBatchByLocalId(batch.getId(), stationId);
+        if (be == null) { //batch doen't exists, create everything
+            be = batchService.uploadBatch(batch, stationId); // TODO run in transaction and eventually abort
                                                                      // (e.g. if number of image doesn't match)
+        }
         List<ImageEntity> imgs = batchService.extractImages(be, stationId);
 
         if (imgs.size() != imgInputMap.keySet().size()) {
