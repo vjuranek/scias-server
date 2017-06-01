@@ -37,7 +37,7 @@ public class ModelMappers {
         BatchEntity ent = new BatchEntity();
         ent.setLocalId(batch.getId());
         ent.setFinished(batch.isFinished());
-        ent.setPatient(patientToEntity(batch.getPatient(), station));
+        ent.setPatient(patientToEntity(batch.getPatient()));
         ent.setSamples(samplesListToEntities(batch.getSample(), station));
         ent.setStation(station);
         return ent;
@@ -80,13 +80,12 @@ public class ModelMappers {
         return sample;
     }
     
-    public static PatientEntity patientToEntity(Patient patient, StationEntity station) {
+    public static PatientEntity patientToEntity(Patient patient) {
         PatientEntity ent = new PatientEntity();
         ent.setLocalId(patient.getId());
         ent.setDayOfBirth(patient.getDateOfBirth());
         ent.setFirstName(patient.getFirstName());
         ent.setLastName(patient.getLastName());
-        ent.setStation(station);
         return ent;
     }
     
@@ -131,8 +130,8 @@ public class ModelMappers {
         analEnt.setLocalId(anal.getId());
         analEnt.setAlgorithmVersion(anal.getAlgorithmVersion());
         analEnt.setCreated(new Timestamp(anal.getCreated().getTime()));
-        analEnt.setInputData(inputDataToEntity(anal.getInputData(), station)); // TODO switch to lazy loading
-        analEnt.setResultSet(resultSetToEntity(anal.getResultSet(), station)); // TODO switch to lazy loading
+        analEnt.setInputData(inputDataToEntity(anal.getInputData())); // TODO switch to lazy loading
+        analEnt.setResultSet(resultSetToEntity(anal.getResultSet())); // TODO switch to lazy loading
         analEnt.setStation(station);
         return analEnt;
     }
@@ -146,12 +145,11 @@ public class ModelMappers {
         return analysis;
     }
 
-    public static ResultSetEntity resultSetToEntity(ResultSet rs, StationEntity station) {
+    public static ResultSetEntity resultSetToEntity(ResultSet rs) {
         ResultSetEntity rsEntList = new ResultSetEntity();
         rsEntList.setLocalId(rs.getId());
-        rsEntList.setResults(resultListToEntities(rs.getResult(), station));
-        rsEntList.setUnclassifiedObjects(unclassifiedObjectListToEntities(rs.getUnclassifiedObject(), station));
-        rsEntList.setStation(station);
+        rsEntList.setResults(resultListToEntities(rs.getResult()));
+        rsEntList.setUnclassifiedObjects(unclassifiedObjectListToEntities(rs.getUnclassifiedObject()));
         return rsEntList;
     }
 
@@ -179,7 +177,7 @@ public class ModelMappers {
         return result;
     }
 
-    public static Set<ResultEntity> resultListToEntities(List<Result> results, StationEntity station) {
+    public static Set<ResultEntity> resultListToEntities(List<Result> results) {
         return results.stream().map(res -> resultToEntity(res)).collect(Collectors.toSet());
     }
 
@@ -187,11 +185,10 @@ public class ModelMappers {
         return ents.stream().map(ent -> entToResult(ent)).collect(Collectors.toList());
     }
 
-    public static UnclassifiedObjectEntity unclassifiedObjecToEntity(UnclassifiedObject uo, StationEntity station) {
+    public static UnclassifiedObjectEntity unclassifiedObjecToEntity(UnclassifiedObject uo) {
         UnclassifiedObjectEntity uoEnt = new UnclassifiedObjectEntity();
         uoEnt.setLocalId(uo.getId());
         uoEnt.setImage(imageToEntity(uo.getImage()));
-        uoEnt.setStation(station);
         uoEnt.setResolved(uo.isResolved());
         if (uo.getResolvedTime() != null) {
             uoEnt.setResolvedTime(new Timestamp(uo.getResolvedTime().getTime()));
@@ -215,19 +212,18 @@ public class ModelMappers {
         return uco;
     }
 
-    public static Set<UnclassifiedObjectEntity> unclassifiedObjectListToEntities(List<UnclassifiedObject> uos, StationEntity station) {
-        return uos.stream().map(uo -> unclassifiedObjecToEntity(uo, station)).collect(Collectors.toSet());
+    public static Set<UnclassifiedObjectEntity> unclassifiedObjectListToEntities(List<UnclassifiedObject> uos) {
+        return uos.stream().map(uo -> unclassifiedObjecToEntity(uo)).collect(Collectors.toSet());
     }
 
     public static List<UnclassifiedObject> entstoUnclassifiedObjectList(List<UnclassifiedObjectEntity> ents) {
         return ents.stream().map(ent -> entToUnclassifiedObject(ent)).collect(Collectors.toList());
     }
 
-    public static InputDataEntity inputDataToEntity(InputData inputData, StationEntity station) {
+    public static InputDataEntity inputDataToEntity(InputData inputData) {
         InputDataEntity inputDataEnt = new InputDataEntity();
         inputDataEnt.setLocalId(inputData.getId());
         inputDataEnt.setImage(imageToEntity(inputData.getImage()));
-        inputDataEnt.setStation(station);
         return inputDataEnt;
     }
 
@@ -237,8 +233,8 @@ public class ModelMappers {
         return inputData;
     }
 
-    public static List<InputDataEntity> inputDataListToEntity(List<InputData> inputData, StationEntity station) {
-        return inputData.stream().map(id -> inputDataToEntity(id, station)).collect(Collectors.toList());
+    public static List<InputDataEntity> inputDataListToEntity(List<InputData> inputData) {
+        return inputData.stream().map(id -> inputDataToEntity(id)).collect(Collectors.toList());
     }
 
     public static List<InputData> entToInputDataList(List<InputDataEntity> ents) {
