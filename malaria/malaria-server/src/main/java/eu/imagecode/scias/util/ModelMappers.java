@@ -38,7 +38,9 @@ public class ModelMappers {
         ent.setLocalId(batch.getId());
         ent.setFinished(batch.isFinished());
         ent.setPatient(patientToEntity(batch.getPatient()));
-        ent.setSamples(samplesListToEntities(batch.getSample(), station));
+        List<SampleEntity> samples = samplesListToEntities(batch.getSample(), station);
+        samples.forEach(s -> s.setBatch(ent));
+        ent.setSamples(samples);
         ent.setStation(station);
         return ent;
     }
