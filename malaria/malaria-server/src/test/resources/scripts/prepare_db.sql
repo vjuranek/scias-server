@@ -102,7 +102,8 @@ CREATE TABLE IF NOT EXISTS sample (
     local_id integer NOT NULL,
     finished boolean,
     locality_id integer REFERENCES locality(id),
-    batch integer REFERENCES batch(id)
+    batch_id integer REFERENCES batch(id), -- TODO NOT NULL
+    station_id integer REFERENCES station(id) -- TODO NOT NULL
 );
 CREATE SEQUENCE sample_id_seq INCREMENT BY 50;
 

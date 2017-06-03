@@ -23,9 +23,8 @@ public class DeploymentBuilder {
                 .addAsLibraries(
                     new File("target/test-libs/malaria-rest.jar"))
                 .addAsLibrary(jpaJar)
-                .addClass(AnalysisService.class)
-                .addClass(BatchService.class)
                 .addClass(AbstractMalariaServiceIT.class)
+                .addPackage("eu.imagecode.scias.service")
                 .addPackage("eu.imagecode.scias.util")
                 .addPackage("eu.imagecode.scias.testutil")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");

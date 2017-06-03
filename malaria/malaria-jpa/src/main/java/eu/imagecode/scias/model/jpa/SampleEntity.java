@@ -13,12 +13,19 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "sample")
+@NamedQueries({
+    @NamedQuery(name = "SampleEntity.findAll", query = "SELECT s FROM SampleEntity s"),
+    @NamedQuery(name = "SampleEntity.findById", query = "SELECT s FROM SampleEntity s WHERE s.id = :sampleId"),
+    @NamedQuery(name = "SampleEntity.findByLocalIdAndStation", query = "select s from SampleEntity s, StationEntity st where s.localId = :localId and s.station.id = st.id and st.uuid = :stationUUID")
+})
 public class SampleEntity implements Serializable {
 
     @Id
@@ -31,7 +38,7 @@ public class SampleEntity implements Serializable {
     private int localId;
     
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "batch")
+    @JoinColumn(name = "batch_id")
     private BatchEntity batch;
     
     @Column(name = "finished")
@@ -43,6 +50,10 @@ public class SampleEntity implements Serializable {
     
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "sample", cascade = CascadeType.ALL)
     private List<AnalysisEntity> analysises = new ArrayList<AnalysisEntity>(0);
+    
+    @ManyToOne
+    @JoinColumn(name = "station_id")
+    private StationEntity station;
 
     public SampleEntity() {
     }
@@ -101,6 +112,14 @@ public class SampleEntity implements Serializable {
 
     public void setAnalyses(List<AnalysisEntity> analysises) {
         this.analysises = analysises;
+    }
+    
+    public StationEntity getStation() {
+        return this.station;
+    }
+
+    public void setStation(StationEntity station) {
+        this.station = station;
     }
 
 }
