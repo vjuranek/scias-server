@@ -9,6 +9,7 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 
 import eu.imagecode.scias.service.AnalysisService;
 import eu.imagecode.scias.service.BatchService;
+import eu.imagecode.scias.service.it.AbstractMalariaServiceIT;
 
 public class DeploymentBuilder {
 
@@ -24,6 +25,7 @@ public class DeploymentBuilder {
                 .addAsLibrary(jpaJar)
                 .addClass(AnalysisService.class)
                 .addClass(BatchService.class)
+                .addClass(AbstractMalariaServiceIT.class)
                 .addPackage("eu.imagecode.scias.util")
                 .addPackage("eu.imagecode.scias.testutil")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
