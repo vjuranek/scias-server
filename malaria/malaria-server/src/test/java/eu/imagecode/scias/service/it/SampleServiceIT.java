@@ -72,6 +72,11 @@ public class SampleServiceIT extends AbstractMalariaServiceIT {
         ste.setUuid(STATION1_UUID);
         
         SampleEntity se = sampleService.uploadSample(sample, be, ste);
+        
+        //test that new sample record is created, DB init script creates 2
+        List<SampleEntity> samples = sampleService.getAllSamples();
+        assertEquals(3, samples.size());
+        
         SampleEntity testSample = sampleService.getSampleById(se.getId());
         assertNotNull(testSample);
         

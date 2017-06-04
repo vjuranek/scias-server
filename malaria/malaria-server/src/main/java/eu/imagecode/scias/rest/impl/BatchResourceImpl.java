@@ -17,6 +17,7 @@ import eu.imagecode.scias.model.jpa.AnalysisEntity;
 import eu.imagecode.scias.model.jpa.BatchEntity;
 import eu.imagecode.scias.model.jpa.ImageEntity;
 import eu.imagecode.scias.model.rest.malaria.Batch;
+import eu.imagecode.scias.model.rest.malaria.Image;
 import eu.imagecode.scias.rest.BatchResource;
 import eu.imagecode.scias.service.BatchService;
 import eu.imagecode.scias.service.ImageService;
@@ -47,13 +48,7 @@ public class BatchResourceImpl implements BatchResource {
         Map<String, InputPart> imgInputMap = SciasFunctions.formInputToImageMap(parts.get(MULTIPART_NAME_IMAGES));
 
         Batch batch = batchParts.get(0).getBody(Batch.class, null);
-        
-        BatchEntity be = batchService.getBatchByLocalId(batch.getId(), stationId);
-        if (be == null) { //batch doen't exists, create everything
-            be = batchService.uploadBatch(batch, stationId); // TODO run in transaction and eventually abort
-                                                                     // (e.g. if number of image doesn't match)
-        }
-        List<ImageEntity> imgs = batchService.extractImages(be, stationId);
+        List<Image> imgs = batchService.extractImages(batch, stationId);
 
         if (imgs.size() != imgInputMap.keySet().size()) {
             throw new IllegalStateException(
@@ -61,6 +56,14 @@ public class BatchResourceImpl implements BatchResource {
                                             imgs.size(), imgInputMap.keySet().size()));
         }
 
+        
+        
+        BatchEntity be = batchService.getBatchByLocalId(batch.getId(), stationId);
+        if (be == null) { //batch doen't exists, create everything
+            be = batchService.uploadBatch(batch, stationId); // TODO run in transaction and eventually abort
+                                                                     // (e.g. if number of image doesn't match)
+        }
+        
         File batchUpDir = new File(UPLOAD_DIR + be.getId());
         if (!batchUpDir.exists()) {
             if (!batchUpDir.mkdirs()) {

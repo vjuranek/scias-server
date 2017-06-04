@@ -11,11 +11,11 @@ import javax.persistence.NoResultException;
 
 import eu.imagecode.scias.model.jpa.BatchEntity;
 import eu.imagecode.scias.model.jpa.ImageEntity;
-import eu.imagecode.scias.model.jpa.SampleEntity;
 import eu.imagecode.scias.model.jpa.StationEntity;
 import eu.imagecode.scias.model.rest.malaria.Analysis;
 import eu.imagecode.scias.model.rest.malaria.Batch;
 import eu.imagecode.scias.model.rest.malaria.Image;
+import eu.imagecode.scias.model.rest.malaria.Sample;
 import eu.imagecode.scias.util.ModelMappers;
 
 @Stateless
@@ -23,6 +23,9 @@ public class BatchService {
     
     @Inject
     private EntityManager em;
+    
+    @Inject
+    private SampleService sampleSrv;
     
     /**
      * Loads all batches from DB.
@@ -53,21 +56,19 @@ public class BatchService {
      * 
      */
     public BatchEntity uploadBatch(Batch batch, String stationUuid) {
+        StationEntity stationEnt = getStationByUuid(stationUuid);
         BatchEntity batchEnt = null;
         try {
-            batchEnt = getBatchByLocalId(batch.getId(), stationUuid);
+            batchEnt = getBatchByLocalId(batch.getId(), stationEnt.getUuid());
+            //add all analyses in the sample
+            for (Sample sample : batch.getSample()) {
+                sampleSrv.uploadSample(sample, batchEnt, stationEnt);
+            }
         } catch (NoResultException e) {
-            batchEnt = ModelMappers.batchToEntity(batch, getStationByUuid(stationUuid));
+            //batch doesn't exist yet - create it, included underlying structures like samples
+            batchEnt = ModelMappers.batchToEntity(batch, stationEnt);
             em.persist(batchEnt);
-            em.flush();
         }
-        int sampleId = batch.getSample().get(0).getId();
-        
-        //TODO !!!! just a test
-        SampleEntity sampleEnt = batchEnt.getSamples().get(0);
-        sampleEnt.getAnalyses().add(ModelMappers.analysisToEntity(batch.getSample().get(0).getAnalysis().get(0), getStationByUuid(stationUuid)));
-        
-        em.persist(batchEnt);
         return batchEnt;
     }
     

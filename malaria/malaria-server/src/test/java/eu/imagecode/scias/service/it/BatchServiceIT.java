@@ -16,6 +16,7 @@ import org.junit.runner.RunWith;
 
 import eu.imagecode.scias.model.jpa.AnalysisEntity;
 import eu.imagecode.scias.model.jpa.BatchEntity;
+import eu.imagecode.scias.model.jpa.StationEntity;
 import eu.imagecode.scias.model.rest.malaria.Analysis;
 import eu.imagecode.scias.model.rest.malaria.Batch;
 import eu.imagecode.scias.model.rest.malaria.Locality;
@@ -74,8 +75,45 @@ public class BatchServiceIT extends AbstractMalariaServiceIT {
     }
     
     @Test
-    @ApplyScriptBefore({"populate_station_table.sql"})
-    public void testBatchUploadAndLoadBack() throws Exception {
+    @ApplyScriptBefore({"populate_db.sql"})
+    public void testNewBatchUpload() throws Exception {
+        Analysis anal = Generators.generateAnalysis();
+        Locality loc = new Locality();
+        loc.setId(1);
+        Sample sample = new Sample();
+        sample.setId(111);
+        sample.setLocality(loc);
+        sample.getAnalysis().add(anal);
+        Patient patient = new Patient();
+        patient.setId(1);
+        patient.setFirstName("aa");
+        patient.setLastName("aaaa");
+        Batch batch = new Batch();
+        batch.setId(111);
+        batch.setFinished(true);
+        batch.getSample().add(sample);
+        batch.setPatient(patient);
+        
+        BatchEntity be = batchService.uploadBatch(batch, STATION1_UUID);
+        
+        //test that new batch record is created, DB init script creates 2
+        List<BatchEntity> batches = batchService.getAllBatches();
+        assertEquals(3, batches.size());
+        
+        BatchEntity testBatch = batchService.getBatchById(be.getId());
+        assertNotNull(testBatch);
+        
+        List<AnalysisEntity> anals = testBatch.getSamples().get(0).getAnalyses();
+        assertEquals(1, anals.size());
+        AnalysisEntity analEnt = anals.get(0);
+        assertNotNull(analEnt);
+        assertEquals(Generators.TEST_ALGORITHM_VERSION, analEnt.getAlgorithmVersion());
+        assertEquals(Generators.TEST_DATE, analEnt.getCreated());
+    }
+    
+    @Test
+    @ApplyScriptBefore({"populate_db.sql"})
+    public void testExistingBatchUpload() throws Exception {
         Analysis anal = Generators.generateAnalysis();
         Locality loc = new Locality();
         loc.setId(1);
@@ -94,19 +132,21 @@ public class BatchServiceIT extends AbstractMalariaServiceIT {
         batch.setPatient(patient);
         
         BatchEntity be = batchService.uploadBatch(batch, STATION1_UUID);
+        
+        //test that no new batch record is created, DB init script creates 2
+        List<BatchEntity> batches = batchService.getAllBatches();
+        assertEquals(2, batches.size());
+        
         BatchEntity testBatch = batchService.getBatchById(be.getId());
         assertNotNull(testBatch);
         
+        assertEquals(1, testBatch.getSamples().size());
         List<AnalysisEntity> anals = testBatch.getSamples().get(0).getAnalyses();
         assertEquals(1, anals.size());
         AnalysisEntity analEnt = anals.get(0);
         assertNotNull(analEnt);
-        //TODO load batch!!
-        //assertNotNull(analEnt.getBatch());
-        //assertEquals(1, analEnt.getBatch().getId().intValue());
         assertEquals(Generators.TEST_ALGORITHM_VERSION, analEnt.getAlgorithmVersion());
         assertEquals(Generators.TEST_DATE, analEnt.getCreated());
-        //assertEquals(new Integer(1), analEnt.getSubject()); //TODO fails - not done in ModelMappers
     }
 
 }
