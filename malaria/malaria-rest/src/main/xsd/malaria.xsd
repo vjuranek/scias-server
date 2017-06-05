@@ -7,6 +7,7 @@
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="id" type="xs:integer" />
+                <xs:element name="created" type="xs:dateTime" />
                 <xs:element name="patient" type="tns:patient" />
                 <xs:element name="finished" type="xs:boolean" />
                 <xs:element name="sample" type="tns:sample" minOccurs="1" maxOccurs="unbounded" />
@@ -17,6 +18,7 @@
     <xs:complexType name="sample">
         <xs:sequence>
             <xs:element name="id" type="xs:integer" />
+            <xs:element name="created" type="xs:dateTime" />
             <xs:element name="timestamp" type="xs:dateTime" />
             <xs:element name="finished" type="xs:boolean" />
             <xs:element name="locality" type="tns:locality" />

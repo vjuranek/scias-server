@@ -2,6 +2,7 @@ package eu.imagecode.scias.model.jpa;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -40,6 +41,12 @@ public class SampleEntity implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "batch_id")
     private BatchEntity batch;
+
+    @Column(name = "created")
+    private Date created;
+    
+    @Column(name = "update_time")
+    private Date updateTime;
     
     @Column(name = "finished")
     private Boolean finished;
@@ -88,6 +95,22 @@ public class SampleEntity implements Serializable {
 
     public void setLocalId(int localId) {
         this.localId = localId;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 
     public Boolean isFinished() {

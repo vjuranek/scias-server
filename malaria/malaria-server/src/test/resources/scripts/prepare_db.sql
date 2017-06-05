@@ -82,6 +82,7 @@ CREATE SEQUENCE patient_id_seq INCREMENT BY 50;
 CREATE TABLE IF NOT EXISTS batch (
     id integer PRIMARY KEY,
     local_id integer NOT NULL,
+    created time,
     finished boolean,
     patient_id integer REFERENCES patient(id),
     station_id integer REFERENCES station(id) -- TODO NOT NULL
@@ -100,6 +101,8 @@ CREATE SEQUENCE result_set_id_seq INCREMENT BY 50;
 CREATE TABLE IF NOT EXISTS sample (
     id integer PRIMARY KEY,
     local_id integer NOT NULL,
+    created time,
+    update_time time,
     finished boolean,
     locality_id integer REFERENCES locality(id),
     batch_id integer REFERENCES batch(id), -- TODO NOT NULL

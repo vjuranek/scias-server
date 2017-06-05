@@ -9,10 +9,10 @@ INSERT INTO patient(id, local_id, first_name, middle_name, last_name, day_of_bir
 INSERT INTO patient(id, local_id, first_name, middle_name, last_name, day_of_birth, station_id) VALUES (101, 1, 'marry', 'ann', 'white', '2017-06-04', 2);
 
 -- Batches
-INSERT INTO batch(id, local_id, finished, patient_id, station_id) VALUES (100, 1, true, 100, 1);
-INSERT INTO batch(id, local_id, finished, patient_id, station_id) VALUES (101, 1, false, 101, 2);
+INSERT INTO batch(id, local_id, created, finished, patient_id, station_id) VALUES (100, 1, now(), true, 100, 1);
+INSERT INTO batch(id, local_id, created, finished, patient_id, station_id) VALUES (101, 1, now(), false, 101, 2);
 
 -- Samples
-INSERT INTO sample(id, local_id, finished, batch_id, station_id) VALUES (100, 1, true, 100, 1);
-INSERT INTO sample(id, local_id, finished, batch_id, station_id) VALUES (101, 1, false, 101, 2);
+INSERT INTO sample(id, local_id, created, update_time, finished, batch_id, station_id) VALUES (100, 1, now(), now(), true, 100, 1);
+INSERT INTO sample(id, local_id, created, update_time, finished, batch_id, station_id) VALUES (101, 1, now(), now(), false, 101, 2);
 

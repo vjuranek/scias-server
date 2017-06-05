@@ -2,6 +2,7 @@ package eu.imagecode.scias.model.jpa;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -38,6 +39,9 @@ public class BatchEntity implements Serializable {
     @Column(name = "local_id", nullable = false)
     private int localId;
     
+    @Column(name = "created")
+    private Date created;
+    
     @Column(name = "finished")
     private Boolean finished;
     
@@ -71,6 +75,14 @@ public class BatchEntity implements Serializable {
         this.localId = localId;
     }
 
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+    
     public Boolean isFinished() {
         return this.finished;
     }

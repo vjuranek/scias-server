@@ -36,6 +36,7 @@ public class ModelMappers {
     public static BatchEntity batchToEntity(Batch batch, StationEntity station) {
         BatchEntity ent = new BatchEntity();
         ent.setLocalId(batch.getId());
+        ent.setCreated(batch.getCreated());
         ent.setFinished(batch.isFinished());
         ent.setPatient(patientToEntity(batch.getPatient()));
         List<SampleEntity> samples = samplesListToEntities(batch.getSample(), station);
@@ -48,6 +49,7 @@ public class ModelMappers {
     public static Batch entityToBatch(BatchEntity ent) {
         Batch batch = new Batch();
         batch.setId(ent.getLocalId());
+        batch.setCreated(ent.getCreated());
         batch.setFinished(ent.isFinished());
         batch.setPatient(entityToPatient(ent.getPatient()));
         List<Sample> samples = batch.getSample();
@@ -66,6 +68,8 @@ public class ModelMappers {
     public static SampleEntity sampleToEntity(Sample sample, StationEntity station) {
         SampleEntity ent = new SampleEntity();
         ent.setLocalId(sample.getId());
+        ent.setCreated(sample.getCreated());
+        ent.setUpdateTime(sample.getTimestamp());
         ent.setFinished(sample.isFinished());
         ent.setLocality(localityToEntity(sample.getLocality()));
         ent.setAnalyses(analysesListToEntities(sample.getAnalysis(), station));
@@ -75,6 +79,8 @@ public class ModelMappers {
     public static Sample entityToSample(SampleEntity ent) {
         Sample sample = new Sample();
         sample.setId(ent.getLocalId());
+        sample.setCreated(ent.getCreated());
+        sample.setTimestamp(ent.getUpdateTime());
         sample.setFinished(ent.isFinished());
         sample.setLocality(entityToLocality(ent.getLocality()));
         List<Analysis> analyses = sample.getAnalysis();
