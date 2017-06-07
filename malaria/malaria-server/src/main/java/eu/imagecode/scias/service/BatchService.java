@@ -48,7 +48,11 @@ public class BatchService {
      * 
      */
     public BatchEntity getBatchByLocalId(int localId, String stationUuid) {
-        return em.createNamedQuery("BatchEntity.findByLocalIdAndStation", BatchEntity.class).setParameter("localId", localId).setParameter("stationUUID", stationUuid).getSingleResult();
+        try {
+            return em.createNamedQuery("BatchEntity.findByLocalIdAndStation", BatchEntity.class).setParameter("localId", localId).setParameter("stationUUID", stationUuid).getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }        
     }
     
     /**
@@ -57,14 +61,13 @@ public class BatchService {
      */
     public BatchEntity uploadBatch(Batch batch, String stationUuid) {
         StationEntity stationEnt = getStationByUuid(stationUuid);
-        BatchEntity batchEnt = null;
-        try {
-            batchEnt = getBatchByLocalId(batch.getId(), stationEnt.getUuid());
+        BatchEntity batchEnt = getBatchByLocalId(batch.getId(), stationEnt.getUuid());
+        if (batchEnt != null) {
             //add all analyses in the sample
             for (Sample sample : batch.getSample()) {
                 sampleSrv.uploadSample(sample, batchEnt, stationEnt);
             }
-        } catch (NoResultException e) {
+        } else {
             //batch doesn't exist yet - create it, included underlying structures like samples
             batchEnt = ModelMappers.batchToEntity(batch, stationEnt);
             em.persist(batchEnt);

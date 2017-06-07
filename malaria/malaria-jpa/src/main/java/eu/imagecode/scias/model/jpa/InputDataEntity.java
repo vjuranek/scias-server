@@ -30,7 +30,7 @@ public class InputDataEntity implements Serializable {
     @Column(name = "local_id", nullable = false)
     private int localId;
     
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "analysis_id", unique = true)
     private AnalysisEntity analysis;
     

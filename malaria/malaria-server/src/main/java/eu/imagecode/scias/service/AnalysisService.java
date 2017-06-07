@@ -1,11 +1,13 @@
 package eu.imagecode.scias.service;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 
 import eu.imagecode.scias.model.jpa.AnalysisEntity;
 import eu.imagecode.scias.model.jpa.ImageEntity;
@@ -25,6 +27,14 @@ public class AnalysisService {
     
     public AnalysisEntity getAnalysisById(int id) {
         return em.createNamedQuery("AnalysisEntity.findById", AnalysisEntity.class).setParameter("analysisId", id).getSingleResult();
+    }
+    
+    public List<AnalysisEntity> getAnalysisByBatchId(int batchId) {
+        try {
+            return em.createNamedQuery("AnalysisEntity.findByBatchId", AnalysisEntity.class).setParameter("batchId", batchId).getResultList();
+        } catch (NoResultException e) {
+            return new ArrayList<AnalysisEntity>();
+        }
     }
     
     /**

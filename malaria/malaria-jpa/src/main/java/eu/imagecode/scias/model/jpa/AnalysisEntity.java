@@ -23,8 +23,11 @@ import javax.persistence.UniqueConstraint;
 
 @Entity
 @Table(name = "analysis", uniqueConstraints = @UniqueConstraint(columnNames = "result_set_id"))
-@NamedQueries({ @NamedQuery(name = "AnalysisEntity.findAll", query = "SELECT a FROM AnalysisEntity a"),
-                @NamedQuery(name = "AnalysisEntity.findById", query = "SELECT a FROM AnalysisEntity a WHERE a.id = :analysisId") })
+@NamedQueries({ 
+    @NamedQuery(name = "AnalysisEntity.findAll", query = "SELECT a FROM AnalysisEntity a"),
+    @NamedQuery(name = "AnalysisEntity.findById", query = "SELECT a FROM AnalysisEntity a WHERE a.id = :analysisId"),
+    @NamedQuery(name = "AnalysisEntity.findByBatchId", query = "SELECT a FROM AnalysisEntity a WHERE a.sample.batch.id = :batchId")
+})
 public class AnalysisEntity implements Serializable {
 
     @Id
@@ -40,7 +43,7 @@ public class AnalysisEntity implements Serializable {
     @JoinColumn(name = "sample_id", nullable = false)
     private SampleEntity sample;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "result_set_id", unique = true)
     private ResultSetEntity resultSet;
 
@@ -51,7 +54,7 @@ public class AnalysisEntity implements Serializable {
     @Column(name = "algorithm_version", length = 256)
     private String algorithmVersion;
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "analysis")
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "analysis", fetch = FetchType.EAGER)
     private InputDataEntity inputData = new InputDataEntity();
 
     @ManyToOne

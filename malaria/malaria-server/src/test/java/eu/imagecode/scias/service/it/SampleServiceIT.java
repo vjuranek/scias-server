@@ -58,6 +58,19 @@ public class SampleServiceIT extends AbstractMalariaServiceIT {
     
     @Test
     @ApplyScriptBefore({"populate_db.sql"})
+    public void testSamplesByBatchId() {
+        List<SampleEntity> samples = sampleService.getSamplesByBatchId(100);
+        assertEquals(1, samples.size());
+        
+        SampleEntity sample = samples.get(0);
+        assertEquals(100, sample.getId());
+        assertTrue(sample.isFinished());
+        assertEquals(100, sample.getBatch().getId());
+        assertEquals(STATION1_UUID, sample.getStation().getUuid());
+    }
+    
+    @Test
+    @ApplyScriptBefore({"populate_db.sql"})
     public void testNewSampleUpload() throws Exception {
         Analysis anal = Generators.generateAnalysis();
         Locality loc = new Locality();

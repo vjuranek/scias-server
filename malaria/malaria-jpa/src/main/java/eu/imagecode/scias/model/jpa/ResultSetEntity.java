@@ -29,10 +29,10 @@ public class ResultSetEntity implements Serializable {
     @Column(name = "local_id", nullable = false)
     private int localId;
     
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "resultSet")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "resultSet", cascade = CascadeType.ALL)
     private Set<UnclassifiedObjectEntity> unclassifiedObjects = new HashSet<UnclassifiedObjectEntity>(0);
     
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "resultSet")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "resultSet", cascade = CascadeType.ALL)
     private Set<ResultEntity> results = new HashSet<ResultEntity>(0);
     
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "resultSet", cascade = CascadeType.ALL)

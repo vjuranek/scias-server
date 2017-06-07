@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
+import eu.imagecode.scias.model.jpa.AnalysisEntity;
 import eu.imagecode.scias.model.jpa.BatchEntity;
 import eu.imagecode.scias.model.jpa.SampleEntity;
 import eu.imagecode.scias.model.jpa.StationEntity;
@@ -45,6 +46,14 @@ public class SampleService {
     }
     
     /**
+     * Load all samples which belong to batch with given ID.
+     * 
+     */
+    public List<SampleEntity> getSamplesByBatchId(int batchId) {
+        return em.createNamedQuery("SampleEntity.findByBatchId", SampleEntity.class).setParameter("batchId", batchId).getResultList();
+    }
+    
+    /**
      * Uploads sample of samples into the database.
      * 
      */
@@ -54,7 +63,9 @@ public class SampleService {
             sampleEnt = getSampleByLocalId(sample.getId(), stationEnt.getUuid());
             //add all analyses in the sample
             for (Analysis analysis : sample.getAnalysis()) {
-                sampleEnt.getAnalyses().add(ModelMappers.analysisToEntity(analysis, stationEnt));
+                AnalysisEntity analysisEnt = ModelMappers.analysisToEntity(analysis, stationEnt);
+                analysisEnt.setSample(sampleEnt);
+                sampleEnt.getAnalyses().add(analysisEnt);
             }
         } catch (NoResultException e) {
             //sample doesn't exist yet - create it, included underlying structures like analysis

@@ -19,8 +19,10 @@ import eu.imagecode.scias.model.jpa.ImageEntity;
 import eu.imagecode.scias.model.rest.malaria.Batch;
 import eu.imagecode.scias.model.rest.malaria.Image;
 import eu.imagecode.scias.rest.BatchResource;
+import eu.imagecode.scias.service.AnalysisService;
 import eu.imagecode.scias.service.BatchService;
 import eu.imagecode.scias.service.ImageService;
+import eu.imagecode.scias.service.SampleService;
 import eu.imagecode.scias.util.Functions;
 import eu.imagecode.scias.util.SciasFunctions;
 
@@ -34,10 +36,13 @@ public class BatchResourceImpl implements BatchResource {
     public static final String HEADER_BATCH_ID = "BatchID";
 
     @Inject
-    private BatchService batchService;
+    private BatchService batchSrv;
+    
+    @Inject
+    private AnalysisService analysisSrv;
 
     @Inject
-    private ImageService imgService;
+    private ImageService imgSrv;
 
     private String stationId;
 
@@ -48,7 +53,7 @@ public class BatchResourceImpl implements BatchResource {
         Map<String, InputPart> imgInputMap = SciasFunctions.formInputToImageMap(parts.get(MULTIPART_NAME_IMAGES));
 
         Batch batch = batchParts.get(0).getBody(Batch.class, null);
-        List<Image> imgs = batchService.extractImages(batch, stationId);
+        List<Image> imgs = batchSrv.extractImages(batch, stationId);
 
         if (imgs.size() != imgInputMap.keySet().size()) {
             throw new IllegalStateException(
@@ -58,9 +63,9 @@ public class BatchResourceImpl implements BatchResource {
 
         
         
-        BatchEntity be = batchService.getBatchByLocalId(batch.getId(), stationId);
+        BatchEntity be = batchSrv.getBatchByLocalId(batch.getId(), stationId);
         if (be == null) { //batch doen't exists, create everything
-            be = batchService.uploadBatch(batch, stationId); // TODO run in transaction and eventually abort
+            be = batchSrv.uploadBatch(batch, stationId); // TODO run in transaction and eventually abort
                                                                      // (e.g. if number of image doesn't match)
         }
         
@@ -71,8 +76,7 @@ public class BatchResourceImpl implements BatchResource {
             }
         }
 
-        List<AnalysisEntity> analyses = new ArrayList<>();
-        be.getSamples().forEach(sample -> analyses.addAll(sample.getAnalyses()));
+        List<AnalysisEntity> analyses = analysisSrv.getAnalysisByBatchId(be.getId());
         for (AnalysisEntity ae : analyses) {
             File analUpDir = new File(batchUpDir, String.valueOf(ae.getId()));
             if (!analUpDir.exists()) {
@@ -88,7 +92,7 @@ public class BatchResourceImpl implements BatchResource {
                     throw new IllegalStateException(String
                                     .format("Requested image %s is not contained in upload request", img.getName()));
                 }
-                imgService.uploadImage(img.getSha256(), new File(analUpDir, img.getName()),
+                imgSrv.uploadImage(img.getSha256().trim(), new File(analUpDir, img.getName()),
                                 imgInputMap.get(img.getName()).getBody(InputStream.class, null));
             }
         }

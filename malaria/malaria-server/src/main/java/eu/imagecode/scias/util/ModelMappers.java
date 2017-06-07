@@ -72,7 +72,9 @@ public class ModelMappers {
         ent.setUpdateTime(sample.getTimestamp());
         ent.setFinished(sample.isFinished());
         ent.setLocality(localityToEntity(sample.getLocality()));
-        ent.setAnalyses(analysesListToEntities(sample.getAnalysis(), station));
+        List<AnalysisEntity> analyses = analysesListToEntities(sample.getAnalysis(), station);
+        analyses.forEach(analysis -> analysis.setSample(ent));
+        ent.setAnalyses(analyses);
         return ent;
     }
 
@@ -138,8 +140,12 @@ public class ModelMappers {
         analEnt.setLocalId(anal.getId());
         analEnt.setAlgorithmVersion(anal.getAlgorithmVersion());
         analEnt.setCreated(new Timestamp(anal.getCreated().getTime()));
-        analEnt.setInputData(inputDataToEntity(anal.getInputData())); // TODO switch to lazy loading
-        analEnt.setResultSet(resultSetToEntity(anal.getResultSet())); // TODO switch to lazy loading
+        InputDataEntity inputEnt = inputDataToEntity(anal.getInputData());
+        inputEnt.setAnalysis(analEnt);
+        analEnt.setInputData(inputEnt);
+        ResultSetEntity resSetEnt = resultSetToEntity(anal.getResultSet());
+        resSetEnt.setAnalysis(analEnt);
+        analEnt.setResultSet(resSetEnt);
         analEnt.setStation(station);
         return analEnt;
     }
@@ -231,7 +237,9 @@ public class ModelMappers {
     public static InputDataEntity inputDataToEntity(InputData inputData) {
         InputDataEntity inputDataEnt = new InputDataEntity();
         inputDataEnt.setLocalId(inputData.getId());
-        inputDataEnt.setImage(imageToEntity(inputData.getImage()));
+        ImageEntity imgEnt = imageToEntity(inputData.getImage());
+        imgEnt.setInputData(inputDataEnt);
+        inputDataEnt.setImage(imgEnt);
         return inputDataEnt;
     }
 
