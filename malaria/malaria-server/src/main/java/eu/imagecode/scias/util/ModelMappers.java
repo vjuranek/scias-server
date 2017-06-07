@@ -65,14 +65,15 @@ public class ModelMappers {
         return ents.stream().map(ent -> entityToSample(ent)).collect(Collectors.toList());
     }
     
-    public static SampleEntity sampleToEntity(Sample sample, StationEntity station) {
+    public static SampleEntity sampleToEntity(Sample sample, StationEntity stationEnt) {
         SampleEntity ent = new SampleEntity();
         ent.setLocalId(sample.getId());
         ent.setCreated(sample.getCreated());
         ent.setUpdateTime(sample.getTimestamp());
         ent.setFinished(sample.isFinished());
+        ent.setStation(stationEnt);
         ent.setLocality(localityToEntity(sample.getLocality()));
-        List<AnalysisEntity> analyses = analysesListToEntities(sample.getAnalysis(), station);
+        List<AnalysisEntity> analyses = analysesListToEntities(sample.getAnalysis(), stationEnt);
         analyses.forEach(analysis -> analysis.setSample(ent));
         ent.setAnalyses(analyses);
         return ent;

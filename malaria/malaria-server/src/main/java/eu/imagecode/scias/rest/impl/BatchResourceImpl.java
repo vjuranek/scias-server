@@ -61,13 +61,8 @@ public class BatchResourceImpl implements BatchResource {
                                             imgs.size(), imgInputMap.keySet().size()));
         }
 
-        
-        
-        BatchEntity be = batchSrv.getBatchByLocalId(batch.getId(), stationId);
-        if (be == null) { //batch doen't exists, create everything
-            be = batchSrv.uploadBatch(batch, stationId); // TODO run in transaction and eventually abort
+        BatchEntity be = batchSrv.uploadBatch(batch, stationId); // TODO run in transaction and eventually abort
                                                                      // (e.g. if number of image doesn't match)
-        }
         
         File batchUpDir = new File(UPLOAD_DIR + be.getId());
         if (!batchUpDir.exists()) {
