@@ -81,4 +81,44 @@ public class SciasUserEntity implements Serializable {
         this.userRoles = userRoles;
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + id;
+        result = prime * result + ((password == null) ? 0 : password.hashCode());
+        result = prime * result + ((userRoles == null) ? 0 : userRoles.hashCode());
+        result = prime * result + ((username == null) ? 0 : username.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (!(obj instanceof SciasUserEntity))
+            return false;
+        SciasUserEntity other = (SciasUserEntity) obj;
+        if (id != other.id)
+            return false;
+        if (password == null) {
+            if (other.getPassword() != null)
+                return false;
+        } else if (!password.equals(other.getPassword()))
+            return false;
+        if (userRoles == null) {
+            if (other.getUserRoles() != null)
+                return false;
+        } else if (!userRoles.equals(other.getUserRoles()))
+            return false;
+        if (username == null) {
+            if (other.getUsername() != null)
+                return false;
+        } else if (!username.equals(other.getUsername()))
+            return false;
+        return true;
+    }
+
 }

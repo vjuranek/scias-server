@@ -146,4 +146,71 @@ public class SampleEntity implements Serializable {
         this.station = station;
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((analysises == null) ? 0 : analysises.hashCode());
+        result = prime * result + ((batch == null) ? 0 : batch.hashCode());
+        result = prime * result + ((created == null) ? 0 : created.hashCode());
+        result = prime * result + ((finished == null) ? 0 : finished.hashCode());
+        result = prime * result + id;
+        result = prime * result + localId;
+        result = prime * result + ((locality == null) ? 0 : locality.hashCode());
+        result = prime * result + ((station == null) ? 0 : station.hashCode());
+        result = prime * result + ((updateTime == null) ? 0 : updateTime.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (!(obj instanceof SampleEntity))
+            return false;
+        SampleEntity other = (SampleEntity) obj;
+        if (analysises == null) {
+            if (other.getAnalyses() != null)
+                return false;
+        } else if (!analysises.equals(other.getAnalyses()))
+            return false;
+        if (batch == null) {
+            if (other.getBatch() != null)
+                return false;
+        } else if (!batch.equals(other.getBatch()))
+            return false;
+        if (created == null) {
+            if (other.getCreated() != null)
+                return false;
+        } else if (!created.equals(other.getCreated()))
+            return false;
+        if (finished == null) {
+            if (other.isFinished() != null)
+                return false;
+        } else if (!finished.equals(other.isFinished()))
+            return false;
+        if (id != other.getId())
+            return false;
+        if (localId != other.getLocalId())
+            return false;
+        if (locality == null) {
+            if (other.getLocality() != null)
+                return false;
+        } else if (!locality.equals(other.getLocality()))
+            return false;
+        if (station == null) {
+            if (other.getStation() != null)
+                return false;
+        } else if (!station.equals(other.getStation()))
+            return false;
+        if (updateTime == null) {
+            if (other.getUpdateTime() != null)
+                return false;
+        } else if (!updateTime.equals(other.getUpdateTime()))
+            return false;
+        return true;
+    }
+
 }

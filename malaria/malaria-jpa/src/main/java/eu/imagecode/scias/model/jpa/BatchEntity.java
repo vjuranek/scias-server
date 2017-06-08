@@ -115,4 +115,59 @@ public class BatchEntity implements Serializable {
         this.station = station;
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((created == null) ? 0 : created.hashCode());
+        result = prime * result + ((finished == null) ? 0 : finished.hashCode());
+        result = prime * result + id;
+        result = prime * result + localId;
+        result = prime * result + ((patient == null) ? 0 : patient.hashCode());
+        result = prime * result + ((samples == null) ? 0 : samples.hashCode());
+        result = prime * result + ((station == null) ? 0 : station.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (!(obj instanceof BatchEntity))
+            return false;
+        BatchEntity other = (BatchEntity) obj;
+        if (created == null) {
+            if (other.getCreated() != null)
+                return false;
+        } else if (!created.equals(other.getCreated()))
+            return false;
+        if (finished == null) {
+            if (other.isFinished() != null)
+                return false;
+        } else if (!finished.equals(other.isFinished()))
+            return false;
+        if (id != other.getId())
+            return false;
+        if (localId != other.getLocalId())
+            return false;
+        if (patient == null) {
+            if (other.getPatient() != null)
+                return false;
+        } else if (!patient.equals(other.getPatient()))
+            return false;
+        if (samples == null) {
+            if (other.getSamples() != null)
+                return false;
+        } else if (!samples.equals(other.getSamples()))
+            return false;
+        if (station == null) {
+            if (other.getStation() != null)
+                return false;
+        } else if (!station.equals(other.getStation()))
+            return false;
+        return true;
+    }
+    
 }

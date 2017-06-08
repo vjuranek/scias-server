@@ -130,4 +130,65 @@ public class UnclassifiedObjectEntity implements java.io.Serializable {
         this.resolvedTime = resolvedTime;
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((classId == null) ? 0 : classId.hashCode());
+        result = prime * result + id;
+        result = prime * result + ((image == null) ? 0 : image.hashCode());
+        result = prime * result + localId;
+        result = prime * result + ((resolved == null) ? 0 : resolved.hashCode());
+        result = prime * result + ((resolvedBy == null) ? 0 : resolvedBy.hashCode());
+        result = prime * result + ((resolvedTime == null) ? 0 : resolvedTime.hashCode());
+        result = prime * result + ((resultSet == null) ? 0 : resultSet.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (!(obj instanceof UnclassifiedObjectEntity))
+            return false;
+        UnclassifiedObjectEntity other = (UnclassifiedObjectEntity) obj;
+        if (classId == null) {
+            if (other.getClassId() != null)
+                return false;
+        } else if (!classId.equals(other.getClassId()))
+            return false;
+        if (id != other.getId())
+            return false;
+        if (image == null) {
+            if (other.getImage() != null)
+                return false;
+        } else if (!image.equals(other.getImage()))
+            return false;
+        if (localId != other.getLocalId())
+            return false;
+        if (resolved == null) {
+            if (other.getResolved() != null)
+                return false;
+        } else if (!resolved.equals(other.getResolved()))
+            return false;
+        if (resolvedBy == null) {
+            if (other.getResolved() != null)
+                return false;
+        } else if (!resolvedBy.equals(other.getResolvedBy()))
+            return false;
+        if (resolvedTime == null) {
+            if (other.getResolvedTime() != null)
+                return false;
+        } else if (!resolvedTime.equals(other.getResolvedTime()))
+            return false;
+        if (resultSet == null) {
+            if (other.getResultSet() != null)
+                return false;
+        } else if (!resultSet.equals(other.getResultSet()))
+            return false;
+        return true;
+    }
+
 }

@@ -167,4 +167,80 @@ public class ImageEntity implements Serializable {
         this.inputData = inputData;
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((created == null) ? 0 : created.hashCode());
+        result = prime * result + ((height == null) ? 0 : height.hashCode());
+        result = prime * result + id;
+        result = prime * result + ((inputData == null) ? 0 : inputData.hashCode());
+        result = prime * result + localId;
+        result = prime * result + ((mimeType == null) ? 0 : mimeType.hashCode());
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + ((path == null) ? 0 : path.hashCode());
+        result = prime * result + ((pixelSize == null) ? 0 : pixelSize.hashCode());
+        result = prime * result + ((sha256 == null) ? 0 : sha256.hashCode());
+        result = prime * result + ((width == null) ? 0 : width.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (!(obj instanceof ImageEntity))
+            return false;
+        ImageEntity other = (ImageEntity) obj;
+        if (created == null) {
+            if (other.getCreated() != null)
+                return false;
+        } else if (!created.equals(other.getCreated()))
+            return false;
+        if (height == null) {
+            if (other.getHeight() != null)
+                return false;
+        } else if (!height.equals(other.getHeight()))
+            return false;
+        if (id != other.getId())
+            return false;
+        if (inputData == null) {
+            if (other.getInputData() != null)
+                return false;
+        } else if (!inputData.equals(other.getInputData()))
+            return false;
+        if (localId != other.getLocalId())
+            return false;
+        if (mimeType != other.getMimeType())
+            return false;
+        if (name == null) {
+            if (other.getName() != null)
+                return false;
+        } else if (!name.equals(other.getName()))
+            return false;
+        if (path == null) {
+            if (other.getPath() != null)
+                return false;
+        } else if (!path.equals(other.getPath()))
+            return false;
+        if (pixelSize == null) {
+            if (other.getPixelSize() != null)
+                return false;
+        } else if (!pixelSize.equals(other.getPixelSize()))
+            return false;
+        if (sha256 == null) {
+            if (other.getSha256() != null)
+                return false;
+        } else if (!sha256.equals(other.getSha256()))
+            return false;
+        if (width == null) {
+            if (other.getWidth() != null)
+                return false;
+        } else if (!width.equals(other.getWidth()))
+            return false;
+        return true;
+    }
+    
 }

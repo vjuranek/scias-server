@@ -52,4 +52,32 @@ public class ClientEntity implements Serializable {
         this.clientVersion = clientVersion;
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((clientVersion == null) ? 0 : clientVersion.hashCode());
+        result = prime * result + id;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (!(obj instanceof ClientEntity))
+            return false;
+        ClientEntity other = (ClientEntity) obj;
+        if (clientVersion == null) {
+            if (other.getClientVersion() != null)
+                return false;
+        } else if (!clientVersion.equals(other.getClientVersion()))
+            return false;
+        if (id != other.getId())
+            return false;
+        return true;
+    }
+
 }

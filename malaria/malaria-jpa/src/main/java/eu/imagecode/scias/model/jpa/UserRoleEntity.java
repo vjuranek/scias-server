@@ -63,4 +63,41 @@ public class UserRoleEntity implements Serializable {
         this.sciasUser = sciasUser;
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((sciasRole == null) ? 0 : sciasRole.hashCode());
+        result = prime * result + ((sciasUser == null) ? 0 : sciasUser.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (!(obj instanceof UserRoleEntity))
+            return false;
+        UserRoleEntity other = (UserRoleEntity) obj;
+        if (id == null) {
+            if (other.getId() != null)
+                return false;
+        } else if (!id.equals(other.getId()))
+            return false;
+        if (sciasRole == null) {
+            if (other.getSciasRole() != null)
+                return false;
+        } else if (!sciasRole.equals(other.getSciasRole()))
+            return false;
+        if (sciasUser == null) {
+            if (other.getSciasUser() != null)
+                return false;
+        } else if (!sciasUser.equals(other.getSciasUser()))
+            return false;
+        return true;
+    }
+
 }

@@ -93,4 +93,47 @@ public class InputDataEntity implements Serializable {
         this.localId = localId;
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((analysis == null) ? 0 : analysis.hashCode());
+        result = prime * result + ((client == null) ? 0 : client.hashCode());
+        result = prime * result + id;
+        result = prime * result + ((image == null) ? 0 : image.hashCode());
+        result = prime * result + localId;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (!(obj instanceof InputDataEntity))
+            return false;
+        InputDataEntity other = (InputDataEntity) obj;
+        if (analysis == null) {
+            if (other.getAnalysis() != null)
+                return false;
+        } else if (!analysis.equals(other.getAnalysis()))
+            return false;
+        if (client == null) {
+            if (other.getClient() != null)
+                return false;
+        } else if (!client.equals(other.getClient()))
+            return false;
+        if (id != other.getId())
+            return false;
+        if (image == null) {
+            if (other.getImage() != null)
+                return false;
+        } else if (!image.equals(other.getImage()))
+            return false;
+        if (localId != other.getLocalId())
+            return false;
+        return true;
+    }
+    
 }

@@ -82,4 +82,42 @@ public class LocalityEntity implements java.io.Serializable {
         this.altitude = altitude;
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        long temp;
+        temp = Double.doubleToLongBits(altitude);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        result = prime * result + id;
+        temp = Double.doubleToLongBits(latitude);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        result = prime * result + localId;
+        temp = Double.doubleToLongBits(longtitude);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (!(obj instanceof LocalityEntity))
+            return false;
+        LocalityEntity other = (LocalityEntity) obj;
+        if (Double.doubleToLongBits(altitude) != Double.doubleToLongBits(other.getAltitude()))
+            return false;
+        if (id != other.getId())
+            return false;
+        if (Double.doubleToLongBits(latitude) != Double.doubleToLongBits(other.getLatitude()))
+            return false;
+        if (localId != other.getLocalId())
+            return false;
+        if (Double.doubleToLongBits(longtitude) != Double.doubleToLongBits(other.getLongtitude()))
+            return false;
+        return true;
+    }
+    
 }

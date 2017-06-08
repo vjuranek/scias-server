@@ -141,16 +141,64 @@ public class AnalysisEntity implements Serializable {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (!(o instanceof AnalysisEntity))
-            return false;
-        return id == ((AnalysisEntity) o).id;
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((algorithmVersion == null) ? 0 : algorithmVersion.hashCode());
+        result = prime * result + ((created == null) ? 0 : created.hashCode());
+        result = prime * result + id;
+        result = prime * result + ((inputData == null) ? 0 : inputData.hashCode());
+        result = prime * result + localId;
+        result = prime * result + ((resultSet == null) ? 0 : resultSet.hashCode());
+        result = prime * result + ((sample == null) ? 0 : sample.hashCode());
+        result = prime * result + ((station == null) ? 0 : station.hashCode());
+        return result;
     }
 
     @Override
-    public int hashCode() {
-        return 31;
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (!(obj instanceof AnalysisEntity))
+            return false;
+        AnalysisEntity other = (AnalysisEntity) obj;
+        if (algorithmVersion == null) {
+            if (other.getAlgorithmVersion() != null)
+                return false;
+        } else if (!algorithmVersion.equals(other.getAlgorithmVersion()))
+            return false;
+        if (created == null) {
+            if (other.getCreated() != null)
+                return false;
+        } else if (!created.equals(other.getCreated()))
+            return false;
+        if (id != other.id)
+            return false;
+        if (inputData == null) {
+            if (other.getInputData() != null)
+                return false;
+        } else if (!inputData.equals(other.getInputData()))
+            return false;
+        if (localId != other.getLocalId())
+            return false;
+        if (resultSet == null) {
+            if (other.getResultSet() != null)
+                return false;
+        } else if (!resultSet.equals(other.getResultSet()))
+            return false;
+        if (sample == null) {
+            if (other.getSample() != null)
+                return false;
+        } else if (!sample.equals(other.getSample()))
+            return false;
+        if (station == null) {
+            if (other.getStation() != null)
+                return false;
+        } else if (!station.equals(other.getStation()))
+            return false;
+        return true;
     }
+
 }

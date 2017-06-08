@@ -105,4 +105,53 @@ public class StationGroupEntity implements Serializable {
         return stationGroup;
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + ((stationGroup == null) ? 0 : stationGroup.hashCode());
+        result = prime * result + ((stationGroups == null) ? 0 : stationGroups.hashCode());
+        result = prime * result + ((stations == null) ? 0 : stations.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (!(obj instanceof StationGroupEntity))
+            return false;
+        StationGroupEntity other = (StationGroupEntity) obj;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.getId()))
+            return false;
+        if (name == null) {
+            if (other.getName() != null)
+                return false;
+        } else if (!name.equals(other.getName()))
+            return false;
+        if (stationGroup == null) {
+            if (other.getStationGroup() != null)
+                return false;
+        } else if (!stationGroup.equals(other.getStationGroup()))
+            return false;
+        if (stationGroups == null) {
+            if (other.getStationGroups() != null)
+                return false;
+        } else if (!stationGroups.equals(other.getStationGroups()))
+            return false;
+        if (stations == null) {
+            if (other.getStations() != null)
+                return false;
+        } else if (!stations.equals(other.getStations()))
+            return false;
+        return true;
+    }
+
 }

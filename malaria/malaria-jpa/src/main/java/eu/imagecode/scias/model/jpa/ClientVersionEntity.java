@@ -75,4 +75,44 @@ public class ClientVersionEntity implements Serializable {
         this.released = released;
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + id;
+        result = prime * result + ((major == null) ? 0 : major.hashCode());
+        result = prime * result + ((minor == null) ? 0 : minor.hashCode());
+        result = prime * result + ((released == null) ? 0 : released.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (!(obj instanceof ClientVersionEntity))
+            return false;
+        ClientVersionEntity other = (ClientVersionEntity) obj;
+        if (id != other.getId())
+            return false;
+        if (major == null) {
+            if (other.getMajor() != null)
+                return false;
+        } else if (!major.equals(other.getMajor()))
+            return false;
+        if (minor == null) {
+            if (other.getMinor() != null)
+                return false;
+        } else if (!minor.equals(other.getMinor()))
+            return false;
+        if (released == null) {
+            if (other.getReleased() != null)
+                return false;
+        } else if (!released.equals(other.getReleased()))
+            return false;
+        return true;
+    }
+
 }

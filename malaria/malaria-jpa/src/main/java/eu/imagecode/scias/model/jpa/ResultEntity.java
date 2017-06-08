@@ -88,4 +88,47 @@ public class ResultEntity implements Serializable {
         this.amount = amount;
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((amount == null) ? 0 : amount.hashCode());
+        result = prime * result + ((classId == null) ? 0 : classId.hashCode());
+        result = prime * result + id;
+        result = prime * result + localId;
+        result = prime * result + ((resultSet == null) ? 0 : resultSet.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (!(obj instanceof ResultEntity))
+            return false;
+        ResultEntity other = (ResultEntity) obj;
+        if (amount == null) {
+            if (other.getAmount() != null)
+                return false;
+        } else if (!amount.equals(other.getAmount()))
+            return false;
+        if (classId == null) {
+            if (other.getClassId() != null)
+                return false;
+        } else if (!classId.equals(other.getClassId()))
+            return false;
+        if (id != other.getId())
+            return false;
+        if (localId != other.getLocalId())
+            return false;
+        if (resultSet == null) {
+            if (other.getResultSet() != null)
+                return false;
+        } else if (!resultSet.equals(other.getResultSet()))
+            return false;
+        return true;
+    }
+    
 }

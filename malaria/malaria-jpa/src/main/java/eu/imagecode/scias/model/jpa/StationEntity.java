@@ -76,4 +76,47 @@ public class StationEntity implements Serializable {
         this.stationGroup = stationGroup;
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + ((stationGroup == null) ? 0 : stationGroup.hashCode());
+        result = prime * result + ((uuid == null) ? 0 : uuid.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (!(obj instanceof StationEntity))
+            return false;
+        StationEntity other = (StationEntity) obj;
+        if (id == null) {
+            if (other.getId() != null)
+                return false;
+        } else if (!id.equals(other.getId()))
+            return false;
+        if (name == null) {
+            if (other.getName() != null)
+                return false;
+        } else if (!name.equals(other.getName()))
+            return false;
+        if (stationGroup == null) {
+            if (other.getStationGroup() != null)
+                return false;
+        } else if (!stationGroup.equals(other.getStationGroup()))
+            return false;
+        if (uuid == null) {
+            if (other.getUuid() != null)
+                return false;
+        } else if (!uuid.equals(other.getUuid()))
+            return false;
+        return true;
+    }
+
 }

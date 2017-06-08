@@ -103,4 +103,53 @@ public class PatientEntity implements Serializable {
         this.dayOfBirth = dayOfBirth;
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((dayOfBirth == null) ? 0 : dayOfBirth.hashCode());
+        result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
+        result = prime * result + id;
+        result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
+        result = prime * result + localId;
+        result = prime * result + ((middleName == null) ? 0 : middleName.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (!(obj instanceof PatientEntity))
+            return false;
+        PatientEntity other = (PatientEntity) obj;
+        if (dayOfBirth == null) {
+            if (other.getDayOfBirth() != null)
+                return false;
+        } else if (!dayOfBirth.equals(other.getDayOfBirth()))
+            return false;
+        if (firstName == null) {
+            if (other.getFirstName() != null)
+                return false;
+        } else if (!firstName.equals(other.getFirstName()))
+            return false;
+        if (id != other.getId())
+            return false;
+        if (lastName == null) {
+            if (other.getLastName() != null)
+                return false;
+        } else if (!lastName.equals(other.getLastName()))
+            return false;
+        if (localId != other.getLocalId())
+            return false;
+        if (middleName == null) {
+            if (other.getMiddleName() != null)
+                return false;
+        } else if (!middleName.equals(other.getMiddleName()))
+            return false;
+        return true;
+    }
+
 }

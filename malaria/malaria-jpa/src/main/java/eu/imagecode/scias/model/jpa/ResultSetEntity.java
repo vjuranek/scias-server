@@ -92,5 +92,48 @@ public class ResultSetEntity implements Serializable {
     public void setAnalysis(AnalysisEntity analysis) {
         this.analysis = analysis;
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((analysis == null) ? 0 : analysis.hashCode());
+        result = prime * result + id;
+        result = prime * result + localId;
+        result = prime * result + ((results == null) ? 0 : results.hashCode());
+        result = prime * result + ((unclassifiedObjects == null) ? 0 : unclassifiedObjects.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (!(obj instanceof ResultSetEntity))
+            return false;
+        ResultSetEntity other = (ResultSetEntity) obj;
+        if (analysis == null) {
+            if (other.getAnalysis() != null)
+                return false;
+        } else if (!analysis.equals(other.getAnalysis()))
+            return false;
+        if (id != other.getId())
+            return false;
+        if (localId != other.getLocalId())
+            return false;
+        if (results == null) {
+            if (other.getResults() != null)
+                return false;
+        } else if (!results.equals(other.getResults()))
+            return false;
+        if (unclassifiedObjects == null) {
+            if (other.getUnclassifiedObjects() != null)
+                return false;
+        } else if (!unclassifiedObjects.equals(other.getUnclassifiedObjects()))
+            return false;
+        return true;
+    }
     
 }

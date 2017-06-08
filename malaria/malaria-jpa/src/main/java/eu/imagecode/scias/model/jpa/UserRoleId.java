@@ -38,25 +38,29 @@ public class UserRoleId implements Serializable {
         this.sciasRoleId = sciasRoleId;
     }
 
-    public boolean equals(Object other) {
-        if ((this == other))
-            return true;
-        if ((other == null))
-            return false;
-        if (!(other instanceof UserRoleId))
-            return false;
-        UserRoleId castOther = (UserRoleId) other;
-
-        return (this.getSciasUserId() == castOther.getSciasUserId())
-                        && (this.getSciasRoleId() == castOther.getSciasRoleId());
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + sciasRoleId;
+        result = prime * result + sciasUserId;
+        return result;
     }
 
-    public int hashCode() {
-        int result = 17;
-
-        result = 37 * result + this.getSciasUserId();
-        result = 37 * result + this.getSciasRoleId();
-        return result;
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (!(obj instanceof UserRoleId))
+            return false;
+        UserRoleId other = (UserRoleId) obj;
+        if (sciasRoleId != other.getSciasRoleId())
+            return false;
+        if (sciasUserId != other.getSciasUserId())
+            return false;
+        return true;
     }
 
 }
