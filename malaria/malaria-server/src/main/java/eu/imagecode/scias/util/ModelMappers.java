@@ -38,7 +38,7 @@ public class ModelMappers {
         ent.setLocalId(batch.getId());
         ent.setCreated(batch.getCreated());
         ent.setFinished(batch.isFinished());
-        ent.setPatient(patientToEntity(batch.getPatient()));
+        ent.setPatient(patientToEntity(batch.getPatient(), station));
         List<SampleEntity> samples = samplesListToEntities(batch.getSample(), station);
         samples.forEach(s -> s.setBatch(ent));
         ent.setSamples(samples);
@@ -91,12 +91,13 @@ public class ModelMappers {
         return sample;
     }
     
-    public static PatientEntity patientToEntity(Patient patient) {
+    public static PatientEntity patientToEntity(Patient patient, StationEntity stationEnt) {
         PatientEntity ent = new PatientEntity();
         ent.setLocalId(patient.getId());
         ent.setDayOfBirth(patient.getDateOfBirth());
         ent.setFirstName(patient.getFirstName());
         ent.setLastName(patient.getLastName());
+        ent.setStation(stationEnt);
         return ent;
     }
     

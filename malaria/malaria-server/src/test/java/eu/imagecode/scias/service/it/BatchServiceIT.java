@@ -16,13 +16,14 @@ import org.junit.runner.RunWith;
 
 import eu.imagecode.scias.model.jpa.AnalysisEntity;
 import eu.imagecode.scias.model.jpa.BatchEntity;
-import eu.imagecode.scias.model.jpa.StationEntity;
+import eu.imagecode.scias.model.jpa.PatientEntity;
 import eu.imagecode.scias.model.rest.malaria.Analysis;
 import eu.imagecode.scias.model.rest.malaria.Batch;
 import eu.imagecode.scias.model.rest.malaria.Locality;
 import eu.imagecode.scias.model.rest.malaria.Patient;
 import eu.imagecode.scias.model.rest.malaria.Sample;
 import eu.imagecode.scias.service.BatchService;
+import eu.imagecode.scias.service.PatientService;
 import eu.imagecode.scias.testutil.Generators;
 
 @RunWith(Arquillian.class)
@@ -30,6 +31,9 @@ public class BatchServiceIT extends AbstractMalariaServiceIT {
     
     @Inject
     private BatchService batchService;
+    
+    @Inject
+    private PatientService patientSrv;
     
     @Test
     @ApplyScriptBefore({"populate_db.sql"})
@@ -149,4 +153,45 @@ public class BatchServiceIT extends AbstractMalariaServiceIT {
         assertEquals(Generators.TEST_DATE, analEnt.getCreated());
     }
 
+    @Test
+    @ApplyScriptBefore({"populate_db.sql"})
+    public void testPatientNotRecreated() {
+        Analysis anal = Generators.generateAnalysis();
+        Locality loc = new Locality();
+        loc.setId(1);
+        Sample sample = new Sample();
+        sample.setId(1);
+        sample.setLocality(loc);
+        sample.getAnalysis().add(anal);
+        Patient patient = new Patient();
+        patient.setId(111);
+        patient.setFirstName("aa");
+        patient.setLastName("aaaa");
+        Batch batch = new Batch();
+        batch.setId(111);
+        batch.setFinished(true);
+        batch.getSample().add(sample);
+        batch.setPatient(patient);
+        
+        BatchEntity be = batchService.uploadBatch(batch, STATION1_UUID);
+        
+        List<PatientEntity> patients = patientSrv.getAllPatients();
+        assertEquals(3, patients.size());
+        
+        Sample sample2 = new Sample();
+        sample2.setId(2);
+        sample2.setLocality(loc);
+        sample2.getAnalysis().add(anal);
+        Batch batch2 = new Batch();
+        batch2.setId(112);
+        batch2.setFinished(true);
+        batch2.getSample().add(sample2);
+        batch2.setPatient(patient);
+        
+        BatchEntity be2 = batchService.uploadBatch(batch2, STATION1_UUID);
+        
+        List<PatientEntity> patients2 = patientSrv.getAllPatients();
+        assertEquals(3, patients2.size());
+        
+    }
 }

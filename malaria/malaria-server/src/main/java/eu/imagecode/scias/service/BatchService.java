@@ -11,6 +11,7 @@ import javax.persistence.NoResultException;
 
 import eu.imagecode.scias.model.jpa.BatchEntity;
 import eu.imagecode.scias.model.jpa.ImageEntity;
+import eu.imagecode.scias.model.jpa.PatientEntity;
 import eu.imagecode.scias.model.jpa.StationEntity;
 import eu.imagecode.scias.model.rest.malaria.Analysis;
 import eu.imagecode.scias.model.rest.malaria.Batch;
@@ -26,6 +27,9 @@ public class BatchService {
     
     @Inject
     private SampleService sampleSrv;
+    
+    @Inject
+    private PatientService patientSrv;
     
     /**
      * Loads all batches from DB.
@@ -70,6 +74,10 @@ public class BatchService {
         } else {
             //batch doesn't exist yet - create it, included underlying structures like samples
             batchEnt = ModelMappers.batchToEntity(batch, stationEnt);
+            PatientEntity patient = patientSrv.getPatientByLocalId(batch.getPatient().getId(), stationUuid);
+            if (patient != null) {
+                batchEnt.setPatient(patient);
+            }
             em.persist(batchEnt);
         }
         return batchEnt;

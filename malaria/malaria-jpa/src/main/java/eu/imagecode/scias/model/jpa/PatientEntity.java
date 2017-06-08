@@ -8,6 +8,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -16,6 +20,11 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "patient")
+@NamedQueries({
+    @NamedQuery(name = "PatientEntity.findAll", query = "SELECT p FROM PatientEntity p"),
+    @NamedQuery(name = "PatientEntity.findById", query = "SELECT p FROM PatientEntity p WHERE p.id = :patientId"),
+    @NamedQuery(name = "PatientEntity.findByLocalIdAndStation", query = "select p from PatientEntity p, StationEntity s where p.localId = :localId and p.station.id = s.id and s.uuid = :stationUUID")
+})
 public class PatientEntity implements Serializable {
 
     @Id
@@ -39,6 +48,10 @@ public class PatientEntity implements Serializable {
     @Temporal(TemporalType.DATE)
     @Column(name = "day_of_birth", length = 13)
     private Date dayOfBirth;
+    
+    @ManyToOne
+    @JoinColumn(name = "station_id")
+    private StationEntity station;
     
 
     public PatientEntity() {
@@ -103,6 +116,14 @@ public class PatientEntity implements Serializable {
         this.dayOfBirth = dayOfBirth;
     }
 
+    public StationEntity getStation() {
+        return this.station;
+    }
+
+    public void setStation(StationEntity station) {
+        this.station = station;
+    }
+    
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -113,6 +134,7 @@ public class PatientEntity implements Serializable {
         result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
         result = prime * result + localId;
         result = prime * result + ((middleName == null) ? 0 : middleName.hashCode());
+        result = prime * result + ((station == null) ? 0 : station.hashCode());
         return result;
     }
 
@@ -148,6 +170,11 @@ public class PatientEntity implements Serializable {
             if (other.getMiddleName() != null)
                 return false;
         } else if (!middleName.equals(other.getMiddleName()))
+            return false;
+        if (station == null) {
+            if (other.getStation() != null)
+                return false;
+        } else if (station.equals(other.getStation()))
             return false;
         return true;
     }
