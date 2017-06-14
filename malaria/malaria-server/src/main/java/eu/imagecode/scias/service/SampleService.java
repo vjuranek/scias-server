@@ -21,6 +21,9 @@ public class SampleService {
     @Inject
     private EntityManager em;
     
+    @Inject
+    private AnalysisService analysisSrv;
+    
     /**
      * Loads all samples from DB.
      * 
@@ -61,11 +64,12 @@ public class SampleService {
         SampleEntity sampleEnt = null;
         try {
             sampleEnt = getSampleByLocalId(sample.getId(), stationEnt.getUuid());
-            //add all analyses in the sample
             for (Analysis analysis : sample.getAnalysis()) {
-                AnalysisEntity analysisEnt = ModelMappers.analysisToEntity(analysis, stationEnt);
-                analysisEnt.setSample(sampleEnt);
-                sampleEnt.getAnalyses().add(analysisEnt);
+                if (!analysisSrv.isAnalysisUploaded(analysis.getId(), stationEnt.getUuid())) {
+                    AnalysisEntity analysisEnt = ModelMappers.analysisToEntity(analysis, stationEnt);
+                    analysisEnt.setSample(sampleEnt);
+                    sampleEnt.getAnalyses().add(analysisEnt);
+                }
             }
         } catch (NoResultException e) {
             //sample doesn't exist yet - create it, included underlying structures like analysis

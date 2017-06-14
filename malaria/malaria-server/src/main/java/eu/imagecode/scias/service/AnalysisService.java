@@ -38,6 +38,28 @@ public class AnalysisService {
     }
     
     /**
+     * Loads analysis with specified local/client ID for given station (local ID has to be unique for one station).
+     * 
+     */
+    public AnalysisEntity getAnalysisByLocalId(int analysisId, String stationUuid) {
+        return em.createNamedQuery("AnalysisEntity.findByLocalIdAndStation", AnalysisEntity.class).setParameter("localId", analysisId).setParameter("stationUUID", stationUuid).getSingleResult();
+    }
+    
+    
+    /**
+     * Checks, wheather analysis with given local/client ID was already uploaded from given station.
+     * 
+     */
+    public boolean isAnalysisUploaded(int analysisId, String stationUuid) {
+        try {
+            em.createNamedQuery("AnalysisEntity.findByLocalIdAndStation", AnalysisEntity.class).setParameter("localId", analysisId).setParameter("stationUUID", stationUuid).getSingleResult();
+        } catch (NoResultException e) {
+            return false;
+        }
+        return true;
+    }
+    
+    /**
      * Uploads one single analysis into database.
      * 
      */

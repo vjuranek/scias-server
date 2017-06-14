@@ -54,7 +54,6 @@
         <properties>
             <property name="hibernate.show_sql" value="true" />
             <!-- <property name="hibernate.flushMode" value="FLUSH_AUTO" /> -->
-            <property name="hibernate.hbm2ddl.auto" value="disabled" />
             <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/scias_malaria"/>
             <property name="javax.persistence.jdbc.user" value="scias"/>
             <property name="javax.persistence.jdbc.password" value="scias"/>
