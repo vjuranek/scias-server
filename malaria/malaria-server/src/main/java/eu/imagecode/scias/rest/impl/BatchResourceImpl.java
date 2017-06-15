@@ -3,7 +3,6 @@ package eu.imagecode.scias.rest.impl;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -22,7 +21,6 @@ import eu.imagecode.scias.rest.BatchResource;
 import eu.imagecode.scias.service.AnalysisService;
 import eu.imagecode.scias.service.BatchService;
 import eu.imagecode.scias.service.ImageService;
-import eu.imagecode.scias.service.SampleService;
 import eu.imagecode.scias.util.Functions;
 import eu.imagecode.scias.util.SciasFunctions;
 
@@ -53,7 +51,7 @@ public class BatchResourceImpl implements BatchResource {
         Map<String, InputPart> imgInputMap = SciasFunctions.formInputToImageMap(parts.get(MULTIPART_NAME_IMAGES));
 
         Batch batch = batchParts.get(0).getBody(Batch.class, null);
-        List<Image> imgs = batchSrv.extractImages(batch, stationId);
+        List<Image> imgs = batchSrv.extractImages(batch);
 
         if (imgs.size() != imgInputMap.keySet().size()) {
             throw new IllegalStateException(

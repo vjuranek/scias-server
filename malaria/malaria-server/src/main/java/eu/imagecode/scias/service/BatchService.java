@@ -89,7 +89,7 @@ public class BatchService {
      * @param analysis {@link BatchEntity} from which images should be extracted. 
      * @return {@link List} of {@link ImageEntity}s related to given batch. 
      */
-    public List<Image> extractImages(Batch batch, String stationUuid) {
+    public List<Image> extractImages(Batch batch) {
         List<Analysis> analyses = new ArrayList<>();
         batch.getSample().forEach(sample -> analyses.addAll(sample.getAnalysis()));
         List<Image> imgs = new LinkedList<Image>();
