@@ -17,7 +17,7 @@ INSERT INTO sample(id, local_id, created, update_time, finished, batch_id, stati
 INSERT INTO sample(id, local_id, created, update_time, finished, batch_id, station_id) VALUES (101, 1, now(), now(), false, 101, 2);
 
 --- Result sets
-INSERT INTO result_set(id, local_id, station_id) VALUES (100, 1, 1);
+INSERT INTO result_set(id, local_id) VALUES (100, 1);
 
 -- Analyses
 INSERT INTO analysis(id, local_id, created, algorithm_version, sample_id, result_set_id, station_id) VALUES (100, 1, now(), 1.0, 100, 100, 1);

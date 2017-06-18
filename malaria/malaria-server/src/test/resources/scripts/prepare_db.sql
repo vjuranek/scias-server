@@ -92,8 +92,7 @@ CREATE SEQUENCE batch_id_seq INCREMENT BY 50;
 
 CREATE TABLE IF NOT EXISTS result_set (
     id integer PRIMARY KEY,
-    local_id integer NOT NULL,
-    station_id integer REFERENCES station(id) -- TODO NOT NULL
+    local_id integer NOT NULL
 );
 CREATE SEQUENCE result_set_id_seq INCREMENT BY 50;
 
@@ -156,8 +155,7 @@ CREATE TABLE IF NOT EXISTS unclassified_object (
     resolved_time timestamp,
     result_set_id integer REFERENCES result_set(id), -- TODO NOT NULL
     resolved_by_id integer REFERENCES scias_user(id),
-    image_id integer REFERENCES image(id),
-    station_id integer REFERENCES station(id) -- TODO NOT NULL
+    image_id integer REFERENCES image(id)
 );
 CREATE SEQUENCE unclassified_object_id_seq INCREMENT BY 50;
 
@@ -167,7 +165,6 @@ CREATE TABLE IF NOT EXISTS input_data (
     local_id integer NOT NULL,
     image_id integer UNIQUE REFERENCES image(id),
     analysis_id integer UNIQUE REFERENCES analysis(id), -- TODO NOT NULL
-    client_id integer  REFERENCES client(id), -- TODO NOT NULL
-    station_id integer REFERENCES station(id) -- TODO NOT NULL
+    client_id integer  REFERENCES client(id)
 );
 CREATE SEQUENCE input_data_id_seq INCREMENT BY 50;

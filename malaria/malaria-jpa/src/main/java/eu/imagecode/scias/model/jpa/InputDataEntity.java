@@ -34,10 +34,6 @@ public class InputDataEntity implements Serializable {
     @JoinColumn(name = "analysis_id", unique = true)
     private AnalysisEntity analysis;
     
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "client_id")
-    private ClientEntity client;
-    
     @OneToOne(cascade = CascadeType.ALL)
     private ImageEntity image;
     
@@ -49,11 +45,10 @@ public class InputDataEntity implements Serializable {
         this.localId = localId;
     }
 
-    public InputDataEntity(int id, int localId, AnalysisEntity analysis, ClientEntity client, ImageEntity image) {
+    public InputDataEntity(int id, int localId, AnalysisEntity analysis, ImageEntity image) {
         this.id = id;
         this.localId = localId;
         this.analysis = analysis;
-        this.client = client;
         this.image = image;
     }
 
@@ -67,14 +62,6 @@ public class InputDataEntity implements Serializable {
 
     public void setAnalysis(AnalysisEntity analysis) {
         this.analysis = analysis;
-    }
-
-    public ClientEntity getClient() {
-        return this.client;
-    }
-
-    public void setClient(ClientEntity client) {
-        this.client = client;
     }
 
     public ImageEntity getImage() {
@@ -98,7 +85,6 @@ public class InputDataEntity implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((analysis == null) ? 0 : analysis.hashCode());
-        result = prime * result + ((client == null) ? 0 : client.hashCode());
         result = prime * result + id;
         result = prime * result + ((image == null) ? 0 : image.hashCode());
         result = prime * result + localId;
@@ -118,11 +104,6 @@ public class InputDataEntity implements Serializable {
             if (other.getAnalysis() != null)
                 return false;
         } else if (!analysis.equals(other.getAnalysis()))
-            return false;
-        if (client == null) {
-            if (other.getClient() != null)
-                return false;
-        } else if (!client.equals(other.getClient()))
             return false;
         if (id != other.getId())
             return false;
