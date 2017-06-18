@@ -12,9 +12,8 @@ import javax.ws.rs.core.Response;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
-import eu.imagecode.scias.model.jpa.AnalysisEntity;
 import eu.imagecode.scias.model.jpa.BatchEntity;
-import eu.imagecode.scias.model.jpa.ImageEntity;
+import eu.imagecode.scias.model.rest.malaria.Analysis;
 import eu.imagecode.scias.model.rest.malaria.Batch;
 import eu.imagecode.scias.model.rest.malaria.Image;
 import eu.imagecode.scias.rest.BatchResource;
@@ -35,7 +34,7 @@ public class BatchResourceImpl implements BatchResource {
 
     @Inject
     private BatchService batchSrv;
-    
+
     @Inject
     private AnalysisService analysisSrv;
 
@@ -47,21 +46,25 @@ public class BatchResourceImpl implements BatchResource {
     public Response uploadAnalysis(MultipartFormDataInput input) throws Exception {
         // TODO run in one transaction?
         Map<String, List<InputPart>> parts = input.getFormDataMap();
+
+        //load batch the request
         List<InputPart> batchParts = parts.get(MULTIPART_NAME_BATCH);
-        Map<String, InputPart> imgInputMap = SciasFunctions.formInputToImageMap(parts.get(MULTIPART_NAME_IMAGES));
-
-        Batch batch = batchParts.get(0).getBody(Batch.class, null);
-        List<Image> imgs = batchSrv.extractImages(batch);
-
-        if (imgs.size() != imgInputMap.keySet().size()) {
-            throw new IllegalStateException(
-                            String.format("Number of images in analysis doesn't match with number of images in the upload request, expected %d, but got %d",
-                                            imgs.size(), imgInputMap.keySet().size()));
+        if (batchParts.size() == 0) {
+            throw new IllegalArgumentException(
+                            String.format("Multipart form don't contain any %s section!", MULTIPART_NAME_BATCH));
         }
+        Batch batch = batchParts.get(0).getBody(Batch.class, null);
+
+        //local images from the request
+        Map<String, InputPart> imgInputMap = SciasFunctions.formInputToImageMap(parts.get(MULTIPART_NAME_IMAGES));
+        
+        //do some check before actual upload
+        Functions.checkBatchUploadRequest(batch, imgInputMap);
+        
 
         BatchEntity be = batchSrv.uploadBatch(batch, stationId); // TODO run in transaction and eventually abort
-                                                                     // (e.g. if number of image doesn't match)
-        
+                                                                 // (e.g. if number of image doesn't match)
+
         File batchUpDir = new File(UPLOAD_DIR + be.getId());
         if (!batchUpDir.exists()) {
             if (!batchUpDir.mkdirs()) {
@@ -69,8 +72,8 @@ public class BatchResourceImpl implements BatchResource {
             }
         }
 
-        List<AnalysisEntity> analyses = analysisSrv.getAnalysisByBatchId(be.getId());
-        for (AnalysisEntity ae : analyses) {
+        List<Analysis> analyses = Functions.analysesFromBatch(batch);
+        for (Analysis ae : analyses) {
             File analUpDir = new File(batchUpDir, String.valueOf(ae.getId()));
             if (!analUpDir.exists()) {
                 if (!analUpDir.mkdirs()) {
@@ -80,11 +83,7 @@ public class BatchResourceImpl implements BatchResource {
                 // TODO don't fail, but log WARN, dir shouldn't exists
             }
 
-            for (ImageEntity img : Functions.imageFromAnalysis(ae)) {
-                if (!imgInputMap.containsKey(img.getName())) {
-                    throw new IllegalStateException(String
-                                    .format("Requested image %s is not contained in upload request", img.getName()));
-                }
+            for (Image img : Functions.imageFromAnalysis(ae)) {
                 imgSrv.uploadImage(img.getSha256().trim(), new File(analUpDir, img.getName()),
                                 imgInputMap.get(img.getName()).getBody(InputStream.class, null));
             }

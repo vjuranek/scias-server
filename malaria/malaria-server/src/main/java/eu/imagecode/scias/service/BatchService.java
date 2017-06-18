@@ -83,23 +83,6 @@ public class BatchService {
         return batchEnt;
     }
     
-    /**
-     * Puts all images related/contained in given {@link BatchEntity} to a {@link List}.  
-     * 
-     * @param analysis {@link BatchEntity} from which images should be extracted. 
-     * @return {@link List} of {@link ImageEntity}s related to given batch. 
-     */
-    public List<Image> extractImages(Batch batch) {
-        List<Analysis> analyses = new ArrayList<>();
-        batch.getSample().forEach(sample -> analyses.addAll(sample.getAnalysis()));
-        List<Image> imgs = new LinkedList<Image>();
-        analyses.forEach(analysis -> { 
-            imgs.add(analysis.getInputData().getImage());
-            analysis.getResultSet().getUnclassifiedObject().forEach(uo -> imgs.add(uo.getImage()));
-        });
-        return imgs;
-    }
-    
     private StationEntity getStationByUuid(String stationUuid) {
         return em.createNamedQuery("StationEntity.findByUuid", StationEntity.class).setParameter("stationUuid", stationUuid).getSingleResult();
     }
