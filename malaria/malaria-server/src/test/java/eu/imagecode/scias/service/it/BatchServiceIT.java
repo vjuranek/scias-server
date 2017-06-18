@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -98,7 +99,9 @@ public class BatchServiceIT extends AbstractMalariaServiceIT {
         batch.getSample().add(sample);
         batch.setPatient(patient);
         
-        BatchEntity be = batchService.uploadBatch(batch, STATION1_UUID);
+        Map<String, byte[]> imgMap = Generators.generateImgMap();
+        
+        BatchEntity be = batchService.uploadBatch(batch, imgMap, STATION1_UUID);
         
         //test that new batch record is created, DB init script creates 2
         List<BatchEntity> batches = batchService.getAllBatches();
@@ -135,7 +138,9 @@ public class BatchServiceIT extends AbstractMalariaServiceIT {
         batch.getSample().add(sample);
         batch.setPatient(patient);
         
-        BatchEntity be = batchService.uploadBatch(batch, STATION1_UUID);
+        Map<String, byte[]> imgMap = Generators.generateImgMap();
+        
+        BatchEntity be = batchService.uploadBatch(batch, imgMap, STATION1_UUID);
         
         //test that no new batch record is created, DB init script creates 2
         List<BatchEntity> batches = batchService.getAllBatches();
@@ -156,7 +161,7 @@ public class BatchServiceIT extends AbstractMalariaServiceIT {
 
     @Test
     @ApplyScriptBefore({"populate_db.sql"})
-    public void testPatientNotRecreated() {
+    public void testPatientNotRecreated() throws Exception {
         Analysis anal = Generators.generateAnalysis();
         Locality loc = new Locality();
         loc.setId(1);
@@ -174,7 +179,9 @@ public class BatchServiceIT extends AbstractMalariaServiceIT {
         batch.getSample().add(sample);
         batch.setPatient(patient);
         
-        BatchEntity be = batchService.uploadBatch(batch, STATION1_UUID);
+        Map<String, byte[]> imgMap = Generators.generateImgMap();
+        
+        BatchEntity be = batchService.uploadBatch(batch, imgMap, STATION1_UUID);
         
         List<PatientEntity> patients = patientSrv.getAllPatients();
         assertEquals(3, patients.size());
@@ -189,7 +196,7 @@ public class BatchServiceIT extends AbstractMalariaServiceIT {
         batch2.getSample().add(sample2);
         batch2.setPatient(patient);
         
-        BatchEntity be2 = batchService.uploadBatch(batch2, STATION1_UUID);
+        BatchEntity be2 = batchService.uploadBatch(batch2, imgMap, STATION1_UUID);
         
         List<PatientEntity> patients2 = patientSrv.getAllPatients();
         assertEquals(3, patients2.size());

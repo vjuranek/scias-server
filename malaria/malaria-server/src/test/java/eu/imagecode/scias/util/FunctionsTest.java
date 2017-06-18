@@ -26,7 +26,7 @@ public class FunctionsTest {
     }
 
     @Test
-    public void testGetImageFromAnalysisEntity() {
+    public void testGetImageFromAnalysisEntity() throws Exception {
         List<ImageEntity> imgs = Functions.imageFromAnalysisEntity(Generators.generateAnalysisEntity());
         Generators.assertImgEntNames(imgs);
     }

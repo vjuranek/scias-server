@@ -142,7 +142,7 @@ CREATE TABLE IF NOT EXISTS image (
     pixel_size double precision,
     created timestamp,
     mime_type varchar(16) NOT NULL, -- TODO use mimetype custom type
-    client_id integer REFERENCES client -- TODO NOT NOLL
+    bytes bytea
 );
 CREATE SEQUENCE image_id_seq INCREMENT BY 50;
 

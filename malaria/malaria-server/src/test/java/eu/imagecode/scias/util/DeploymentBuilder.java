@@ -7,8 +7,6 @@ import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 
-import eu.imagecode.scias.service.AnalysisService;
-import eu.imagecode.scias.service.BatchService;
 import eu.imagecode.scias.service.it.AbstractMalariaServiceIT;
 
 public class DeploymentBuilder {
@@ -27,6 +25,9 @@ public class DeploymentBuilder {
                 .addPackage("eu.imagecode.scias.service")
                 .addPackage("eu.imagecode.scias.util")
                 .addPackage("eu.imagecode.scias.testutil")
+                .addAsResource("img/Image01.jpg")
+                .addAsResource("img/Image02.jpg")
+                .addAsResource("img/Image03.jpg")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
     }
 }

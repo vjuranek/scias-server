@@ -11,6 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -58,6 +59,9 @@ public class ImageEntity implements Serializable {
     
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "image")
     private InputDataEntity inputData;
+    
+    @Lob
+    private byte[] bytes;
 
     public ImageEntity() {
     }
@@ -166,6 +170,14 @@ public class ImageEntity implements Serializable {
     public void setInputData(InputDataEntity inputData) {
         this.inputData = inputData;
     }
+    
+    public byte[] getBytes() {
+        return bytes;
+    }
+    
+    public void setBytes(byte[] bytes) {
+        this.bytes = bytes;
+    }
 
     @Override
     public int hashCode() {
@@ -182,6 +194,7 @@ public class ImageEntity implements Serializable {
         result = prime * result + ((pixelSize == null) ? 0 : pixelSize.hashCode());
         result = prime * result + ((sha256 == null) ? 0 : sha256.hashCode());
         result = prime * result + ((width == null) ? 0 : width.hashCode());
+        result = prime * result + ((bytes == null) ? 0 : bytes.hashCode());
         return result;
     }
 
@@ -239,6 +252,11 @@ public class ImageEntity implements Serializable {
             if (other.getWidth() != null)
                 return false;
         } else if (!width.equals(other.getWidth()))
+            return false;
+        if (bytes == null) {
+            if (other.getBytes() != null)
+                return false;
+        } else if (!bytes.equals(other.getBytes()))
             return false;
         return true;
     }

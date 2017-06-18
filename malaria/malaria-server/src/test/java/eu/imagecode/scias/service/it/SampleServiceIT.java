@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -86,7 +87,9 @@ public class SampleServiceIT extends AbstractMalariaServiceIT {
         StationEntity ste = new StationEntity(1);
         ste.setUuid(STATION1_UUID);
         
-        SampleEntity se = sampleSrv.uploadSample(sample, be, ste);
+        Map<String, byte[]> imgMap = Generators.generateImgMap();
+        
+        SampleEntity se = sampleSrv.uploadSample(sample, be, ste, imgMap);
         
         //test that new sample record is created, DB init script creates 2
         List<SampleEntity> samples = sampleSrv.getAllSamples();
@@ -118,7 +121,9 @@ public class SampleServiceIT extends AbstractMalariaServiceIT {
         StationEntity ste = new StationEntity(1);
         ste.setUuid(STATION1_UUID);
         
-        SampleEntity se = sampleSrv.uploadSample(sample, be, ste);
+        Map<String, byte[]> imgMap = Generators.generateImgMap();
+        
+        SampleEntity se = sampleSrv.uploadSample(sample, be, ste, imgMap);
         
         //test that no new sample record is created, DB init script creates 2
         List<SampleEntity> samples = sampleSrv.getAllSamples();
@@ -151,7 +156,9 @@ public class SampleServiceIT extends AbstractMalariaServiceIT {
         StationEntity ste = new StationEntity(1);
         ste.setUuid(STATION1_UUID);
         
-        SampleEntity se = sampleSrv.uploadSample(sample, be, ste);
+        Map<String, byte[]> imgMap = Generators.generateImgMap();
+        
+        SampleEntity se = sampleSrv.uploadSample(sample, be, ste, imgMap);
         
         //test that no new sample record is created, DB init script creates 2
         List<SampleEntity> samples = sampleSrv.getAllSamples();
@@ -168,7 +175,7 @@ public class SampleServiceIT extends AbstractMalariaServiceIT {
         //seems to be flaky
         //assertEquals(Generators.TEST_DATE, analEnt.getCreated());
         
-        se = sampleSrv.uploadSample(sample, be, ste);
+        se = sampleSrv.uploadSample(sample, be, ste, imgMap);
         
         //test that no new sample record is created, DB init script creates 2
         samples = sampleSrv.getAllSamples();

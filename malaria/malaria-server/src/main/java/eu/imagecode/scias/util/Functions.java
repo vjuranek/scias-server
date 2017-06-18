@@ -1,14 +1,10 @@
 package eu.imagecode.scias.util;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
-import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 
 import eu.imagecode.scias.model.jpa.AnalysisEntity;
 import eu.imagecode.scias.model.jpa.BatchEntity;
@@ -90,8 +86,8 @@ public class Functions {
      * @throws IllegalArgumentException
      *             when there is found any problem with incomming request
      */
-    public static void checkBatchUploadRequest(Batch batch, Map<String, InputPart> imgMap)
-                    throws IllegalArgumentException {
+    public static void checkBatchUploadRequest(Batch batch, Map<String, byte[]> imgMap)
+                    throws IllegalArgumentException, NoSuchAlgorithmException {
 
         List<Image> imgs = Functions.extractImages(batch);
 
@@ -105,13 +101,44 @@ public class Functions {
         // check all images referenced in all analyses exists in
         for (Analysis ae : analysesFromBatch(batch)) {
             for (Image img : Functions.imageFromAnalysis(ae)) {
+
+                // check image is present in input map
                 if (!imgMap.containsKey(img.getName())) {
                     throw new IllegalArgumentException(String
                                     .format("Requested image %s is not contained in upload request", img.getName()));
                 }
+
+                // check sha-256 of the image is filled
+                if (img.getSha256() == null || img.getSha256().isEmpty()) {
+                    throw new IllegalArgumentException(String
+                                    .format("Image with name %s has no or empty SHA-256 of the image", img.getName()));
+                }
+
+                // check sha-256 of the image agrees with computed sha-256 of the image byte content
+                String sha256 = SciasFunctions.digestToString(SciasFunctions.byteDigest(imgMap.get(img.getName())));
+                if (!img.getSha256().equals(sha256)) {
+                    throw new IllegalArgumentException(
+                                    String.format("SHA-256 of the image doesn't match, extecpted %s, but computed has is %s",
+                                                    img.getSha256(), sha256));
+                }
+
             }
         }
 
+    }
+
+    /**
+     * Populate {@link ImageEntity}s in {@link AnalysisEntity} with images content (raw image bytes)
+     * 
+     * @param analysis
+     *            {@link AnalysisEntity} which images should be populated
+     * @param imgMap
+     *            raw content of the images
+     */
+    public static void populateImages(AnalysisEntity analysis, Map<String, byte[]> imgMap) {
+        for (ImageEntity img : imageFromAnalysisEntity(analysis)) {
+            img.setBytes(imgMap.get(img.getName()));
+        }
     }
 
 }
