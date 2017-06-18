@@ -42,16 +42,20 @@ public class Generators {
     public static Analysis generateAnalysis() {
         
         Image uoImg1 = new Image();
+        uoImg1.setId(1);
         uoImg1.setName(TEST_UO_IMG_NAME1);
         uoImg1.setSha256("uo12345");
-        UnclassifiedObject ucl1 = new UnclassifiedObject();
-        ucl1.setImage(uoImg1);
+        uoImg1.setMimeType(MimeType.IMAGE_PNG);
+        uoImg1.setPixelSize(TEST_PIXEL_SIZE);
+        uoImg1.setWidth(TEST_IMG_WIDTH);
+        
         Image uoImg2 = new Image();
+        uoImg2.setId(2);
         uoImg2.setName(TEST_UO_IMG_NAME2);
         uoImg2.setSha256("uo54321");
-        UnclassifiedObject ucl2 = new UnclassifiedObject();
-        ucl2.setImage(uoImg2);
-        
+        uoImg2.setMimeType(MimeType.IMAGE_PNG);
+        uoImg2.setPixelSize(TEST_PIXEL_SIZE);
+        uoImg2.setWidth(TEST_IMG_WIDTH);
         
         UnclassifiedObject uo1 = new UnclassifiedObject();
         uo1.setId(1);
@@ -75,7 +79,7 @@ public class Generators {
         img.setPixelSize(TEST_PIXEL_SIZE);
         img.setSha256("aaaaaaaa");
         img.setWidth(TEST_IMG_WIDTH);
-        img.setMimeType(MimeType.IMAGE_JPEG);
+        img.setMimeType(MimeType.IMAGE_PNG);
         
         InputData input = new InputData();
         input.setId(1);

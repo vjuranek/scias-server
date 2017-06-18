@@ -2,6 +2,7 @@ package eu.imagecode.scias.model.jpa;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -28,7 +29,7 @@ public class UnclassifiedObjectEntity implements java.io.Serializable {
     @Column(name = "local_id", nullable = false)
     private int localId;
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "image_id")
     private ImageEntity image;
     
