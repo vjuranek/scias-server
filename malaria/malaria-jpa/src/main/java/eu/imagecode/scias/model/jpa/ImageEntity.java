@@ -3,6 +3,7 @@ package eu.imagecode.scias.model.jpa;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -11,7 +12,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -60,7 +60,9 @@ public class ImageEntity implements Serializable {
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "image")
     private InputDataEntity inputData;
     
-    @Lob
+    //@Lob //fails with PostreSQL bytea type, see http://in.relation.to/2010/05/11/postgre-sql-and-blo-bs/ and comments under it
+    @Column(name = "bytes")
+    @Basic(fetch = FetchType.LAZY)
     private byte[] bytes;
 
     public ImageEntity() {
