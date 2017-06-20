@@ -188,7 +188,6 @@ public class ImageEntity implements Serializable {
         result = prime * result + ((created == null) ? 0 : created.hashCode());
         result = prime * result + ((height == null) ? 0 : height.hashCode());
         result = prime * result + id;
-        result = prime * result + ((inputData == null) ? 0 : inputData.hashCode());
         result = prime * result + localId;
         result = prime * result + ((mimeType == null) ? 0 : mimeType.hashCode());
         result = prime * result + ((name == null) ? 0 : name.hashCode());
@@ -220,11 +219,6 @@ public class ImageEntity implements Serializable {
         } else if (!height.equals(other.getHeight()))
             return false;
         if (id != other.getId())
-            return false;
-        if (inputData == null) {
-            if (other.getInputData() != null)
-                return false;
-        } else if (!inputData.equals(other.getInputData()))
             return false;
         if (localId != other.getLocalId())
             return false;

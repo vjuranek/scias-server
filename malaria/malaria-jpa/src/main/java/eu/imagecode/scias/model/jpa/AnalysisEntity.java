@@ -151,7 +151,6 @@ public class AnalysisEntity implements Serializable {
         result = prime * result + ((inputData == null) ? 0 : inputData.hashCode());
         result = prime * result + localId;
         result = prime * result + ((resultSet == null) ? 0 : resultSet.hashCode());
-        result = prime * result + ((sample == null) ? 0 : sample.hashCode());
         result = prime * result + ((station == null) ? 0 : station.hashCode());
         return result;
     }
@@ -188,11 +187,6 @@ public class AnalysisEntity implements Serializable {
             if (other.getResultSet() != null)
                 return false;
         } else if (!resultSet.equals(other.getResultSet()))
-            return false;
-        if (sample == null) {
-            if (other.getSample() != null)
-                return false;
-        } else if (!sample.equals(other.getSample()))
             return false;
         if (station == null) {
             if (other.getStation() != null)

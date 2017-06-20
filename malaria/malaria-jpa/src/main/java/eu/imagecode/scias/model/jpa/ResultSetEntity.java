@@ -97,7 +97,6 @@ public class ResultSetEntity implements Serializable {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((analysis == null) ? 0 : analysis.hashCode());
         result = prime * result + id;
         result = prime * result + localId;
         result = prime * result + ((results == null) ? 0 : results.hashCode());
@@ -114,11 +113,6 @@ public class ResultSetEntity implements Serializable {
         if (!(obj instanceof ResultSetEntity))
             return false;
         ResultSetEntity other = (ResultSetEntity) obj;
-        if (analysis == null) {
-            if (other.getAnalysis() != null)
-                return false;
-        } else if (!analysis.equals(other.getAnalysis()))
-            return false;
         if (id != other.getId())
             return false;
         if (localId != other.getLocalId())

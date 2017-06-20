@@ -84,7 +84,6 @@ public class InputDataEntity implements Serializable {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((analysis == null) ? 0 : analysis.hashCode());
         result = prime * result + id;
         result = prime * result + ((image == null) ? 0 : image.hashCode());
         result = prime * result + localId;
@@ -100,11 +99,6 @@ public class InputDataEntity implements Serializable {
         if (!(obj instanceof InputDataEntity))
             return false;
         InputDataEntity other = (InputDataEntity) obj;
-        if (analysis == null) {
-            if (other.getAnalysis() != null)
-                return false;
-        } else if (!analysis.equals(other.getAnalysis()))
-            return false;
         if (id != other.getId())
             return false;
         if (image == null) {

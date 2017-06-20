@@ -96,7 +96,6 @@ public class ResultEntity implements Serializable {
         result = prime * result + ((classId == null) ? 0 : classId.hashCode());
         result = prime * result + id;
         result = prime * result + localId;
-        result = prime * result + ((resultSet == null) ? 0 : resultSet.hashCode());
         return result;
     }
 
@@ -122,11 +121,6 @@ public class ResultEntity implements Serializable {
         if (id != other.getId())
             return false;
         if (localId != other.getLocalId())
-            return false;
-        if (resultSet == null) {
-            if (other.getResultSet() != null)
-                return false;
-        } else if (!resultSet.equals(other.getResultSet()))
             return false;
         return true;
     }

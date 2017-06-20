@@ -151,7 +151,6 @@ public class SampleEntity implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((analysises == null) ? 0 : analysises.hashCode());
-        result = prime * result + ((batch == null) ? 0 : batch.hashCode());
         result = prime * result + ((created == null) ? 0 : created.hashCode());
         result = prime * result + ((finished == null) ? 0 : finished.hashCode());
         result = prime * result + id;
@@ -175,11 +174,6 @@ public class SampleEntity implements Serializable {
             if (other.getAnalyses() != null)
                 return false;
         } else if (!analysises.equals(other.getAnalyses()))
-            return false;
-        if (batch == null) {
-            if (other.getBatch() != null)
-                return false;
-        } else if (!batch.equals(other.getBatch()))
             return false;
         if (created == null) {
             if (other.getCreated() != null)
