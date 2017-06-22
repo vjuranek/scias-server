@@ -13,7 +13,7 @@ import eu.imagecode.scias.model.jpa.BatchEntity;
 import eu.imagecode.scias.model.rest.malaria.Batch;
 import eu.imagecode.scias.rest.BatchResource;
 import eu.imagecode.scias.service.BatchService;
-import eu.imagecode.scias.util.Functions;
+import eu.imagecode.scias.service.ValidationService;
 import eu.imagecode.scias.util.SciasFunctions;
 
 public class BatchResourceImpl implements BatchResource {
@@ -25,6 +25,9 @@ public class BatchResourceImpl implements BatchResource {
 
     @Inject
     private BatchService batchSrv;
+    
+    @Inject
+    private ValidationService validationSrv;
 
     private String stationId;
 
@@ -43,7 +46,7 @@ public class BatchResourceImpl implements BatchResource {
         Map<String, byte[]> imgMap = SciasFunctions.formInputToByteMap(parts.get(MULTIPART_NAME_IMAGES));
 
         // do some check before actual upload
-        Functions.checkBatchUploadRequest(batch, imgMap);
+        validationSrv.checkBatchUploadRequest(batch, imgMap, stationId);
 
         // now do the upload into DB itself
         BatchEntity be = batchSrv.uploadBatch(batch, imgMap, stationId);
