@@ -1,5 +1,6 @@
 package eu.imagecode.scias.service;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Map;
 
@@ -7,6 +8,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 
 import eu.imagecode.scias.model.jpa.BatchEntity;
 import eu.imagecode.scias.model.jpa.PatientEntity;
@@ -27,6 +29,9 @@ public class BatchService {
 
     @Inject
     private PatientService patientSrv;
+    
+    @Inject
+    private ValidationService validationSrv;
 
     /**
      * Loads all batches from DB.
@@ -58,12 +63,30 @@ public class BatchService {
             return null;
         }
     }
+    
+    /**
+     * Checks, whether batch with given local/client ID was already uploaded from given station.
+     * 
+     */
+    public boolean isBatchUploaded(int batchId, String stationUuid) {
+        try {
+            em.createNamedQuery("BatchEntity.findByLocalIdAndStation", BatchEntity.class).setParameter("localId", batchId).setParameter("stationUUID", stationUuid).getSingleResult();
+        } catch (NoResultException e) {
+            return false;
+        } catch (NonUniqueResultException e) {
+            return true;
+        }
+        return true;
+    }
 
     /**
      * Uploads batch of samples into the database.
      * 
      */
-    public BatchEntity uploadBatch(Batch batch, Map<String, byte[]> imgMap, String stationUuid) {
+    public BatchEntity uploadBatch(Batch batch, Map<String, byte[]> imgMap, String stationUuid) throws NoSuchAlgorithmException {
+        // do some check before actual upload
+        validationSrv.checkBatchUploadRequest(batch, imgMap, stationUuid);
+        
         StationEntity stationEnt = getStationByUuid(stationUuid);
         BatchEntity batchEnt = getBatchByLocalId(batch.getId(), stationEnt.getUuid());
         if (batchEnt != null) {
@@ -72,6 +95,9 @@ public class BatchService {
                 sampleSrv.uploadSample(sample, batchEnt, stationEnt, imgMap);
             }
         } else {
+            //validate batch first
+            validationSrv.checkNewBatchUploadRequest(batch.getSample(), stationUuid);
+            
             // batch doesn't exist yet - create it, included underlying structures like samples
             batchEnt = ModelMappers.batchToEntity(batch, stationEnt);
             // populate images with img content

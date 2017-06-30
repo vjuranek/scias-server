@@ -8,6 +8,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 import java.util.Map;
 
+import javax.ejb.EJBTransactionRolledbackException;
 import javax.inject.Inject;
 
 import org.jboss.arquillian.junit.Arquillian;
@@ -70,7 +71,7 @@ public class BatchServiceIT extends AbstractMalariaServiceIT {
     @Test
     @ApplyScriptBefore({"populate_db.sql"})
     public void testGetBatchByLocalId() {
-        BatchEntity batch = batchService.getBatchByLocalId(1, STATION2_UUID);
+        BatchEntity batch = batchService.getBatchByLocalId(100, STATION2_UUID);
         assertNotNull(batch);
         
         assertEquals(101, batch.getId());
@@ -118,10 +119,10 @@ public class BatchServiceIT extends AbstractMalariaServiceIT {
         assertEquals(Generators.TEST_DATE, analEnt.getCreated());
     }
     
-    @Test
+    @Test(expected = EJBTransactionRolledbackException.class)
     @ApplyScriptBefore({"populate_db.sql"})
     public void testExistingBatchUpload() throws Exception {
-        Analysis anal = Generators.generateAnalysis();
+        Analysis anal = Generators.generateAnalysis(5);
         Locality loc = new Locality();
         loc.setId(1);
         Sample sample = new Sample();
@@ -133,30 +134,14 @@ public class BatchServiceIT extends AbstractMalariaServiceIT {
         patient.setFirstName("aa");
         patient.setLastName("aaaa");
         Batch batch = new Batch();
-        batch.setId(1);
+        batch.setId(100);
         batch.setFinished(true);
         batch.getSample().add(sample);
         batch.setPatient(patient);
         
         Map<String, byte[]> imgMap = Generators.generateImgMap();
         
-        BatchEntity be = batchService.uploadBatch(batch, imgMap, STATION1_UUID);
-        
-        //test that no new batch record is created, DB init script creates 2
-        List<BatchEntity> batches = batchService.getAllBatches();
-        assertEquals(2, batches.size());
-        
-        BatchEntity testBatch = batchService.getBatchById(be.getId());
-        assertNotNull(testBatch);
-        
-        assertEquals(1, testBatch.getSamples().size());
-        List<AnalysisEntity> anals = testBatch.getSamples().get(0).getAnalyses();
-        assertEquals(1, anals.size());
-        AnalysisEntity analEnt = anals.get(0);
-        assertNotNull(analEnt);
-        assertEquals(Generators.TEST_ALGORITHM_VERSION, analEnt.getAlgorithmVersion());
-        //seems to be flaky
-        //assertEquals(Generators.TEST_DATE, analEnt.getCreated());
+        batchService.uploadBatch(batch, imgMap, STATION1_UUID);
     }
 
     @Test
@@ -186,10 +171,11 @@ public class BatchServiceIT extends AbstractMalariaServiceIT {
         List<PatientEntity> patients = patientSrv.getAllPatients();
         assertEquals(3, patients.size());
         
+        Analysis anal2 = Generators.generateAnalysis(2);
         Sample sample2 = new Sample();
         sample2.setId(2);
         sample2.setLocality(loc);
-        sample2.getAnalysis().add(anal);
+        sample2.getAnalysis().add(anal2);
         Batch batch2 = new Batch();
         batch2.setId(112);
         batch2.setFinished(true);

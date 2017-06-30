@@ -7,6 +7,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 
 import eu.imagecode.scias.model.jpa.AnalysisEntity;
 
@@ -54,7 +55,7 @@ public class AnalysisService {
     
     
     /**
-     * Checks, wheather analysis with given local/client ID was already uploaded from given station.
+     * Checks, whether analysis with given local/client ID was already uploaded from given station.
      * 
      */
     public boolean isAnalysisUploaded(int analysisId, String stationUuid) {
@@ -62,6 +63,8 @@ public class AnalysisService {
             em.createNamedQuery("AnalysisEntity.findByLocalIdAndStation", AnalysisEntity.class).setParameter("localId", analysisId).setParameter("stationUUID", stationUuid).getSingleResult();
         } catch (NoResultException e) {
             return false;
+        } catch (NonUniqueResultException e) {
+            return true;
         }
         return true;
     }

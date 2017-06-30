@@ -11,12 +11,19 @@ import javax.persistence.NonUniqueResultException;
 import eu.imagecode.scias.model.rest.malaria.Analysis;
 import eu.imagecode.scias.model.rest.malaria.Batch;
 import eu.imagecode.scias.model.rest.malaria.Image;
+import eu.imagecode.scias.model.rest.malaria.Sample;
 import eu.imagecode.scias.util.Functions;
 import eu.imagecode.scias.util.SciasFunctions;
 
 @Stateless
 public class ValidationService {
 
+    @Inject
+    BatchService batchSrv;
+    
+    @Inject
+    SampleService sampleSrv;
+    
     @Inject
     AnalysisService analysisSrv;
 
@@ -35,11 +42,19 @@ public class ValidationService {
     public void checkBatchUploadRequest(Batch batch, Map<String, byte[]> imgMap, String stationId)
                     throws IllegalArgumentException, NoSuchAlgorithmException {
 
+        checkBatchUnique(batch.getId(), stationId);
         checkNumberOfImages(batch, imgMap.size());
-
+        
         for (Analysis ae : Functions.analysesFromBatch(batch)) {
             checkAnalysis(ae, imgMap, stationId);
         }
+
+    }
+    
+    public void checkNewBatchUploadRequest(List<Sample> samples, String stationId)
+                    throws IllegalArgumentException, NoSuchAlgorithmException {
+
+        checkSamplesUnique(samples, stationId);
 
     }
 
@@ -119,6 +134,68 @@ public class ValidationService {
     }
 
     /**
+     * Check if the {@link Batch} is already uploaded on the server
+     * 
+     * @param batchId
+     * @param stationId
+     * @throws IllegalArgumentException
+     *             when batch is already present in server DB
+     */
+    public void checkBatchUnique(int batchId, String stationId) throws IllegalArgumentException {
+        boolean uploaded = true;
+        try {
+            uploaded = batchSrv.isBatchUploaded(batchId, stationId);
+        } catch (NonUniqueResultException e) {
+            throw new IllegalArgumentException(
+                            String.format("Batch with local ID %s from station %s is already uploaded in server DB",
+                                            batchId, stationId));
+        }
+        if (uploaded) {
+            throw new IllegalArgumentException(
+                            String.format("Batch with local ID %s from station %s is already uploaded in server DB",
+                                            batchId, stationId));
+        }
+    }
+    
+    /**
+     * Check if each of the {@link Sample}s in thr batch is not uploaded on the server
+     * 
+     * @param samples
+     * @param stationId
+     * @throws IllegalArgumentException
+     *             when sample is already present in server DB
+     */
+    public void checkSamplesUnique(List<Sample> samples, String stationId) throws IllegalArgumentException {
+        for (Sample sample : samples) {
+            checkSampleUnique(sample.getId(), stationId);
+        }
+    }
+    
+    /**
+     * Check if the {@link Sample} is already uploaded in server
+     * 
+     * @param sampleId
+     * @param stationId
+     * @throws IllegalArgumentException
+     *             when sample is already present on the server DB
+     */
+    public void checkSampleUnique(int sampleId, String stationId) throws IllegalArgumentException {
+        boolean uploaded = true;
+        try {
+            uploaded = sampleSrv.isSampleUploaded(sampleId, stationId);
+        } catch (NonUniqueResultException e) {
+            throw new IllegalArgumentException(
+                            String.format("Sample with local ID %s from station %s is already uploaded in server DB",
+                                            sampleId, stationId));
+        }
+        if (uploaded) {
+            throw new IllegalArgumentException(
+                            String.format("Sample with local ID %s from station %s is already uploaded in server DB",
+                                            sampleId, stationId));
+        }
+    }
+    
+    /**
      * Check if the analysis is already uploaded in server
      * 
      * @param analysisId
@@ -127,19 +204,13 @@ public class ValidationService {
      *             when analysis is already present in server DB
      */
     public void checkAnalysisUnique(int analysisId, String stationId) throws IllegalArgumentException {
-        boolean uploaded = true;
-        try {
-            uploaded = analysisSrv.isAnalysisUploaded(analysisId, stationId);
-        } catch (NonUniqueResultException e) {
+        
+        if (analysisSrv.isAnalysisUploaded(analysisId, stationId)) {
             throw new IllegalArgumentException(
                             String.format("Analysis with local ID %s from station %s is already uploaded in server DB",
                                             analysisId, stationId));
         }
-        if (uploaded) {
-            throw new IllegalArgumentException(
-                            String.format("Analysis with local ID %s from station %s is already uploaded in server DB",
-                                            analysisId, stationId));
-        }
+        
     }
 
 }

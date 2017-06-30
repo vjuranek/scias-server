@@ -8,6 +8,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 import java.util.Map;
 
+import javax.ejb.EJBTransactionRolledbackException;
 import javax.inject.Inject;
 
 import org.jboss.arquillian.junit.Arquillian;
@@ -50,7 +51,7 @@ public class SampleServiceIT extends AbstractMalariaServiceIT {
     @Test
     @ApplyScriptBefore({"populate_db.sql"})
     public void testGetSampleByLocalId() {
-        SampleEntity sample = sampleSrv.getSampleByLocalId(1, STATION2_UUID);
+        SampleEntity sample = sampleSrv.getSampleByLocalId(100, STATION2_UUID);
         assertNotNull(sample);
         
         assertEquals(101, sample.getId());
@@ -113,7 +114,7 @@ public class SampleServiceIT extends AbstractMalariaServiceIT {
         Locality loc = new Locality();
         loc.setId(1);
         Sample sample = new Sample();
-        sample.setId(1);
+        sample.setId(100);
         sample.setLocality(loc);
         sample.getAnalysis().add(anal);
         
@@ -133,12 +134,7 @@ public class SampleServiceIT extends AbstractMalariaServiceIT {
         assertNotNull(testSample);
         
         List<AnalysisEntity> anals = testSample.getAnalyses();
-        assertEquals(1, anals.size());
-        AnalysisEntity analEnt = anals.get(0);
-        assertNotNull(analEnt);
-        assertEquals(Generators.TEST_ALGORITHM_VERSION, analEnt.getAlgorithmVersion());
-        //seems to be flaky
-        //assertEquals(Generators.TEST_DATE, analEnt.getCreated());
+        assertEquals(2, anals.size()); //one analysis created by DB init script
     }
     
     @Test
@@ -160,9 +156,9 @@ public class SampleServiceIT extends AbstractMalariaServiceIT {
         
         SampleEntity se = sampleSrv.uploadSample(sample, be, ste, imgMap);
         
-        //test that no new sample record is created, DB init script creates 2
+        //DB init script creates 2
         List<SampleEntity> samples = sampleSrv.getAllSamples();
-        assertEquals(2, samples.size());
+        assertEquals(3, samples.size());
         
         SampleEntity testSample = sampleSrv.getSampleById(se.getId());
         assertNotNull(testSample);
@@ -179,7 +175,7 @@ public class SampleServiceIT extends AbstractMalariaServiceIT {
         
         //test that no new sample record is created, DB init script creates 2
         samples = sampleSrv.getAllSamples();
-        assertEquals(2, samples.size());
+        assertEquals(3, samples.size());
         
         testSample = sampleSrv.getSampleById(se.getId());
         assertNotNull(testSample);
@@ -187,8 +183,7 @@ public class SampleServiceIT extends AbstractMalariaServiceIT {
         anals = testSample.getAnalyses();
         assertEquals(1, anals.size());
         
-        //probably not needed, just for sure tests also analysis loaded via batch ID
         anals = analysisSrv.getAnalysisByBatchId(100);
-        assertEquals(1, anals.size());
+        assertEquals(2, anals.size()); //one analysis already crated by DB init script
     }
 }

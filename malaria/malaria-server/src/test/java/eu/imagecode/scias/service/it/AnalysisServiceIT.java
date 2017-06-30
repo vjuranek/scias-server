@@ -24,11 +24,11 @@ public class AnalysisServiceIT extends AbstractMalariaServiceIT {
     @Test
     @ApplyScriptBefore({"populate_db.sql"})
     public void testGetAnalysisByLocalId() {
-        AnalysisEntity analysis = analysisSrv.getAnalysisByLocalId(1, STATION1_UUID);
+        AnalysisEntity analysis = analysisSrv.getAnalysisByLocalId(100, STATION1_UUID);
         assertNotNull(analysis);
         
         assertEquals(100, analysis.getId());
-        assertEquals(1, analysis.getLocalId());
+        assertEquals(100, analysis.getLocalId());
         assertEquals("1.0", analysis.getAlgorithmVersion());
         assertEquals(100, analysis.getResultSet().getId());
         assertEquals(STATION1_UUID, analysis.getStation().getUuid());
@@ -37,8 +37,8 @@ public class AnalysisServiceIT extends AbstractMalariaServiceIT {
     @Test
     @ApplyScriptBefore({"populate_db.sql"})
     public void testIsAnalysisUploaded() {
-        assertTrue(analysisSrv.isAnalysisUploaded(1, STATION1_UUID));
-        assertFalse(analysisSrv.isAnalysisUploaded(2, STATION1_UUID));
+        assertTrue(analysisSrv.isAnalysisUploaded(100, STATION1_UUID));
+        assertFalse(analysisSrv.isAnalysisUploaded(200, STATION1_UUID));
     }
     
 }

@@ -52,6 +52,10 @@ public class Generators {
     public static final String TEST_TRAIN_DATA_VERSION = "1.0";
 
     public static Analysis generateAnalysis() {
+        return generateAnalysis(1);
+    }
+    
+    public static Analysis generateAnalysis(int analysisId) {
 
         Image uoImg1 = new Image();
         uoImg1.setId(1);
@@ -98,7 +102,7 @@ public class Generators {
         input.setImage(img);
 
         Analysis anal = new Analysis();
-        anal.setId(1);
+        anal.setId(analysisId);
         anal.setAlgorithmVersion(TEST_ALGORITHM_VERSION);
         anal.setCreated(TEST_DATE);
         anal.setResultSet(rs);

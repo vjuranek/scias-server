@@ -52,7 +52,7 @@ public class PatientServiceIT extends AbstractMalariaServiceIT {
     @Test
     @ApplyScriptBefore({ "populate_db.sql" })
     public void testGetPatientByLocalId() {
-        PatientEntity p2 = patientSrv.getPatientByLocalId(1, STATION2_UUID);
+        PatientEntity p2 = patientSrv.getPatientByLocalId(100, STATION2_UUID);
         assertNotNull(p2);
 
         assertEquals(101, p2.getId());

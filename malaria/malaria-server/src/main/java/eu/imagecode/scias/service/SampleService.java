@@ -7,6 +7,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 
 import eu.imagecode.scias.model.jpa.AnalysisEntity;
 import eu.imagecode.scias.model.jpa.BatchEntity;
@@ -25,6 +26,7 @@ public class SampleService {
 
     @Inject
     private AnalysisService analysisSrv;
+    
 
     /**
      * Loads all samples from DB.
@@ -59,6 +61,21 @@ public class SampleService {
     public List<SampleEntity> getSamplesByBatchId(int batchId) {
         return em.createNamedQuery("SampleEntity.findByBatchId", SampleEntity.class).setParameter("batchId", batchId)
                         .getResultList();
+    }
+    
+    /**
+     * Checks, whether sample with given local/client ID was already uploaded from given station.
+     * 
+     */
+    public boolean isSampleUploaded(int sampleId, String stationUuid) {
+        try {
+            em.createNamedQuery("SampleEntity.findByLocalIdAndStation", SampleEntity.class).setParameter("localId", sampleId).setParameter("stationUUID", stationUuid).getSingleResult();
+        } catch (NoResultException e) {
+            return false;
+        } catch (NonUniqueResultException e) {
+            return true;
+        }
+        return true;
     }
 
     /**
