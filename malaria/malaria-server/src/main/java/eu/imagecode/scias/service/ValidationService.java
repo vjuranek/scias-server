@@ -42,8 +42,8 @@ public class ValidationService {
     public void checkBatchUploadRequest(Batch batch, Map<String, byte[]> imgMap, String stationId)
                     throws IllegalArgumentException, NoSuchAlgorithmException {
 
+        checkNumberOfImages(batch, imgMap.size()); // check number of images first as it doesn't require any DB query
         checkBatchUnique(batch.getId(), stationId);
-        checkNumberOfImages(batch, imgMap.size());
         
         for (Analysis ae : Functions.analysesFromBatch(batch)) {
             checkAnalysis(ae, imgMap, stationId);
