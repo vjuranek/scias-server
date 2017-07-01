@@ -112,9 +112,13 @@ public class BatchService {
         return batchEnt;
     }
 
-    private StationEntity getStationByUuid(String stationUuid) {
-        return em.createNamedQuery("StationEntity.findByUuid", StationEntity.class)
+    private StationEntity getStationByUuid(String stationUuid) throws IllegalArgumentException {
+        try {
+            return em.createNamedQuery("StationEntity.findByUuid", StationEntity.class)
                         .setParameter("stationUuid", stationUuid).getSingleResult();
+        } catch(NoResultException e) {
+            throw new IllegalArgumentException(String.format("Station with UUID '%s' doesn't exist in database!", stationUuid));
+        }
     }
 
 }

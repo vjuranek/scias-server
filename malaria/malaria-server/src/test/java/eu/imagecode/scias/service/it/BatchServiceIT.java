@@ -188,4 +188,29 @@ public class BatchServiceIT extends AbstractMalariaServiceIT {
         assertEquals(3, patients2.size());
         
     }
+    
+    @Test(expected = EJBTransactionRolledbackException.class)
+    @ApplyScriptBefore({"populate_db.sql"})
+    public void testUploadFromNonExistingStation() throws Exception {
+        Analysis anal = Generators.generateAnalysis();
+        Locality loc = new Locality();
+        loc.setId(1);
+        Sample sample = new Sample();
+        sample.setId(1);
+        sample.setLocality(loc);
+        sample.getAnalysis().add(anal);
+        Patient patient = new Patient();
+        patient.setId(111);
+        patient.setFirstName("aa");
+        patient.setLastName("aaaa");
+        Batch batch = new Batch();
+        batch.setId(111);
+        batch.setFinished(true);
+        batch.getSample().add(sample);
+        batch.setPatient(patient);
+        
+        Map<String, byte[]> imgMap = Generators.generateImgMap();
+        
+        BatchEntity be = batchService.uploadBatch(batch, imgMap, "doesn't exists");
+    }
 }
