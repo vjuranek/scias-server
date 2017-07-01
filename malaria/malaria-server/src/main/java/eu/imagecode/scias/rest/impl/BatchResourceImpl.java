@@ -3,8 +3,11 @@ package eu.imagecode.scias.rest.impl;
 import java.util.List;
 import java.util.Map;
 
+import javax.ejb.EJBException;
+import javax.ejb.EJBTransactionRolledbackException;
 import javax.inject.Inject;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
@@ -21,6 +24,7 @@ public class BatchResourceImpl implements BatchResource {
     public static final String MULTIPART_NAME_BATCH = "batch";
     public static final String MULTIPART_NAME_IMAGES = "images";
     public static final String HEADER_BATCH_ID = "BatchID";
+    public static final String HEADER_ERROR_MSG = "ErrorMsg";
 
     @Inject
     private BatchService batchSrv;
@@ -33,8 +37,9 @@ public class BatchResourceImpl implements BatchResource {
         // load batch from the request
         List<InputPart> batchParts = parts.get(MULTIPART_NAME_BATCH);
         if (batchParts.size() == 0) {
-            throw new IllegalArgumentException(
-                            String.format("Multipart form don't contain any %s section!", MULTIPART_NAME_BATCH));
+            return Response.status(Status.BAD_REQUEST).header(HEADER_ERROR_MSG,
+                            String.format("Multipart form don't contain any %s section!", MULTIPART_NAME_BATCH))
+                            .build();
         }
         Batch batch = batchParts.get(0).getBody(Batch.class, null);
 
@@ -42,9 +47,12 @@ public class BatchResourceImpl implements BatchResource {
         Map<String, byte[]> imgMap = SciasFunctions.formInputToByteMap(parts.get(MULTIPART_NAME_IMAGES));
 
         // now do the upload into DB itself
-        BatchEntity be = batchSrv.uploadBatch(batch, imgMap, stationId);
-
-        return Response.ok().header(HEADER_BATCH_ID, be.getId()).build();
+        try {
+            BatchEntity be = batchSrv.uploadBatch(batch, imgMap, stationId);
+            return Response.ok().header(HEADER_BATCH_ID, be.getId()).build();
+        } catch (IllegalArgumentException | EJBException  e) {
+            return Response.status(Status.BAD_REQUEST).header(HEADER_ERROR_MSG, e.getMessage()).build();
+        }
     }
 
     public void setStationId(String stationId) {

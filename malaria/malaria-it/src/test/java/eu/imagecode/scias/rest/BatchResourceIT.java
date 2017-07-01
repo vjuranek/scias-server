@@ -20,45 +20,69 @@ import eu.imagecode.scias.util.Functions;
 public class BatchResourceIT {
     
     private static final String BATCH_RESOURCE_URL = "http://localhost:8080/malaria-server/rest/station/f8ffba00-9134-4828-b34d-c03b4b2ee736/batch";
+    private static final String BATCH_NON_EXISTING_STATION_RESOURCE_URL = "http://localhost:8080/malaria-server/rest/station/doesntexists/batch";
     public static final String MULTIPART_NAME_BATCH = "batch";
     public static final String MULTIPART_NAME_IMAGES = "images";
     public static final String HEADER_BATCH_ID = "BatchID";
+    public static final String HEADER_ERROR_MSG = "ErrorMsg";
     private static final String IMG_DIR = "img";
-
-    @Test
-    public void testUploadAndGet() throws Exception {
-        int analId = postAnalysis("xml/test_batch1.xml", "Image01.jpg", "Image02.jpg");
-        assertTrue(analId > 0);
-    }
 
     /**
      * Uploads XML file with batch to remote server via HTTP form multipart post request. Request contains also all 
      * images which analysis refers to. Asserts that upload was successful and returns back ID of the uploaded analysis.
      * 
-     * @param batchPath Path to the XML file with XML batch. Has to be class path resource.
-     * @param imgs Names of the images which analyses in batch refers to. Have to be class path resources.
-     * @return ID of the batch.
-     * @throws Exception
      */
-    private int postAnalysis(String analPath, String... imgs) throws Exception {
-        MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-        builder.addTextBody(MULTIPART_NAME_BATCH, Functions.loadResourceAsString(analPath), ContentType.APPLICATION_XML);
-        builder.addBinaryBody(MULTIPART_NAME_IMAGES, Functions.getResourceStream(IMG_DIR + "/" + imgs[0]),
-                        ContentType.APPLICATION_OCTET_STREAM, imgs[0]);
-        builder.addBinaryBody("images", Functions.getResourceStream(IMG_DIR + "/" + imgs[1]),
-                        ContentType.APPLICATION_OCTET_STREAM, imgs[1]);
-
+    @Test
+    public void testUploadAndGet() throws Exception {
         CloseableHttpClient client = HttpClients.createDefault();
-        HttpPost analPost = new HttpPost(BATCH_RESOURCE_URL);
-        HttpEntity multipart = builder.build();
-        analPost.setEntity(multipart);
+        HttpPost batchPost = new HttpPost(BATCH_RESOURCE_URL);
+        batchPost.setEntity(prepareBatchHttpEntity("xml/test_batch1.xml", "Image01.jpg", "Image02.jpg"));
         
-        try(CloseableHttpResponse response = client.execute(analPost)) {
+        try(CloseableHttpResponse response = client.execute(batchPost)) {
             assertEquals(HttpStatus.SC_OK, response.getStatusLine().getStatusCode());
             Header idHeader = response.getFirstHeader(HEADER_BATCH_ID);
             assertNotNull(idHeader);
-            return Integer.valueOf(idHeader.getValue());
+            int batchId = Integer.valueOf(idHeader.getValue());
+            assertTrue(batchId > 0);
         }
+    }
+    
+    @Test
+    public void testUploadFromNonExistingStation() throws Exception {
+        CloseableHttpClient client = HttpClients.createDefault();
+        HttpPost batchPost = new HttpPost(BATCH_NON_EXISTING_STATION_RESOURCE_URL);
+        batchPost.setEntity(prepareBatchHttpEntity("xml/test_batch1.xml", "Image01.jpg", "Image02.jpg"));
+        
+        try(CloseableHttpResponse response = client.execute(batchPost)) {
+            assertEquals(HttpStatus.SC_BAD_REQUEST, response.getStatusLine().getStatusCode());
+            Header errorMsg = response.getFirstHeader(HEADER_ERROR_MSG);
+            assertNotNull(errorMsg);
+            assertTrue(errorMsg.getValue().equals("java.lang.IllegalArgumentException: Station with UUID 'doesntexists' doesn't exist in database!"));
+        }
+    }
+    
+    @Test
+    public void testWrongNumberImgs() throws Exception {
+        CloseableHttpClient client = HttpClients.createDefault();
+        HttpPost batchPost = new HttpPost(BATCH_RESOURCE_URL);
+        batchPost.setEntity(prepareBatchHttpEntity("xml/test_batch1.xml", "Image01.jpg"));
+        
+        try(CloseableHttpResponse response = client.execute(batchPost)) {
+            assertEquals(HttpStatus.SC_BAD_REQUEST, response.getStatusLine().getStatusCode());
+            Header errorMsg = response.getFirstHeader(HEADER_ERROR_MSG);
+            assertNotNull(errorMsg);
+            assertTrue(errorMsg.getValue().startsWith("Number of images in batch doesn't match"));
+        }
+    }
+    
+    private HttpEntity prepareBatchHttpEntity(String batchPath, String... imgs) throws Exception {
+        MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+        builder.addTextBody(MULTIPART_NAME_BATCH, Functions.loadResourceAsString(batchPath), ContentType.APPLICATION_XML);
+        for (String img : imgs) {
+            builder.addBinaryBody(MULTIPART_NAME_IMAGES, Functions.getResourceStream(IMG_DIR + "/" + img),
+                        ContentType.APPLICATION_OCTET_STREAM, img);
+        }
+        return builder.build();
     }
 
 }
