@@ -49,8 +49,17 @@ public class SampleService {
      * Loads sample with specified local/client ID for given station (local ID has to be unique for one station).
      * 
      */
-    public SampleEntity getSampleByLocalId(int localId, String stationUuid) {
+    public SampleEntity getSampleByLocalId(int localId, int stationId) {
         return em.createNamedQuery("SampleEntity.findByLocalIdAndStation", SampleEntity.class)
+                        .setParameter("localId", localId).setParameter("stationID", stationId).getSingleResult();
+    }
+    
+    /**
+     * Loads sample with specified local/client ID for given station (local ID has to be unique for one station).
+     * 
+     */
+    public SampleEntity getSampleByLocalId(int localId, String stationUuid) {
+        return em.createNamedQuery("SampleEntity.findByLocalIdAndStationUuid", SampleEntity.class)
                         .setParameter("localId", localId).setParameter("stationUUID", stationUuid).getSingleResult();
     }
 
@@ -67,9 +76,24 @@ public class SampleService {
      * Checks, whether sample with given local/client ID was already uploaded from given station.
      * 
      */
+    public boolean isSampleUploaded(int sampleId, int stationId) {
+        try {
+            em.createNamedQuery("SampleEntity.findByLocalIdAndStation", SampleEntity.class).setParameter("localId", sampleId).setParameter("stationID", stationId).getSingleResult();
+        } catch (NoResultException e) {
+            return false;
+        } catch (NonUniqueResultException e) {
+            return true;
+        }
+        return true;
+    }
+    
+    /**
+     * Checks, whether sample with given local/client ID was already uploaded from given station.
+     * 
+     */
     public boolean isSampleUploaded(int sampleId, String stationUuid) {
         try {
-            em.createNamedQuery("SampleEntity.findByLocalIdAndStation", SampleEntity.class).setParameter("localId", sampleId).setParameter("stationUUID", stationUuid).getSingleResult();
+            em.createNamedQuery("SampleEntity.findByLocalIdAndStationUuid", SampleEntity.class).setParameter("localId", sampleId).setParameter("stationUUID", stationUuid).getSingleResult();
         } catch (NoResultException e) {
             return false;
         } catch (NonUniqueResultException e) {
@@ -86,9 +110,9 @@ public class SampleService {
                     Map<String, byte[]> imgMap) {
         SampleEntity sampleEnt = null;
         try {
-            sampleEnt = getSampleByLocalId(sample.getId(), stationEnt.getUuid());
+            sampleEnt = getSampleByLocalId(sample.getId(), stationEnt.getId());
             for (Analysis analysis : sample.getAnalysis()) {
-                if (!analysisSrv.isAnalysisUploaded(analysis.getId(), stationEnt.getUuid())) {
+                if (!analysisSrv.isAnalysisUploaded(analysis.getId(), stationEnt.getId())) {
                     AnalysisEntity analysisEnt = ModelMappers.analysisToEntity(analysis, stationEnt);
                     Functions.populateImages(analysisEnt, imgMap); // populate images with img content
                     analysisEnt.setSample(sampleEnt);

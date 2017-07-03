@@ -23,7 +23,20 @@ public class AnalysisServiceIT extends AbstractMalariaServiceIT {
     
     @Test
     @ApplyScriptBefore({"populate_db.sql"})
-    public void testGetAnalysisByLocalId() {
+    public void testGetAnalysisByLocalIdStationId() {
+        AnalysisEntity analysis = analysisSrv.getAnalysisByLocalId(100, STATION1_ID);
+        assertNotNull(analysis);
+        
+        assertEquals(100, analysis.getId());
+        assertEquals(100, analysis.getLocalId());
+        assertEquals("1.0", analysis.getAlgorithmVersion());
+        assertEquals(100, analysis.getResultSet().getId());
+        assertEquals(STATION1_UUID, analysis.getStation().getUuid());
+    }
+    
+    @Test
+    @ApplyScriptBefore({"populate_db.sql"})
+    public void testGetAnalysisByLocalIdStationUUID() {
         AnalysisEntity analysis = analysisSrv.getAnalysisByLocalId(100, STATION1_UUID);
         assertNotNull(analysis);
         

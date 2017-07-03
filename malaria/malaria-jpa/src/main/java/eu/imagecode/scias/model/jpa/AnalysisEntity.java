@@ -27,7 +27,8 @@ import javax.persistence.UniqueConstraint;
     @NamedQuery(name = "AnalysisEntity.findAll", query = "SELECT a FROM AnalysisEntity a"),
     @NamedQuery(name = "AnalysisEntity.findById", query = "SELECT a FROM AnalysisEntity a WHERE a.id = :analysisId"),
     @NamedQuery(name = "AnalysisEntity.findByBatchId", query = "SELECT a FROM AnalysisEntity a WHERE a.sample.batch.id = :batchId"),
-    @NamedQuery(name = "AnalysisEntity.findByLocalIdAndStation", query = "select a from AnalysisEntity a, StationEntity s where a.localId = :localId and a.station.id = s.id and s.uuid = :stationUUID")
+    @NamedQuery(name = "AnalysisEntity.findByLocalIdAndStation", query = "select a from AnalysisEntity a where a.localId = :localId and a.station.id = :stationID"),
+    @NamedQuery(name = "AnalysisEntity.findByLocalIdAndStationUuid", query = "select a from AnalysisEntity a, StationEntity s where a.localId = :localId and a.station.id = s.id and s.uuid = :stationUUID")
 })
 public class AnalysisEntity implements Serializable {
 

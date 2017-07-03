@@ -51,7 +51,18 @@ public class PatientServiceIT extends AbstractMalariaServiceIT {
 
     @Test
     @ApplyScriptBefore({ "populate_db.sql" })
-    public void testGetPatientByLocalId() {
+    public void testGetPatientByLocalIdStationId() {
+        PatientEntity p2 = patientSrv.getPatientByLocalId(100, STATION2_ID);
+        assertNotNull(p2);
+
+        assertEquals(101, p2.getId());
+        assertEquals(PATIENT2_NAME, p2.getFirstName());
+        assertEquals(STATION2_UUID, p2.getStation().getUuid());
+    }
+    
+    @Test
+    @ApplyScriptBefore({ "populate_db.sql" })
+    public void testGetPatientByLocalIdStationUUID() {
         PatientEntity p2 = patientSrv.getPatientByLocalId(100, STATION2_UUID);
         assertNotNull(p2);
 

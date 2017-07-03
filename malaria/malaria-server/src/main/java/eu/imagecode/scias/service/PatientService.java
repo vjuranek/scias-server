@@ -35,9 +35,21 @@ public class PatientService {
      * Loads patient with specified local/client ID for given station (local ID has to be unique for one station).
      * 
      */
+    public PatientEntity getPatientByLocalId(int localId, int stationId) {
+        try {
+            return em.createNamedQuery("PatientEntity.findByLocalIdAndStation", PatientEntity.class).setParameter("localId", localId).setParameter("stationID", stationId).getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }        
+    }
+    
+    /**
+     * Loads patient with specified local/client ID for given station (local ID has to be unique for one station).
+     * 
+     */
     public PatientEntity getPatientByLocalId(int localId, String stationUuid) {
         try {
-            return em.createNamedQuery("PatientEntity.findByLocalIdAndStation", PatientEntity.class).setParameter("localId", localId).setParameter("stationUUID", stationUuid).getSingleResult();
+            return em.createNamedQuery("PatientEntity.findByLocalIdAndStationUuid", PatientEntity.class).setParameter("localId", localId).setParameter("stationUUID", stationUuid).getSingleResult();
         } catch (NoResultException e) {
             return null;
         }        

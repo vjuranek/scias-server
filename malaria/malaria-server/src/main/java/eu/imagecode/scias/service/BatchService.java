@@ -54,9 +54,23 @@ public class BatchService {
      * Loads batch with specified local/client ID for given station (local ID has to be unique for one station).
      * 
      */
-    public BatchEntity getBatchByLocalId(int localId, String stationUuid) {
+    public BatchEntity getBatchByLocalId(int localId, int stationId) {
         try {
             return em.createNamedQuery("BatchEntity.findByLocalIdAndStation", BatchEntity.class)
+                            .setParameter("localId", localId).setParameter("stationID", stationId)
+                            .getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+    
+    /**
+     * Loads batch with specified local/client ID for given station (local ID has to be unique for one station).
+     * 
+     */
+    public BatchEntity getBatchByLocalId(int localId, String stationUuid) {
+        try {
+            return em.createNamedQuery("BatchEntity.findByLocalIdAndStationUuid", BatchEntity.class)
                             .setParameter("localId", localId).setParameter("stationUUID", stationUuid)
                             .getSingleResult();
         } catch (NoResultException e) {
@@ -68,9 +82,24 @@ public class BatchService {
      * Checks, whether batch with given local/client ID was already uploaded from given station.
      * 
      */
+    public boolean isBatchUploaded(int batchId, int stationId) {
+        try {
+            em.createNamedQuery("BatchEntity.findByLocalIdAndStation", BatchEntity.class).setParameter("localId", batchId).setParameter("stationID", stationId).getSingleResult();
+        } catch (NoResultException e) {
+            return false;
+        } catch (NonUniqueResultException e) {
+            return true;
+        }
+        return true;
+    }
+    
+    /**
+     * Checks, whether batch with given local/client ID was already uploaded from given station.
+     * 
+     */
     public boolean isBatchUploaded(int batchId, String stationUuid) {
         try {
-            em.createNamedQuery("BatchEntity.findByLocalIdAndStation", BatchEntity.class).setParameter("localId", batchId).setParameter("stationUUID", stationUuid).getSingleResult();
+            em.createNamedQuery("BatchEntity.findByLocalIdAndStationUuid", BatchEntity.class).setParameter("localId", batchId).setParameter("stationUUID", stationUuid).getSingleResult();
         } catch (NoResultException e) {
             return false;
         } catch (NonUniqueResultException e) {
@@ -84,11 +113,12 @@ public class BatchService {
      * 
      */
     public BatchEntity uploadBatch(Batch batch, Map<String, byte[]> imgMap, String stationUuid) throws NoSuchAlgorithmException {
-        // do some check before actual upload
-        validationSrv.checkBatchUploadRequest(batch, imgMap, stationUuid);
-        
         StationEntity stationEnt = getStationByUuid(stationUuid);
-        BatchEntity batchEnt = getBatchByLocalId(batch.getId(), stationEnt.getUuid());
+        
+        // do some check before actual upload
+        validationSrv.checkBatchUploadRequest(batch, imgMap, stationEnt.getId());
+        
+        BatchEntity batchEnt = getBatchByLocalId(batch.getId(), stationEnt.getId());
         if (batchEnt != null) {
             // add all analyses in the sample
             for (Sample sample : batch.getSample()) {
@@ -96,14 +126,14 @@ public class BatchService {
             }
         } else {
             //validate batch first
-            validationSrv.checkNewBatchUploadRequest(batch.getSample(), stationUuid);
+            validationSrv.checkNewBatchUploadRequest(batch.getSample(), stationEnt.getId());
             
             // batch doesn't exist yet - create it, included underlying structures like samples
             batchEnt = ModelMappers.batchToEntity(batch, stationEnt);
             // populate images with img content
             batchEnt.getSamples().forEach(sampleEnt -> sampleEnt.getAnalyses()
                             .forEach(analysisEnt -> Functions.populateImages(analysisEnt, imgMap)));
-            PatientEntity patient = patientSrv.getPatientByLocalId(batch.getPatient().getId(), stationUuid);
+            PatientEntity patient = patientSrv.getPatientByLocalId(batch.getPatient().getId(), stationEnt.getId());
             if (patient != null) {
                 batchEnt.setPatient(patient);
             }

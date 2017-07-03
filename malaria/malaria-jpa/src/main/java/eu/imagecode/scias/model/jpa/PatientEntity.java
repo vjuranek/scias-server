@@ -23,7 +23,8 @@ import javax.persistence.TemporalType;
 @NamedQueries({
     @NamedQuery(name = "PatientEntity.findAll", query = "SELECT p FROM PatientEntity p"),
     @NamedQuery(name = "PatientEntity.findById", query = "SELECT p FROM PatientEntity p WHERE p.id = :patientId"),
-    @NamedQuery(name = "PatientEntity.findByLocalIdAndStation", query = "select p from PatientEntity p, StationEntity s where p.localId = :localId and p.station.id = s.id and s.uuid = :stationUUID")
+    @NamedQuery(name = "PatientEntity.findByLocalIdAndStation", query = "select p from PatientEntity p where p.localId = :localId and p.station.id = :stationID"),
+    @NamedQuery(name = "PatientEntity.findByLocalIdAndStationUuid", query = "select p from PatientEntity p, StationEntity s where p.localId = :localId and p.station.id = s.id and s.uuid = :stationUUID")
 })
 public class PatientEntity implements Serializable {
 

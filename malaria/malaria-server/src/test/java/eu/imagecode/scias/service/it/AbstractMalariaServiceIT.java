@@ -10,6 +10,8 @@ import eu.imagecode.scias.util.DeploymentBuilder;
 public class AbstractMalariaServiceIT {
     
     //stations
+    protected static final int STATION1_ID = 1;
+    protected static final int STATION2_ID = 2;
     protected static final String STATION1_UUID = "aaaaaaaa-1111-2222-3333-bbbbbbbbbbbb";
     protected static final String STATION2_UUID = "f8ffba00-9134-4828-b34d-c03b4b2ee736";
     

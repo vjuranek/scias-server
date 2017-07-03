@@ -8,7 +8,6 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 import java.util.Map;
 
-import javax.ejb.EJBTransactionRolledbackException;
 import javax.inject.Inject;
 
 import org.jboss.arquillian.junit.Arquillian;
@@ -50,7 +49,19 @@ public class SampleServiceIT extends AbstractMalariaServiceIT {
     
     @Test
     @ApplyScriptBefore({"populate_db.sql"})
-    public void testGetSampleByLocalId() {
+    public void testGetSampleByLocalIdStationId() {
+        SampleEntity sample = sampleSrv.getSampleByLocalId(100, STATION2_ID);
+        assertNotNull(sample);
+        
+        assertEquals(101, sample.getId());
+        assertFalse(sample.isFinished());
+        assertEquals(101, sample.getBatch().getId());
+        assertEquals(STATION2_UUID, sample.getStation().getUuid());
+    }
+    
+    @Test
+    @ApplyScriptBefore({"populate_db.sql"})
+    public void testGetSampleByLocalIdStationUUID() {
         SampleEntity sample = sampleSrv.getSampleByLocalId(100, STATION2_UUID);
         assertNotNull(sample);
         

@@ -39,7 +39,7 @@ public class ValidationService {
      * @throws IllegalArgumentException
      *             when there is found any problem with incoming request
      */
-    public void checkBatchUploadRequest(Batch batch, Map<String, byte[]> imgMap, String stationId)
+    public void checkBatchUploadRequest(Batch batch, Map<String, byte[]> imgMap, int stationId)
                     throws IllegalArgumentException, NoSuchAlgorithmException {
 
         checkNumberOfImages(batch, imgMap.size()); // check number of images first as it doesn't require any DB query
@@ -51,7 +51,7 @@ public class ValidationService {
 
     }
     
-    public void checkNewBatchUploadRequest(List<Sample> samples, String stationId)
+    public void checkNewBatchUploadRequest(List<Sample> samples, int stationId)
                     throws IllegalArgumentException, NoSuchAlgorithmException {
 
         checkSamplesUnique(samples, stationId);
@@ -66,7 +66,7 @@ public class ValidationService {
      * @throws IllegalArgumentException
      * @throws NoSuchAlgorithmException
      */
-    public void checkAnalysis(Analysis analysis, Map<String, byte[]> imgMap, String stationId)
+    public void checkAnalysis(Analysis analysis, Map<String, byte[]> imgMap, int stationId)
                     throws IllegalArgumentException, NoSuchAlgorithmException {
 
         checkAnalysisImages(analysis, imgMap);
@@ -141,7 +141,7 @@ public class ValidationService {
      * @throws IllegalArgumentException
      *             when batch is already present in server DB
      */
-    public void checkBatchUnique(int batchId, String stationId) throws IllegalArgumentException {
+    public void checkBatchUnique(int batchId, int stationId) throws IllegalArgumentException {
         boolean uploaded = true;
         try {
             uploaded = batchSrv.isBatchUploaded(batchId, stationId);
@@ -165,7 +165,7 @@ public class ValidationService {
      * @throws IllegalArgumentException
      *             when sample is already present in server DB
      */
-    public void checkSamplesUnique(List<Sample> samples, String stationId) throws IllegalArgumentException {
+    public void checkSamplesUnique(List<Sample> samples, int stationId) throws IllegalArgumentException {
         for (Sample sample : samples) {
             checkSampleUnique(sample.getId(), stationId);
         }
@@ -179,7 +179,7 @@ public class ValidationService {
      * @throws IllegalArgumentException
      *             when sample is already present on the server DB
      */
-    public void checkSampleUnique(int sampleId, String stationId) throws IllegalArgumentException {
+    public void checkSampleUnique(int sampleId, int stationId) throws IllegalArgumentException {
         boolean uploaded = true;
         try {
             uploaded = sampleSrv.isSampleUploaded(sampleId, stationId);
@@ -203,7 +203,7 @@ public class ValidationService {
      * @throws IllegalArgumentException
      *             when analysis is already present in server DB
      */
-    public void checkAnalysisUnique(int analysisId, String stationId) throws IllegalArgumentException {
+    public void checkAnalysisUnique(int analysisId, int stationId) throws IllegalArgumentException {
         
         if (analysisSrv.isAnalysisUploaded(analysisId, stationId)) {
             throw new IllegalArgumentException(

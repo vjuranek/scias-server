@@ -70,7 +70,19 @@ public class BatchServiceIT extends AbstractMalariaServiceIT {
     
     @Test
     @ApplyScriptBefore({"populate_db.sql"})
-    public void testGetBatchByLocalId() {
+    public void testGetBatchByLocalIdStationId() {
+        BatchEntity batch = batchService.getBatchByLocalId(100, STATION2_ID);
+        assertNotNull(batch);
+        
+        assertEquals(101, batch.getId());
+        assertFalse(batch.isFinished());
+        assertEquals(STATION2_UUID, batch.getStation().getUuid());
+        assertEquals(PATIENT2_NAME, batch.getPatient().getFirstName());
+    }
+    
+    @Test
+    @ApplyScriptBefore({"populate_db.sql"})
+    public void testGetBatchByLocalIdStationUUID() {
         BatchEntity batch = batchService.getBatchByLocalId(100, STATION2_UUID);
         assertNotNull(batch);
         
