@@ -24,10 +24,10 @@ public class SciasUserEntity implements Serializable {
     @Column(name = "id", unique = true, nullable = false)
     private int id;
     
-    @Column(name = "username", nullable = false, length = 256)
+    @Column(name = "username", nullable = false)
     private String username;
     
-    @Column(name = "password", nullable = false, length = 256)
+    @Column(name = "password", nullable = false)
     private String password;
     
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "sciasUser")

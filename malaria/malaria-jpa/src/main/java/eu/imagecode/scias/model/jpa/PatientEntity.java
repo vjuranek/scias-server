@@ -37,13 +37,13 @@ public class PatientEntity implements Serializable {
     @Column(name = "local_id", nullable = false)
     private int localId;
     
-    @Column(name = "first_name", length = 256)
+    @Column(name = "first_name")
     private String firstName;
     
-    @Column(name = "middle_name", length = 256)
+    @Column(name = "middle_name")
     private String middleName;
     
-    @Column(name = "last_name", length = 256)
+    @Column(name = "last_name")
     private String lastName;
     
     @Temporal(TemporalType.DATE)

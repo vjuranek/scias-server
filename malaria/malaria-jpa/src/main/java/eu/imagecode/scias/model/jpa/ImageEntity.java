@@ -31,13 +31,13 @@ public class ImageEntity implements Serializable {
     @Column(name = "local_id", nullable = false)
     private int localId;
     
-    @Column(name = "path", length = 4096)
+    @Column(name = "path", length = 4095)
     private String path;
     
-    @Column(name = "name", length = 256)
+    @Column(name = "name")
     private String name;
     
-    @Column(name = "sha256", length = 256)
+    @Column(name = "sha256")
     private String sha256;
     
     @Column(name = "width")

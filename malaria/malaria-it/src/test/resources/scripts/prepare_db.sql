@@ -21,15 +21,15 @@ CREATE SEQUENCE client_id_seq INCREMENT BY 50;
 CREATE TABLE IF NOT EXISTS scias_role (
     id integer PRIMARY KEY,
     role VARCHAR(32) NOT NULL,
-    description VARCHAR(256)
+    description VARCHAR(255)
 );
 CREATE SEQUENCE scias_role_id_seq INCREMENT BY 50;
 
 
 CREATE TABLE IF NOT EXISTS scias_user (
     id integer PRIMARY KEY,
-    username VARCHAR(256) NOT NULL,
-    password VARCHAR(256) NOT NULL
+    username VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL
 );
 CREATE SEQUENCE scias_user_id_seq INCREMENT BY 50;
 
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS user_role (
 
 CREATE TABLE IF NOT EXISTS station_group (
     id integer PRIMARY KEY,
-    name varchar(256),
+    name varchar(255),
     parent_group_id integer REFERENCES station_group(id) -- TODO NOT NULL
 );
 CREATE SEQUENCE station_group_id_seq INCREMENT BY 50;
@@ -51,7 +51,7 @@ CREATE SEQUENCE station_group_id_seq INCREMENT BY 50;
 CREATE TABLE IF NOT EXISTS station (
     id integer PRIMARY KEY,
     uuid char(36) UNIQUE NOT NULL,
-    name varchar(256),
+    name varchar(255),
     station_group_id integer REFERENCES station_group(id) -- TODO NOT NULL
 );
 CREATE SEQUENCE station_id_seq INCREMENT BY 50;
@@ -70,9 +70,9 @@ CREATE SEQUENCE locality_id_seq INCREMENT BY 50;
 CREATE TABLE IF NOT EXISTS patient (
     id integer PRIMARY KEY,
     local_id integer NOT NULL,
-    first_name varchar(256),
-    middle_name varchar(256),
-    last_name varchar(256),
+    first_name varchar(255),
+    middle_name varchar(255),
+    last_name varchar(255),
     day_of_birth date,
     station_id integer REFERENCES station(id) -- TODO NOT NULL
 );
@@ -114,7 +114,7 @@ CREATE TABLE IF NOT EXISTS analysis (
     id integer PRIMARY KEY,
     local_id integer NOT NULL,
     created timestamp,
-    algorithm_version varchar(256),
+    algorithm_version varchar(255),
     sample_id integer REFERENCES sample(id),
     result_set_id integer UNIQUE REFERENCES result_set(id), -- TODO NOT NULL
     station_id integer REFERENCES station(id) -- TODO NOT NULL
@@ -135,8 +135,8 @@ CREATE TABLE IF NOT EXISTS image (
     id integer PRIMARY KEY,
     local_id integer NOT NULL,
     path varchar(4096),
-    name varchar(256),
-    sha256 char(256),
+    name varchar(255),
+    sha256 char(255),
     width integer,
     height integer,
     pixel_size double precision,

@@ -23,7 +23,7 @@ public class SciasRoleEntity implements Serializable {
     @Column(name = "role", nullable = false, length = 32)
     private String role;
     
-    @Column(name = "description", length = 256)
+    @Column(name = "description")
     private String description;
 
     public SciasRoleEntity() {

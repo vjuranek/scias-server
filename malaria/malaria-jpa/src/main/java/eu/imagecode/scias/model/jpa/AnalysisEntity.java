@@ -53,7 +53,7 @@ public class AnalysisEntity implements Serializable {
     @Column(name = "created", length = 29)
     private Date created;
 
-    @Column(name = "algorithm_version", length = 256)
+    @Column(name = "algorithm_version")
     private String algorithmVersion;
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "analysis", fetch = FetchType.EAGER)
