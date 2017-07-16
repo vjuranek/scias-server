@@ -3,6 +3,7 @@ package eu.imagecode.scias.service;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -32,6 +33,9 @@ public class BatchService {
     
     @Inject
     private ValidationService validationSrv;
+    
+    @Inject
+    private Logger log;
 
     /**
      * Loads all batches from DB.
@@ -129,6 +133,7 @@ public class BatchService {
             validationSrv.checkNewBatchUploadRequest(batch.getSample(), stationEnt.getId());
             
             // batch doesn't exist yet - create it, included underlying structures like samples
+            log.fine(String.format("Batch with local ID %d from station %s doesn't exists in DB, creating ...", batch.getId(), stationUuid));
             batchEnt = ModelMappers.batchToEntity(batch, stationEnt);
             // populate images with img content
             batchEnt.getSamples().forEach(sampleEnt -> sampleEnt.getAnalyses()
@@ -136,7 +141,7 @@ public class BatchService {
             PatientEntity patient = patientSrv.getPatientByLocalId(batch.getPatient().getId(), stationEnt.getId());
             if (patient != null) {
                 batchEnt.setPatient(patient);
-            }
+            } //TODO can patient be null/not set? If not, throw exception
             em.persist(batchEnt);
         }
         return batchEnt;

@@ -2,6 +2,7 @@ package eu.imagecode.scias.service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -26,7 +27,9 @@ public class SampleService {
 
     @Inject
     private AnalysisService analysisSrv;
-    
+
+    @Inject
+    private Logger log;
 
     /**
      * Loads all samples from DB.
@@ -53,7 +56,7 @@ public class SampleService {
         return em.createNamedQuery("SampleEntity.findByLocalIdAndStation", SampleEntity.class)
                         .setParameter("localId", localId).setParameter("stationID", stationId).getSingleResult();
     }
-    
+
     /**
      * Loads sample with specified local/client ID for given station (local ID has to be unique for one station).
      * 
@@ -71,14 +74,15 @@ public class SampleService {
         return em.createNamedQuery("SampleEntity.findByBatchId", SampleEntity.class).setParameter("batchId", batchId)
                         .getResultList();
     }
-    
+
     /**
      * Checks, whether sample with given local/client ID was already uploaded from given station.
      * 
      */
     public boolean isSampleUploaded(int sampleId, int stationId) {
         try {
-            em.createNamedQuery("SampleEntity.findByLocalIdAndStation", SampleEntity.class).setParameter("localId", sampleId).setParameter("stationID", stationId).getSingleResult();
+            em.createNamedQuery("SampleEntity.findByLocalIdAndStation", SampleEntity.class)
+                            .setParameter("localId", sampleId).setParameter("stationID", stationId).getSingleResult();
         } catch (NoResultException e) {
             return false;
         } catch (NonUniqueResultException e) {
@@ -86,14 +90,16 @@ public class SampleService {
         }
         return true;
     }
-    
+
     /**
      * Checks, whether sample with given local/client ID was already uploaded from given station.
      * 
      */
     public boolean isSampleUploaded(int sampleId, String stationUuid) {
         try {
-            em.createNamedQuery("SampleEntity.findByLocalIdAndStationUuid", SampleEntity.class).setParameter("localId", sampleId).setParameter("stationUUID", stationUuid).getSingleResult();
+            em.createNamedQuery("SampleEntity.findByLocalIdAndStationUuid", SampleEntity.class)
+                            .setParameter("localId", sampleId).setParameter("stationUUID", stationUuid)
+                            .getSingleResult();
         } catch (NoResultException e) {
             return false;
         } catch (NonUniqueResultException e) {
@@ -117,9 +123,18 @@ public class SampleService {
                     Functions.populateImages(analysisEnt, imgMap); // populate images with img content
                     analysisEnt.setSample(sampleEnt);
                     sampleEnt.getAnalyses().add(analysisEnt);
+                    log.fine(String.format(
+                                    "[Sample %d]: Analysis with local ID %d from station %s uploaded into database",
+                                    sampleEnt.getId(), analysis.getId(), stationEnt.getUuid()));
+                } else {
+                    log.fine(String.format(
+                                    "[Sample %d]: Analysis with local ID %d from station %s already contained in DB, skipping upload.",
+                                    sampleEnt.getId(), analysis.getId(), stationEnt.getUuid()));
                 }
             }
         } catch (NoResultException e) {
+            log.fine(String.format("Sample with local ID %d from station %s doesn't exist in DB, creating...",
+                            sample.getId(), stationEnt.getUuid()));
             // sample doesn't exist yet - create it, included underlying structures like analysis
             sampleEnt = ModelMappers.sampleToEntity(sample, stationEnt);
             // populate images with img content

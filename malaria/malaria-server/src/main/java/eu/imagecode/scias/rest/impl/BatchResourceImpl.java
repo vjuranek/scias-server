@@ -2,9 +2,9 @@ package eu.imagecode.scias.rest.impl;
 
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import javax.ejb.EJBException;
-import javax.ejb.EJBTransactionRolledbackException;
 import javax.inject.Inject;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -28,6 +28,9 @@ public class BatchResourceImpl implements BatchResource {
 
     @Inject
     private BatchService batchSrv;
+    
+    @Inject
+    private Logger log;
 
     private String stationId;
 
@@ -37,6 +40,7 @@ public class BatchResourceImpl implements BatchResource {
         // load batch from the request
         List<InputPart> batchParts = parts.get(MULTIPART_NAME_BATCH);
         if (batchParts.size() == 0) {
+            log.info(String.format("Invalid request - doesn't contain any batch part, returnig HTTP 400. (Contains %d parts).", input.getParts().size()));
             return Response.status(Status.BAD_REQUEST).header(HEADER_ERROR_MSG,
                             String.format("Multipart form don't contain any %s section!", MULTIPART_NAME_BATCH))
                             .build();

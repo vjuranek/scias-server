@@ -3,6 +3,7 @@ package eu.imagecode.scias.service;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -20,10 +21,10 @@ public class ValidationService {
 
     @Inject
     BatchService batchSrv;
-    
+
     @Inject
     SampleService sampleSrv;
-    
+
     @Inject
     AnalysisService analysisSrv;
 
@@ -44,18 +45,16 @@ public class ValidationService {
 
         checkNumberOfImages(batch, imgMap.size()); // check number of images first as it doesn't require any DB query
         checkBatchUnique(batch.getId(), stationId);
-        
+
         for (Analysis ae : Functions.analysesFromBatch(batch)) {
             checkAnalysis(ae, imgMap, stationId);
         }
 
     }
-    
+
     public void checkNewBatchUploadRequest(List<Sample> samples, int stationId)
                     throws IllegalArgumentException, NoSuchAlgorithmException {
-
         checkSamplesUnique(samples, stationId);
-
     }
 
     /**
@@ -156,7 +155,7 @@ public class ValidationService {
                                             batchId, stationId));
         }
     }
-    
+
     /**
      * Check if each of the {@link Sample}s in thr batch is not uploaded on the server
      * 
@@ -170,7 +169,7 @@ public class ValidationService {
             checkSampleUnique(sample.getId(), stationId);
         }
     }
-    
+
     /**
      * Check if the {@link Sample} is already uploaded in server
      * 
@@ -194,7 +193,7 @@ public class ValidationService {
                                             sampleId, stationId));
         }
     }
-    
+
     /**
      * Check if the analysis is already uploaded in server
      * 
@@ -204,13 +203,13 @@ public class ValidationService {
      *             when analysis is already present in server DB
      */
     public void checkAnalysisUnique(int analysisId, int stationId) throws IllegalArgumentException {
-        
+
         if (analysisSrv.isAnalysisUploaded(analysisId, stationId)) {
             throw new IllegalArgumentException(
                             String.format("Analysis with local ID %s from station %s is already uploaded in server DB",
                                             analysisId, stationId));
         }
-        
+
     }
 
 }
