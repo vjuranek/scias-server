@@ -18,6 +18,12 @@ import eu.imagecode.scias.rest.BatchResource;
 import eu.imagecode.scias.service.BatchService;
 import eu.imagecode.scias.util.SciasFunctions;
 
+/**
+ * Implementation of {@link BatchResource. Does most of the actual work as it handles {@link Batch} uploads.
+ * 
+ * @author vjuranek
+ *
+ */
 public class BatchResourceImpl implements BatchResource {
 
     // TODO move to some global config
@@ -28,7 +34,7 @@ public class BatchResourceImpl implements BatchResource {
 
     @Inject
     private BatchService batchSrv;
-    
+
     @Inject
     private Logger log;
 
@@ -40,7 +46,9 @@ public class BatchResourceImpl implements BatchResource {
         // load batch from the request
         List<InputPart> batchParts = parts.get(MULTIPART_NAME_BATCH);
         if (batchParts.size() == 0) {
-            log.info(String.format("Invalid request - doesn't contain any batch part, returnig HTTP 400. (Contains %d parts).", input.getParts().size()));
+            log.info(String.format(
+                            "Invalid request - doesn't contain any batch part, returnig HTTP 400. (Contains %d parts).",
+                            input.getParts().size()));
             return Response.status(Status.BAD_REQUEST).header(HEADER_ERROR_MSG,
                             String.format("Multipart form don't contain any %s section!", MULTIPART_NAME_BATCH))
                             .build();
@@ -54,7 +62,7 @@ public class BatchResourceImpl implements BatchResource {
         try {
             BatchEntity be = batchSrv.uploadBatch(batch, imgMap, stationId);
             return Response.ok().header(HEADER_BATCH_ID, be.getId()).build();
-        } catch (IllegalArgumentException | EJBException  e) {
+        } catch (IllegalArgumentException | EJBException e) {
             return Response.status(Status.BAD_REQUEST).header(HEADER_ERROR_MSG, e.getMessage()).build();
         }
     }

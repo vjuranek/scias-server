@@ -9,6 +9,12 @@ import javax.persistence.NoResultException;
 
 import eu.imagecode.scias.model.jpa.PatientEntity;
 
+/**
+ * Service for manipulating with patients. Currently only load patients or queries DB for some facts about patient.
+ * 
+ * @author vjuranek
+ *
+ */
 @Stateless
 public class PatientService {
     

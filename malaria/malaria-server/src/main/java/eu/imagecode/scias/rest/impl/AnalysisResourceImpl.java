@@ -11,6 +11,12 @@ import eu.imagecode.scias.rest.AnalysisResource;
 import eu.imagecode.scias.service.AnalysisService;
 import eu.imagecode.scias.util.ModelMappers;
 
+/**
+ * Implementation of {@link AnalysisResourceImpl}.
+ * 
+ * @author vjuranek
+ *
+ */
 public class AnalysisResourceImpl implements AnalysisResource {
 
     @Inject

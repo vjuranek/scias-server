@@ -19,6 +19,12 @@ import eu.imagecode.scias.model.rest.malaria.Sample;
 import eu.imagecode.scias.util.Functions;
 import eu.imagecode.scias.util.ModelMappers;
 
+/**
+ * Service for manipulation with samples.
+ * 
+ * @author vjuranek
+ *
+ */
 @Stateless
 public class SampleService {
 

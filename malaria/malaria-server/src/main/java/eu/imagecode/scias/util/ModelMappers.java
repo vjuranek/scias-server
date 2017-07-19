@@ -31,6 +31,12 @@ import eu.imagecode.scias.model.rest.malaria.Sample;
 import eu.imagecode.scias.model.rest.malaria.UnclassifiedObject;
 import eu.imagecode.scias.model.rest.malaria.User;
 
+/**
+ * Set of convertors which translates REST entities to JPA entities and vice versa.
+ * 
+ * @author vjuranek
+ *
+ */
 public class ModelMappers {
 
     public static BatchEntity batchToEntity(Batch batch, StationEntity station) {
@@ -53,10 +59,11 @@ public class ModelMappers {
         batch.setFinished(ent.isFinished());
         batch.setPatient(entityToPatient(ent.getPatient()));
         List<Sample> samples = batch.getSample();
-        entsToSamplesList(ent.getSamples()).forEach(sample -> samples.add(sample));;
+        entsToSamplesList(ent.getSamples()).forEach(sample -> samples.add(sample));
+        ;
         return batch;
     }
-    
+
     public static List<SampleEntity> samplesListToEntities(List<Sample> samples, StationEntity station) {
         return samples.stream().map(sample -> sampleToEntity(sample, station)).collect(Collectors.toList());
     }
@@ -64,7 +71,7 @@ public class ModelMappers {
     public static List<Sample> entsToSamplesList(List<SampleEntity> ents) {
         return ents.stream().map(ent -> entityToSample(ent)).collect(Collectors.toList());
     }
-    
+
     public static SampleEntity sampleToEntity(Sample sample, StationEntity stationEnt) {
         SampleEntity ent = new SampleEntity();
         ent.setLocalId(sample.getId());
@@ -90,7 +97,7 @@ public class ModelMappers {
         entsToAnalysesList(ent.getAnalyses()).forEach(analysis -> analyses.add(analysis));
         return sample;
     }
-    
+
     public static PatientEntity patientToEntity(Patient patient, StationEntity stationEnt) {
         PatientEntity ent = new PatientEntity();
         ent.setLocalId(patient.getId());
@@ -100,7 +107,7 @@ public class ModelMappers {
         ent.setStation(stationEnt);
         return ent;
     }
-    
+
     public static Patient entityToPatient(PatientEntity ent) {
         Patient patient = new Patient();
         patient.setId(ent.getLocalId());
@@ -110,7 +117,7 @@ public class ModelMappers {
         patient.setMiddleName(ent.getMiddleName());
         return patient;
     }
-    
+
     public static LocalityEntity localityToEntity(Locality locality) {
         LocalityEntity ent = new LocalityEntity();
         ent.setLocalId(locality.getId());
@@ -119,7 +126,7 @@ public class ModelMappers {
         ent.setLongtitude(locality.getLongtitude());
         return ent;
     }
-    
+
     public static Locality entityToLocality(LocalityEntity ent) {
         Locality locality = new Locality();
         locality.setId(ent.getLocalId());
@@ -128,7 +135,7 @@ public class ModelMappers {
         locality.setLongtitude(ent.getLongtitude());
         return locality;
     }
-    
+
     public static List<AnalysisEntity> analysesListToEntities(List<Analysis> analyses, StationEntity station) {
         return analyses.stream().map(analysis -> analysisToEntity(analysis, station)).collect(Collectors.toList());
     }
@@ -136,7 +143,7 @@ public class ModelMappers {
     public static List<Analysis> entsToAnalysesList(List<AnalysisEntity> ents) {
         return ents.stream().map(ent -> entityToAnalysis(ent)).collect(Collectors.toList());
     }
-    
+
     public static AnalysisEntity analysisToEntity(Analysis anal, StationEntity station) {
         AnalysisEntity analEnt = new AnalysisEntity();
         analEnt.setLocalId(anal.getId());
@@ -310,7 +317,7 @@ public class ModelMappers {
         if (mimeType == null) {
             throw new IllegalStateException("Mime type cannot be null");
         }
-        
+
         switch (mimeType) {
         case IMAGE_JPEG:
             return MimeTypeEntity.IMAGE_JPEG;
@@ -327,7 +334,7 @@ public class ModelMappers {
         if (ent == null) {
             throw new IllegalStateException("Mime type cannot be null");
         }
-        
+
         switch (ent) {
         case IMAGE_JPEG:
             return MimeType.IMAGE_JPEG;

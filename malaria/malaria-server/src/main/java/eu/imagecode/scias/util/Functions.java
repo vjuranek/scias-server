@@ -12,6 +12,12 @@ import eu.imagecode.scias.model.rest.malaria.Analysis;
 import eu.imagecode.scias.model.rest.malaria.Batch;
 import eu.imagecode.scias.model.rest.malaria.Image;
 
+/**
+ * Contains simple function used in various places of the app.
+ * 
+ * @author vjuranek
+ *
+ */
 public class Functions {
 
     /**

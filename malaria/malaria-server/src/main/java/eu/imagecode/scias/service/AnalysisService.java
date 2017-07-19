@@ -11,6 +11,12 @@ import javax.persistence.NonUniqueResultException;
 
 import eu.imagecode.scias.model.jpa.AnalysisEntity;
 
+/**
+ * Service for manipulating with analyses.
+ * 
+ * @author vjuranek
+ *
+ */
 @Stateless
 public class AnalysisService {
 

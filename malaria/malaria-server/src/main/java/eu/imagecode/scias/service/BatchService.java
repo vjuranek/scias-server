@@ -19,6 +19,12 @@ import eu.imagecode.scias.model.rest.malaria.Sample;
 import eu.imagecode.scias.util.Functions;
 import eu.imagecode.scias.util.ModelMappers;
 
+/**
+ * Service for manipulating with batches. 
+ * 
+ * @author vjuranek
+ *
+ */
 @Stateless
 public class BatchService {
 
@@ -147,6 +153,13 @@ public class BatchService {
         return batchEnt;
     }
 
+    /**
+     * Loads station entity based on its UUID.
+     * 
+     * @param stationUuid UUID of the station
+     * @return {@link StationEntity} with given UUID.
+     * @throws IllegalArgumentException
+     */
     private StationEntity getStationByUuid(String stationUuid) throws IllegalArgumentException {
         try {
             return em.createNamedQuery("StationEntity.findByUuid", StationEntity.class)
