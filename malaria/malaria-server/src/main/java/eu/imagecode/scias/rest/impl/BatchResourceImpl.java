@@ -12,6 +12,7 @@ import javax.ws.rs.core.Response.Status;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
+import eu.imagecode.scias.conf.MalariaConf;
 import eu.imagecode.scias.model.jpa.BatchEntity;
 import eu.imagecode.scias.model.rest.malaria.Batch;
 import eu.imagecode.scias.rest.BatchResource;
@@ -26,11 +27,21 @@ import eu.imagecode.scias.util.SciasFunctions;
  */
 public class BatchResourceImpl implements BatchResource {
 
-    // TODO move to some global config
-    public static final String MULTIPART_NAME_BATCH = "batch";
-    public static final String MULTIPART_NAME_IMAGES = "images";
-    public static final String HEADER_BATCH_ID = "BatchID";
-    public static final String HEADER_ERROR_MSG = "ErrorMsg";
+    @Inject
+    @MalariaConf("req.part.batch.name")
+    public String MULTIPART_NAME_BATCH;
+    
+    @Inject
+    @MalariaConf("req.part.img.name")
+    public String MULTIPART_NAME_IMAGES;
+    
+    @Inject
+    @MalariaConf("resp.header.batch.name")
+    public String HEADER_BATCH_ID;
+    
+    @Inject
+    @MalariaConf("resp.header.error.name")
+    public String HEADER_ERROR_MSG;
 
     @Inject
     private BatchService batchSrv;
