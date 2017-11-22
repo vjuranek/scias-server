@@ -5,6 +5,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -128,6 +132,24 @@ public class SciasFunctions {
         md.update(bytes);
         return md.digest();
 
+    }
+    
+    /**
+     * Converts date represented as string into {@link Timestamp}.
+     * 
+     * @param day date in format YYYY-MM-DD
+     * @return {@link Timestamp} corresponding to provided string representration of the date 
+     */
+    public static Timestamp dayStringToTimestamp(String day) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date d;
+        try  {
+            d = format.parse(day);
+        } catch(ParseException e) {
+            throw new IllegalArgumentException(String.format("Wrong date format '%s', expected format is 'YYYY-MM-DD'", day));
+        }
+        return new Timestamp(d.getTime());
+        
     }
 
 }

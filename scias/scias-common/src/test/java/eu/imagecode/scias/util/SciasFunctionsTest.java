@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
+import java.sql.Timestamp;
 
 import javax.ws.rs.core.MultivaluedMap;
 
@@ -52,6 +53,16 @@ public class SciasFunctionsTest {
                         .getPath(ImageServiceTest.class.getClassLoader().getResource(TEST_IMG1).getPath()));
         String sha256 = SciasFunctions.digestToString(SciasFunctions.byteDigest(inBytes));
         assertEquals(IMG1_SHA256, sha256);
+    }
+    
+    @Test
+    public void testDayStringToTimestamp() {
+        assertEquals(new Timestamp(1511305200000L), SciasFunctions.dayStringToTimestamp("2017-11-22"));
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testDayStringToTimestampWrongFormat() {
+        SciasFunctions.dayStringToTimestamp("2017/11/22");
     }
     
 }
