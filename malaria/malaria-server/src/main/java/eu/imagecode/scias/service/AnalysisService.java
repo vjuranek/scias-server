@@ -1,5 +1,6 @@
 package eu.imagecode.scias.service;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,6 +66,18 @@ public class AnalysisService {
      */
     public AnalysisEntity getAnalysisByLocalId(int analysisId, String stationUuid) {
         return em.createNamedQuery("AnalysisEntity.findByLocalIdAndStationUuid", AnalysisEntity.class).setParameter("localId", analysisId).setParameter("stationUUID", stationUuid).getSingleResult();
+    }
+    
+    /**
+     * Loads all analyses in specified time range.
+     * 
+     */
+    public List<AnalysisEntity> getAnalysisInTimeRange(Timestamp from, Timestamp to) {
+        try {
+            return em.createNamedQuery("AnalysisEntity.findInTimeRange", AnalysisEntity.class).setParameter("from", from).setParameter("to", to).getResultList();
+        } catch (NoResultException e) {
+            return new ArrayList<AnalysisEntity>();
+        }
     }
     
     

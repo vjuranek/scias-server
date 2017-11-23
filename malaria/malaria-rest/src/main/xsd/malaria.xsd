@@ -14,7 +14,18 @@
             </xs:sequence>
         </xs:complexType>
     </xs:element>
-    
+
+    <!-- the root element -->
+    <xs:element name="analysis-set">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element name="analysis" type="tns:analysis" minOccurs="1" />
+                </xs:choice>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
     <xs:complexType name="sample">
         <xs:sequence>
             <xs:element name="id" type="xs:integer" />
@@ -75,7 +86,7 @@
             <xs:element name="pixelSize" type="xs:double" />
             <xs:element name="height" type="xs:integer" />
             <xs:element name="width" type="xs:integer" />
-            <xs:element name="mimeType" type="tns:mime-type"/>
+            <xs:element name="mimeType" type="tns:mime-type" />
         </xs:sequence>
     </xs:complexType>
 
@@ -113,7 +124,7 @@
             </xs:choice>
         </xs:sequence>
     </xs:complexType>
-    
+
     <xs:simpleType name="mime-type"> <!--we support the following formats only -->
         <xs:restriction base="xs:string">
             <xs:enumeration value="image/jpeg" />
@@ -121,7 +132,7 @@
             <xs:enumeration value="image/tiff" />
         </xs:restriction>
     </xs:simpleType>
-    
+
     <xs:complexType name="user">
         <xs:sequence>
             <xs:element name="id" type="xs:integer" />
@@ -129,7 +140,7 @@
             <xs:element name="surname" type="xs:string" />
         </xs:sequence>
     </xs:complexType>
-    
+
     <xs:element name="user" type="tns:user" />
     <xs:element name="analysis" type="tns:analysis" />
 
