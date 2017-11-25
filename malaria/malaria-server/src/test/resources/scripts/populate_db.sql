@@ -27,7 +27,9 @@ INSERT INTO sample(id, local_id, created, update_time, finished, batch_id, stati
 
 --- Result sets
 INSERT INTO result_set(id, local_id) VALUES (100, 100);
+INSERT INTO result_set(id, local_id) VALUES (101, 101);
 
 -- Analyses
 INSERT INTO analysis(id, local_id, created, algorithm_version, sample_id, result_set_id, station_id) VALUES (100, 100, now(), 1.0, 100, 100, 1);
+INSERT INTO analysis(id, local_id, created, algorithm_version, sample_id, result_set_id, station_id) VALUES (101, 101, PARSEDATETIME('25-11-2016 22:00:00.00', 'dd-MM-yyyy hh:mm:ss.SS'), 1.0, 100, 101, 1);
 
