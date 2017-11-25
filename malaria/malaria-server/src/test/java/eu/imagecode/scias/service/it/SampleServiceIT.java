@@ -145,7 +145,7 @@ public class SampleServiceIT extends AbstractMalariaServiceIT {
         assertNotNull(testSample);
         
         List<AnalysisEntity> anals = testSample.getAnalyses();
-        assertEquals(2, anals.size()); //one analysis created by DB init script
+        assertEquals(3, anals.size()); //two analyses created by DB init script
     }
     
     @Test
@@ -195,6 +195,6 @@ public class SampleServiceIT extends AbstractMalariaServiceIT {
         assertEquals(1, anals.size());
         
         anals = analysisSrv.getAnalysisByBatchId(100);
-        assertEquals(2, anals.size()); //one analysis already crated by DB init script
+        assertEquals(3, anals.size()); //two analysis already crated by DB init script
     }
 }
