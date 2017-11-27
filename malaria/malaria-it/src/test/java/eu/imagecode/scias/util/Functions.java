@@ -4,11 +4,20 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.BatchUpdateException;
 import java.util.Scanner;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
 
 public class Functions {
 
     public static final String EOF_REG_EXP = "\\A";
+    
+    public static final String MULTIPART_NAME_BATCH = "batch";
+    public static final String MULTIPART_NAME_IMAGES = "images";
+    private static final String IMG_DIR = "img";
 
     /**
      * Gets {@link InputStream} of the class path resource.
@@ -46,6 +55,25 @@ public class Functions {
         } 
     }
 
+    /**
+     * Prepares Batch {@link HttpEntity} for POST request
+     *  
+     * @param batchPath  path to XML batch file
+     * @param imgs images to be attached to the batch
+     * @return {@link HttpEntity} for given batch
+     * @throws Exception
+     */
+    public static HttpEntity prepareBatchHttpEntity(String batchPath, String... imgs) throws Exception {
+        MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+        builder.addTextBody(MULTIPART_NAME_BATCH, Functions.loadResourceAsString(batchPath),
+                        ContentType.APPLICATION_XML);
+        for (String img : imgs) {
+            builder.addBinaryBody(MULTIPART_NAME_IMAGES, Functions.getResourceStream(IMG_DIR + "/" + img),
+                            ContentType.APPLICATION_OCTET_STREAM, img);
+        }
+        return builder.build();
+    }
+    
     
     private static String readStreamContent(InputStream stream) {
         String content = null;
