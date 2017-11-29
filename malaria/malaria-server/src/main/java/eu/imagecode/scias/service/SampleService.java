@@ -42,7 +42,7 @@ public class SampleService {
      * 
      */
     public List<SampleEntity> getAllSamples() {
-        return em.createNamedQuery("SampleEntity.findAll", SampleEntity.class).getResultList();
+        return em.createNamedQuery(SampleEntity.QUERY_FIND_ALL, SampleEntity.class).getResultList();
     }
 
     /**
@@ -50,7 +50,7 @@ public class SampleService {
      * 
      */
     public SampleEntity getSampleById(int id) {
-        return em.createNamedQuery("SampleEntity.findById", SampleEntity.class).setParameter("sampleId", id)
+        return em.createNamedQuery(SampleEntity.QUERY_FIND_BY_ID, SampleEntity.class).setParameter("sampleId", id)
                         .getSingleResult();
     }
 
@@ -59,7 +59,7 @@ public class SampleService {
      * 
      */
     public SampleEntity getSampleByLocalId(int localId, int stationId) {
-        return em.createNamedQuery("SampleEntity.findByLocalIdAndStation", SampleEntity.class)
+        return em.createNamedQuery(SampleEntity.QUERY_FIND_BY_LOCAL_ID_AND_STATION, SampleEntity.class)
                         .setParameter("localId", localId).setParameter("stationID", stationId).getSingleResult();
     }
 
@@ -68,7 +68,7 @@ public class SampleService {
      * 
      */
     public SampleEntity getSampleByLocalId(int localId, String stationUuid) {
-        return em.createNamedQuery("SampleEntity.findByLocalIdAndStationUuid", SampleEntity.class)
+        return em.createNamedQuery(SampleEntity.QUERY_FIND_BY_LOCAL_ID_AND_STATION_UUID, SampleEntity.class)
                         .setParameter("localId", localId).setParameter("stationUUID", stationUuid).getSingleResult();
     }
 
@@ -77,7 +77,7 @@ public class SampleService {
      * 
      */
     public List<SampleEntity> getSamplesByBatchId(int batchId) {
-        return em.createNamedQuery("SampleEntity.findByBatchId", SampleEntity.class).setParameter("batchId", batchId)
+        return em.createNamedQuery(SampleEntity.QUERY_FIND_BY_BATCH_ID, SampleEntity.class).setParameter("batchId", batchId)
                         .getResultList();
     }
 
@@ -87,7 +87,7 @@ public class SampleService {
      */
     public boolean isSampleUploaded(int sampleId, int stationId) {
         try {
-            em.createNamedQuery("SampleEntity.findByLocalIdAndStation", SampleEntity.class)
+            em.createNamedQuery(SampleEntity.QUERY_FIND_BY_LOCAL_ID_AND_STATION, SampleEntity.class)
                             .setParameter("localId", sampleId).setParameter("stationID", stationId).getSingleResult();
         } catch (NoResultException e) {
             return false;
@@ -103,7 +103,7 @@ public class SampleService {
      */
     public boolean isSampleUploaded(int sampleId, String stationUuid) {
         try {
-            em.createNamedQuery("SampleEntity.findByLocalIdAndStationUuid", SampleEntity.class)
+            em.createNamedQuery(SampleEntity.QUERY_FIND_BY_LOCAL_ID_AND_STATION_UUID, SampleEntity.class)
                             .setParameter("localId", sampleId).setParameter("stationUUID", stationUuid)
                             .getSingleResult();
         } catch (NoResultException e) {

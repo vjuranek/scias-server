@@ -23,13 +23,19 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "sample")
 @NamedQueries({
-    @NamedQuery(name = "SampleEntity.findAll", query = "SELECT s FROM SampleEntity s"),
-    @NamedQuery(name = "SampleEntity.findById", query = "SELECT s FROM SampleEntity s WHERE s.id = :sampleId"),
-    @NamedQuery(name = "SampleEntity.findByLocalIdAndStation", query = "select s from SampleEntity s where s.localId = :localId and s.station.id = :stationID"),
-    @NamedQuery(name = "SampleEntity.findByLocalIdAndStationUuid", query = "select s from SampleEntity s, StationEntity st where s.localId = :localId and s.station.id = st.id and st.uuid = :stationUUID"),
-    @NamedQuery(name = "SampleEntity.findByBatchId", query = "select s from SampleEntity s where s.batch.id = :batchId")
+    @NamedQuery(name = SampleEntity.QUERY_FIND_ALL, query = "SELECT s FROM SampleEntity s"),
+    @NamedQuery(name = SampleEntity.QUERY_FIND_BY_ID, query = "SELECT s FROM SampleEntity s WHERE s.id = :sampleId"),
+    @NamedQuery(name = SampleEntity.QUERY_FIND_BY_LOCAL_ID_AND_STATION, query = "select s from SampleEntity s where s.localId = :localId and s.station.id = :stationID"),
+    @NamedQuery(name = SampleEntity.QUERY_FIND_BY_LOCAL_ID_AND_STATION_UUID, query = "select s from SampleEntity s, StationEntity st where s.localId = :localId and s.station.id = st.id and st.uuid = :stationUUID"),
+    @NamedQuery(name = SampleEntity.QUERY_FIND_BY_BATCH_ID, query = "select s from SampleEntity s where s.batch.id = :batchId")
 })
 public class SampleEntity implements Serializable {
+    
+    public static final String QUERY_FIND_ALL = "SampleEntity.findAll";
+    public static final String QUERY_FIND_BY_ID = "SampleEntity.findById";
+    public static final String QUERY_FIND_BY_LOCAL_ID_AND_STATION = "SampleEntity.findByLocalIdAndStation";
+    public static final String QUERY_FIND_BY_LOCAL_ID_AND_STATION_UUID = "SampleEntity.findByLocalIdAndStationUuid";
+    public static final String QUERY_FIND_BY_BATCH_ID = "SampleEntity.findByBatchId";
 
     @Id
     @SequenceGenerator(name = "SAMPLE_ID_GENERATOR", sequenceName = "SAMPLE_ID_SEQ")

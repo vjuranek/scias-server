@@ -20,12 +20,16 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "station")
 @NamedQueries( {
-    @NamedQuery(name = "StationEntity.findAll", query = "SELECT s FROM StationEntity s"),
-    @NamedQuery(name = "StationEntity.findById", query = "SELECT s FROM StationEntity s WHERE s.id = :stationId"),
-    @NamedQuery(name = "StationEntity.findByUuid", query = "SELECT s FROM StationEntity s WHERE s.uuid = :stationUuid")
+    @NamedQuery(name = StationEntity.QUERY_FIND_ALL, query = "SELECT s FROM StationEntity s"),
+    @NamedQuery(name = StationEntity.QUERY_FIND_BY_ID, query = "SELECT s FROM StationEntity s WHERE s.id = :stationId"),
+    @NamedQuery(name = StationEntity.QUERY_FIND_BY_UUID, query = "SELECT s FROM StationEntity s WHERE s.uuid = :stationUuid")
 })
 public class StationEntity implements Serializable {
     private static final long serialVersionUID = 1L;
+    
+    public static final String QUERY_FIND_ALL = "StationEntity.findAll";
+    public static final String QUERY_FIND_BY_ID = "StationEntity.findById";
+    public static final String QUERY_FIND_BY_UUID = "StationEntity.findByUuid";
 
     @Id
     @SequenceGenerator(name = "STATION_ID_GENERATOR", sequenceName = "STATION_ID_SEQ")

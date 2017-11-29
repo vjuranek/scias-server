@@ -24,12 +24,17 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "batch")
 @NamedQueries({
-    @NamedQuery(name = "BatchEntity.findAll", query = "SELECT b FROM BatchEntity b"),
-    @NamedQuery(name = "BatchEntity.findById", query = "SELECT b FROM BatchEntity b WHERE b.id = :batchId"),
-    @NamedQuery(name = "BatchEntity.findByLocalIdAndStation", query = "select b from BatchEntity b where b.localId = :localId and b.station.id = :stationID"),
-    @NamedQuery(name = "BatchEntity.findByLocalIdAndStationUuid", query = "select b from BatchEntity b, StationEntity s where b.localId = :localId and b.station.id = s.id and s.uuid = :stationUUID")
+    @NamedQuery(name = BatchEntity.QUERY_FIND_ALL, query = "SELECT b FROM BatchEntity b"),
+    @NamedQuery(name = BatchEntity.QUERY_FIND_BY_ID, query = "SELECT b FROM BatchEntity b WHERE b.id = :batchId"),
+    @NamedQuery(name = BatchEntity.QUERY_FIND_BY_LOCAL_ID_AND_STATION, query = "select b from BatchEntity b where b.localId = :localId and b.station.id = :stationID"),
+    @NamedQuery(name = BatchEntity.QUERY_FIND_BY_LOCAL_ID_AND_STATION_UUID, query = "select b from BatchEntity b, StationEntity s where b.localId = :localId and b.station.id = s.id and s.uuid = :stationUUID")
 })
 public class BatchEntity implements Serializable {
+    
+    public static final String QUERY_FIND_ALL = "BatchEntity.findAll";
+    public static final String QUERY_FIND_BY_ID = "BatchEntity.findById";
+    public static final String QUERY_FIND_BY_LOCAL_ID_AND_STATION = "BatchEntity.findByLocalIdAndStation";
+    public static final String QUERY_FIND_BY_LOCAL_ID_AND_STATION_UUID = "BatchEntity.findByLocalIdAndStationUuid";
 
     @Id
     @SequenceGenerator(name = "BATCH_ID_GENERATOR", sequenceName = "BATCH_ID_SEQ")

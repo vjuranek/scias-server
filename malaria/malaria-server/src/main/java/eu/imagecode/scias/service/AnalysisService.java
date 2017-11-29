@@ -29,7 +29,7 @@ public class AnalysisService {
      *
      */
     public List<AnalysisEntity> getAllAnalyses() {
-        return em.createNamedQuery("AnalysisEntity.findAll", AnalysisEntity.class).getResultList();
+        return em.createNamedQuery(AnalysisEntity.QUERY_FIND_ALL, AnalysisEntity.class).getResultList();
     }
 
     /**
@@ -37,7 +37,7 @@ public class AnalysisService {
      *
      */
     public AnalysisEntity getAnalysisById(int id) {
-        return em.createNamedQuery("AnalysisEntity.findById", AnalysisEntity.class).setParameter("analysisId", id).getSingleResult();
+        return em.createNamedQuery(AnalysisEntity.QUERY_FIND_BY_ID, AnalysisEntity.class).setParameter("analysisId", id).getSingleResult();
     }
     
     /**
@@ -46,7 +46,7 @@ public class AnalysisService {
      */
     public List<AnalysisEntity> getAnalysisByBatchId(int batchId) {
         try {
-            return em.createNamedQuery("AnalysisEntity.findByBatchId", AnalysisEntity.class).setParameter("batchId", batchId).getResultList();
+            return em.createNamedQuery(AnalysisEntity.QUERY_FIND_BY_BATCH_ID, AnalysisEntity.class).setParameter("batchId", batchId).getResultList();
         } catch (NoResultException e) {
             return new ArrayList<AnalysisEntity>();
         }
@@ -57,7 +57,7 @@ public class AnalysisService {
      * 
      */
     public AnalysisEntity getAnalysisByLocalId(int analysisId, int stationId) {
-        return em.createNamedQuery("AnalysisEntity.findByLocalIdAndStation", AnalysisEntity.class).setParameter("localId", analysisId).setParameter("stationID", stationId).getSingleResult();
+        return em.createNamedQuery(AnalysisEntity.QUERY_FIND_BY_LOCAL_ID_AND_STATION, AnalysisEntity.class).setParameter("localId", analysisId).setParameter("stationID", stationId).getSingleResult();
     }
     
     /**
@@ -65,7 +65,7 @@ public class AnalysisService {
      * 
      */
     public AnalysisEntity getAnalysisByLocalId(int analysisId, String stationUuid) {
-        return em.createNamedQuery("AnalysisEntity.findByLocalIdAndStationUuid", AnalysisEntity.class).setParameter("localId", analysisId).setParameter("stationUUID", stationUuid).getSingleResult();
+        return em.createNamedQuery(AnalysisEntity.QUERY_FIND_BY_LOCAL_ID_AND_STATION_UUID, AnalysisEntity.class).setParameter("localId", analysisId).setParameter("stationUUID", stationUuid).getSingleResult();
     }
     
     /**
@@ -74,7 +74,7 @@ public class AnalysisService {
      */
     public List<AnalysisEntity> getAnalysisInTimeRange(Timestamp from, Timestamp to) {
         try {
-            return em.createNamedQuery("AnalysisEntity.findInTimeRange", AnalysisEntity.class).setParameter("from", from).setParameter("to", to).getResultList();
+            return em.createNamedQuery(AnalysisEntity.QUERY_FIND_IN_TIME_RANGE, AnalysisEntity.class).setParameter("from", from).setParameter("to", to).getResultList();
         } catch (NoResultException e) {
             return new ArrayList<AnalysisEntity>();
         }
@@ -87,7 +87,7 @@ public class AnalysisService {
      */
     public boolean isAnalysisUploaded(int analysisId, int stationId) {
         try {
-            em.createNamedQuery("AnalysisEntity.findByLocalIdAndStation", AnalysisEntity.class).setParameter("localId", analysisId).setParameter("stationID", stationId).getSingleResult();
+            em.createNamedQuery(AnalysisEntity.QUERY_FIND_BY_LOCAL_ID_AND_STATION, AnalysisEntity.class).setParameter("localId", analysisId).setParameter("stationID", stationId).getSingleResult();
         } catch (NoResultException e) {
             return false;
         } catch (NonUniqueResultException e) {
@@ -103,7 +103,7 @@ public class AnalysisService {
      */
     public boolean isAnalysisUploaded(int analysisId, String stationUuid) {
         try {
-            em.createNamedQuery("AnalysisEntity.findByLocalIdAndStationUuid", AnalysisEntity.class).setParameter("localId", analysisId).setParameter("stationUUID", stationUuid).getSingleResult();
+            em.createNamedQuery(AnalysisEntity.QUERY_FIND_BY_LOCAL_ID_AND_STATION_UUID, AnalysisEntity.class).setParameter("localId", analysisId).setParameter("stationUUID", stationUuid).getSingleResult();
         } catch (NoResultException e) {
             return false;
         } catch (NonUniqueResultException e) {

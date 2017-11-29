@@ -48,7 +48,7 @@ public class BatchService {
      * 
      */
     public List<BatchEntity> getAllBatches() {
-        return em.createNamedQuery("BatchEntity.findAll", BatchEntity.class).getResultList();
+        return em.createNamedQuery(BatchEntity.QUERY_FIND_ALL, BatchEntity.class).getResultList();
     }
 
     /**
@@ -56,7 +56,7 @@ public class BatchService {
      * 
      */
     public BatchEntity getBatchById(int id) {
-        return em.createNamedQuery("BatchEntity.findById", BatchEntity.class).setParameter("batchId", id)
+        return em.createNamedQuery(BatchEntity.QUERY_FIND_BY_ID, BatchEntity.class).setParameter("batchId", id)
                         .getSingleResult();
     }
 
@@ -66,7 +66,7 @@ public class BatchService {
      */
     public BatchEntity getBatchByLocalId(int localId, int stationId) {
         try {
-            return em.createNamedQuery("BatchEntity.findByLocalIdAndStation", BatchEntity.class)
+            return em.createNamedQuery(BatchEntity.QUERY_FIND_BY_LOCAL_ID_AND_STATION, BatchEntity.class)
                             .setParameter("localId", localId).setParameter("stationID", stationId)
                             .getSingleResult();
         } catch (NoResultException e) {
@@ -80,7 +80,7 @@ public class BatchService {
      */
     public BatchEntity getBatchByLocalId(int localId, String stationUuid) {
         try {
-            return em.createNamedQuery("BatchEntity.findByLocalIdAndStationUuid", BatchEntity.class)
+            return em.createNamedQuery(BatchEntity.QUERY_FIND_BY_LOCAL_ID_AND_STATION_UUID, BatchEntity.class)
                             .setParameter("localId", localId).setParameter("stationUUID", stationUuid)
                             .getSingleResult();
         } catch (NoResultException e) {
@@ -94,7 +94,7 @@ public class BatchService {
      */
     public boolean isBatchUploaded(int batchId, int stationId) {
         try {
-            em.createNamedQuery("BatchEntity.findByLocalIdAndStation", BatchEntity.class).setParameter("localId", batchId).setParameter("stationID", stationId).getSingleResult();
+            em.createNamedQuery(BatchEntity.QUERY_FIND_BY_LOCAL_ID_AND_STATION, BatchEntity.class).setParameter("localId", batchId).setParameter("stationID", stationId).getSingleResult();
         } catch (NoResultException e) {
             return false;
         } catch (NonUniqueResultException e) {
@@ -109,7 +109,7 @@ public class BatchService {
      */
     public boolean isBatchUploaded(int batchId, String stationUuid) {
         try {
-            em.createNamedQuery("BatchEntity.findByLocalIdAndStationUuid", BatchEntity.class).setParameter("localId", batchId).setParameter("stationUUID", stationUuid).getSingleResult();
+            em.createNamedQuery(BatchEntity.QUERY_FIND_BY_LOCAL_ID_AND_STATION_UUID, BatchEntity.class).setParameter("localId", batchId).setParameter("stationUUID", stationUuid).getSingleResult();
         } catch (NoResultException e) {
             return false;
         } catch (NonUniqueResultException e) {
@@ -162,7 +162,7 @@ public class BatchService {
      */
     private StationEntity getStationByUuid(String stationUuid) throws IllegalArgumentException {
         try {
-            return em.createNamedQuery("StationEntity.findByUuid", StationEntity.class)
+            return em.createNamedQuery(StationEntity.QUERY_FIND_BY_UUID, StationEntity.class)
                         .setParameter("stationUuid", stationUuid).getSingleResult();
         } catch(NoResultException e) {
             throw new IllegalArgumentException(String.format("Station with UUID '%s' doesn't exist in database!", stationUuid));

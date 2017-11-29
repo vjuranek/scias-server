@@ -10,9 +10,13 @@ import java.util.List;
  */
 @Entity
 @Table(name = "station_group")
-@NamedQuery(name = "StationGroupEntity.findAll", query = "SELECT s FROM StationGroupEntity s")
+@NamedQueries( {
+    @NamedQuery(name = StationGroupEntity.QUERY_FIND_ALL, query = "SELECT s FROM StationGroupEntity s")
+})
 public class StationGroupEntity implements Serializable {
     private static final long serialVersionUID = 1L;
+    
+    public static final String QUERY_FIND_ALL = "StationGroupEntity.findAll";
 
     @Id
     @SequenceGenerator(name = "STATION_GROUP_ID_GENERATOR", sequenceName = "STATION_GROUP_ID_SEQ")

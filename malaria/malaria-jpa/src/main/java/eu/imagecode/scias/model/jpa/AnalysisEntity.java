@@ -24,14 +24,21 @@ import javax.persistence.UniqueConstraint;
 @Entity
 @Table(name = "analysis", uniqueConstraints = @UniqueConstraint(columnNames = "result_set_id"))
 @NamedQueries({ 
-    @NamedQuery(name = "AnalysisEntity.findAll", query = "SELECT a FROM AnalysisEntity a"),
-    @NamedQuery(name = "AnalysisEntity.findById", query = "SELECT a FROM AnalysisEntity a WHERE a.id = :analysisId"),
-    @NamedQuery(name = "AnalysisEntity.findByBatchId", query = "SELECT a FROM AnalysisEntity a WHERE a.sample.batch.id = :batchId"),
-    @NamedQuery(name = "AnalysisEntity.findByLocalIdAndStation", query = "select a from AnalysisEntity a where a.localId = :localId and a.station.id = :stationID"),
-    @NamedQuery(name = "AnalysisEntity.findByLocalIdAndStationUuid", query = "select a from AnalysisEntity a, StationEntity s where a.localId = :localId and a.station.id = s.id and s.uuid = :stationUUID"),
-    @NamedQuery(name = "AnalysisEntity.findInTimeRange", query = "SELECT a FROM AnalysisEntity a WHERE ((a.created > :from) AND (a.created < :to))")
+    @NamedQuery(name = AnalysisEntity.QUERY_FIND_ALL, query = "SELECT a FROM AnalysisEntity a"),
+    @NamedQuery(name = AnalysisEntity.QUERY_FIND_BY_ID, query = "SELECT a FROM AnalysisEntity a WHERE a.id = :analysisId"),
+    @NamedQuery(name = AnalysisEntity.QUERY_FIND_BY_BATCH_ID, query = "SELECT a FROM AnalysisEntity a WHERE a.sample.batch.id = :batchId"),
+    @NamedQuery(name = AnalysisEntity.QUERY_FIND_BY_LOCAL_ID_AND_STATION, query = "select a from AnalysisEntity a where a.localId = :localId and a.station.id = :stationID"),
+    @NamedQuery(name = AnalysisEntity.QUERY_FIND_BY_LOCAL_ID_AND_STATION_UUID, query = "select a from AnalysisEntity a, StationEntity s where a.localId = :localId and a.station.id = s.id and s.uuid = :stationUUID"),
+    @NamedQuery(name = AnalysisEntity.QUERY_FIND_IN_TIME_RANGE, query = "SELECT a FROM AnalysisEntity a WHERE ((a.created > :from) AND (a.created < :to))")
 })
 public class AnalysisEntity implements Serializable {
+    
+    public static final String QUERY_FIND_ALL = "AnalysisEntity.findAll";
+    public static final String QUERY_FIND_BY_ID = "AnalysisEntity.findById";
+    public static final String QUERY_FIND_BY_BATCH_ID = "AnalysisEntity.findByBatchId";
+    public static final String QUERY_FIND_BY_LOCAL_ID_AND_STATION = "AnalysisEntity.findByLocalIdAndStation";
+    public static final String QUERY_FIND_BY_LOCAL_ID_AND_STATION_UUID = "AnalysisEntity.findByLocalIdAndStationUuid";
+    public static final String QUERY_FIND_IN_TIME_RANGE = "AnalysisEntity.findInTimeRange";
 
     @Id
     @SequenceGenerator(name = "ANALYSIS_ID_GENERATOR", sequenceName = "ANALYSIS_ID_SEQ")

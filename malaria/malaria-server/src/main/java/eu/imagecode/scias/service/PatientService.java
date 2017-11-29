@@ -26,7 +26,7 @@ public class PatientService {
      * 
      */
     public List<PatientEntity> getAllPatients() {
-        return em.createNamedQuery("PatientEntity.findAll", PatientEntity.class).getResultList();
+        return em.createNamedQuery(PatientEntity.QUERY_FIND_ALL, PatientEntity.class).getResultList();
     }
     
     /**
@@ -34,7 +34,7 @@ public class PatientService {
      * 
      */
     public PatientEntity getPatientById(int id) {
-        return em.createNamedQuery("PatientEntity.findById", PatientEntity.class).setParameter("patientId", id).getSingleResult();
+        return em.createNamedQuery(PatientEntity.QUERY_FIND_BY_ID, PatientEntity.class).setParameter("patientId", id).getSingleResult();
     }
     
     /**
@@ -43,7 +43,7 @@ public class PatientService {
      */
     public PatientEntity getPatientByLocalId(int localId, int stationId) {
         try {
-            return em.createNamedQuery("PatientEntity.findByLocalIdAndStation", PatientEntity.class).setParameter("localId", localId).setParameter("stationID", stationId).getSingleResult();
+            return em.createNamedQuery(PatientEntity.QUERY_FIND_BY_LOCAL_ID_AND_STATION, PatientEntity.class).setParameter("localId", localId).setParameter("stationID", stationId).getSingleResult();
         } catch (NoResultException e) {
             return null;
         }        
@@ -55,7 +55,7 @@ public class PatientService {
      */
     public PatientEntity getPatientByLocalId(int localId, String stationUuid) {
         try {
-            return em.createNamedQuery("PatientEntity.findByLocalIdAndStationUuid", PatientEntity.class).setParameter("localId", localId).setParameter("stationUUID", stationUuid).getSingleResult();
+            return em.createNamedQuery(PatientEntity.QUERY_FIND_BY_LOCAL_ID_STATION_UUID, PatientEntity.class).setParameter("localId", localId).setParameter("stationUUID", stationUuid).getSingleResult();
         } catch (NoResultException e) {
             return null;
         }        

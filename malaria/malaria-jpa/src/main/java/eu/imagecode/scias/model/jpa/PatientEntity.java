@@ -21,12 +21,17 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "patient")
 @NamedQueries({
-    @NamedQuery(name = "PatientEntity.findAll", query = "SELECT p FROM PatientEntity p"),
-    @NamedQuery(name = "PatientEntity.findById", query = "SELECT p FROM PatientEntity p WHERE p.id = :patientId"),
-    @NamedQuery(name = "PatientEntity.findByLocalIdAndStation", query = "select p from PatientEntity p where p.localId = :localId and p.station.id = :stationID"),
-    @NamedQuery(name = "PatientEntity.findByLocalIdAndStationUuid", query = "select p from PatientEntity p, StationEntity s where p.localId = :localId and p.station.id = s.id and s.uuid = :stationUUID")
+    @NamedQuery(name = PatientEntity.QUERY_FIND_ALL, query = "SELECT p FROM PatientEntity p"),
+    @NamedQuery(name = PatientEntity.QUERY_FIND_BY_ID, query = "SELECT p FROM PatientEntity p WHERE p.id = :patientId"),
+    @NamedQuery(name = PatientEntity.QUERY_FIND_BY_LOCAL_ID_AND_STATION, query = "select p from PatientEntity p where p.localId = :localId and p.station.id = :stationID"),
+    @NamedQuery(name = PatientEntity.QUERY_FIND_BY_LOCAL_ID_STATION_UUID, query = "select p from PatientEntity p, StationEntity s where p.localId = :localId and p.station.id = s.id and s.uuid = :stationUUID")
 })
 public class PatientEntity implements Serializable {
+    
+    public static final String QUERY_FIND_ALL = "PatientEntity.findAll";
+    public static final String QUERY_FIND_BY_ID = "PatientEntity.findById";
+    public static final String QUERY_FIND_BY_LOCAL_ID_AND_STATION = "PatientEntity.findByLocalIdAndStation";
+    public static final String QUERY_FIND_BY_LOCAL_ID_STATION_UUID = "PatientEntity.findByLocalIdAndStationUuid";
 
     @Id
     @SequenceGenerator(name = "PATIENT_ID_GENERATOR", sequenceName = "PATIENT_ID_SEQ")
