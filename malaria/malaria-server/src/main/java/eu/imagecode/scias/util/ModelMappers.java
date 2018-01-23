@@ -12,12 +12,12 @@ import eu.imagecode.scias.model.jpa.InputDataEntity;
 import eu.imagecode.scias.model.jpa.LocalityEntity;
 import eu.imagecode.scias.model.jpa.MimeTypeEntity;
 import eu.imagecode.scias.model.jpa.PatientEntity;
-import eu.imagecode.scias.model.jpa.ResultEntity;
+import eu.imagecode.scias.model.jpa.CellEntity;
 import eu.imagecode.scias.model.jpa.ResultSetEntity;
 import eu.imagecode.scias.model.jpa.SampleEntity;
 import eu.imagecode.scias.model.jpa.SciasUserEntity;
 import eu.imagecode.scias.model.jpa.StationEntity;
-import eu.imagecode.scias.model.jpa.UnclassifiedObjectEntity;
+import eu.imagecode.scias.model.jpa.DetectedObjectEntity;
 import eu.imagecode.scias.model.rest.malaria.Analysis;
 import eu.imagecode.scias.model.rest.malaria.Batch;
 import eu.imagecode.scias.model.rest.malaria.Image;
@@ -185,31 +185,31 @@ public class ModelMappers {
         return rs;
     }
 
-    public static ResultEntity resultToEntity(Result res) {
-        ResultEntity resEnt = new ResultEntity();
+    public static CellEntity resultToEntity(Result res) {
+        CellEntity resEnt = new CellEntity();
         resEnt.setLocalId(res.getId());
         resEnt.setAmount(res.getAmount());
         resEnt.setClassId(res.getIdClass());
         return resEnt;
     }
 
-    public static Result entToResult(ResultEntity ent) {
+    public static Result entToResult(CellEntity ent) {
         Result result = new Result();
         result.setAmount(ent.getAmount());
         result.setIdClass(ent.getClassId());
         return result;
     }
 
-    public static Set<ResultEntity> resultListToEntities(List<Result> results) {
+    public static Set<CellEntity> resultListToEntities(List<Result> results) {
         return results.stream().map(res -> resultToEntity(res)).collect(Collectors.toSet());
     }
 
-    public static List<Result> entsToResultList(List<ResultEntity> ents) {
+    public static List<Result> entsToResultList(List<CellEntity> ents) {
         return ents.stream().map(ent -> entToResult(ent)).collect(Collectors.toList());
     }
 
-    public static UnclassifiedObjectEntity unclassifiedObjecToEntity(UnclassifiedObject uo) {
-        UnclassifiedObjectEntity uoEnt = new UnclassifiedObjectEntity();
+    public static DetectedObjectEntity unclassifiedObjecToEntity(UnclassifiedObject uo) {
+        DetectedObjectEntity uoEnt = new DetectedObjectEntity();
         uoEnt.setLocalId(uo.getId());
         uoEnt.setImage(imageToEntity(uo.getImage()));
         uoEnt.setResolved(uo.isResolved());
@@ -222,7 +222,7 @@ public class ModelMappers {
         return uoEnt;
     }
 
-    public static UnclassifiedObject entToUnclassifiedObject(UnclassifiedObjectEntity ent) {
+    public static UnclassifiedObject entToUnclassifiedObject(DetectedObjectEntity ent) {
         UnclassifiedObject uco = new UnclassifiedObject();
         uco.setImage(entityToImage(ent.getImage()));
         uco.setResolved(ent.getResolved());
@@ -235,11 +235,11 @@ public class ModelMappers {
         return uco;
     }
 
-    public static Set<UnclassifiedObjectEntity> unclassifiedObjectListToEntities(List<UnclassifiedObject> uos) {
+    public static Set<DetectedObjectEntity> unclassifiedObjectListToEntities(List<UnclassifiedObject> uos) {
         return uos.stream().map(uo -> unclassifiedObjecToEntity(uo)).collect(Collectors.toSet());
     }
 
-    public static List<UnclassifiedObject> entstoUnclassifiedObjectList(List<UnclassifiedObjectEntity> ents) {
+    public static List<UnclassifiedObject> entstoUnclassifiedObjectList(List<DetectedObjectEntity> ents) {
         return ents.stream().map(ent -> entToUnclassifiedObject(ent)).collect(Collectors.toList());
     }
 

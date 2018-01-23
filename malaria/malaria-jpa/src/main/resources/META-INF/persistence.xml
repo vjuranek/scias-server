@@ -6,20 +6,20 @@
         <jta-data-source>java:jboss/datasources/postgres</jta-data-source>
         <class>eu.imagecode.scias.model.jpa.AnalysisEntity</class>
         <class>eu.imagecode.scias.model.jpa.BatchEntity</class>
+        <class>eu.imagecode.scias.model.jpa.CellEntity</class>
         <class>eu.imagecode.scias.model.jpa.ClientEntity</class>
         <class>eu.imagecode.scias.model.jpa.ClientVersionEntity</class>
         <class>eu.imagecode.scias.model.jpa.ImageEntity</class>
         <class>eu.imagecode.scias.model.jpa.InputDataEntity</class>
         <class>eu.imagecode.scias.model.jpa.LocalityEntity</class>
         <class>eu.imagecode.scias.model.jpa.PatientEntity</class>
-        <class>eu.imagecode.scias.model.jpa.ResultEntity</class>
         <class>eu.imagecode.scias.model.jpa.ResultSetEntity</class>
         <class>eu.imagecode.scias.model.jpa.SampleEntity</class>
         <class>eu.imagecode.scias.model.jpa.SciasRoleEntity</class>
         <class>eu.imagecode.scias.model.jpa.SciasUserEntity</class>
         <class>eu.imagecode.scias.model.jpa.StationEntity</class>
         <class>eu.imagecode.scias.model.jpa.StationGroupEntity</class>
-        <class>eu.imagecode.scias.model.jpa.UnclassifiedObjectEntity</class>
+        <class>eu.imagecode.scias.model.jpa.DetectedObjectEntity</class>
         <class>eu.imagecode.scias.model.jpa.UserRoleEntity</class>
         <class>eu.imagecode.scias.model.jpa.UserRoleId</class>
 
@@ -35,20 +35,20 @@
     <persistence-unit name="scias-local" transaction-type="RESOURCE_LOCAL">
         <class>eu.imagecode.scias.model.jpa.AnalysisEntity</class>
         <class>eu.imagecode.scias.model.jpa.BatchEntity</class>
+        <class>eu.imagecode.scias.model.jpa.CellEntity</class>
         <class>eu.imagecode.scias.model.jpa.ClientEntity</class>
         <class>eu.imagecode.scias.model.jpa.ClientVersionEntity</class>
         <class>eu.imagecode.scias.model.jpa.ImageEntity</class>
         <class>eu.imagecode.scias.model.jpa.InputDataEntity</class>
         <class>eu.imagecode.scias.model.jpa.LocalityEntity</class>
         <class>eu.imagecode.scias.model.jpa.PatientEntity</class>
-        <class>eu.imagecode.scias.model.jpa.ResultEntity</class>
         <class>eu.imagecode.scias.model.jpa.ResultSetEntity</class>
         <class>eu.imagecode.scias.model.jpa.SampleEntity</class>
         <class>eu.imagecode.scias.model.jpa.SciasRoleEntity</class>
         <class>eu.imagecode.scias.model.jpa.SciasUserEntity</class>
         <class>eu.imagecode.scias.model.jpa.StationEntity</class>
         <class>eu.imagecode.scias.model.jpa.StationGroupEntity</class>
-        <class>eu.imagecode.scias.model.jpa.UnclassifiedObjectEntity</class>
+        <class>eu.imagecode.scias.model.jpa.DetectedObjectEntity</class>
         <class>eu.imagecode.scias.model.jpa.UserRoleEntity</class>
         <class>eu.imagecode.scias.model.jpa.UserRoleId</class>
 

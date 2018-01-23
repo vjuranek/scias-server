@@ -30,10 +30,7 @@ public class ResultSetEntity implements Serializable {
     private int localId;
     
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "resultSet", cascade = CascadeType.ALL)
-    private Set<UnclassifiedObjectEntity> unclassifiedObjects = new HashSet<UnclassifiedObjectEntity>(0);
-    
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "resultSet", cascade = CascadeType.ALL)
-    private Set<ResultEntity> results = new HashSet<ResultEntity>(0);
+    private Set<CellEntity> cells = new HashSet<CellEntity>(0);
     
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "resultSet", cascade = CascadeType.ALL)
     private AnalysisEntity analysis;
@@ -47,12 +44,10 @@ public class ResultSetEntity implements Serializable {
         this.localId = localId;
     }
 
-    public ResultSetEntity(int id, int localId, Set<UnclassifiedObjectEntity> unclassifiedObjects,
-                    Set<ResultEntity> results, AnalysisEntity analysis) {
+    public ResultSetEntity(int id, int localId, Set<CellEntity> results, AnalysisEntity analysis) {
         this.id = id;
         this.localId = localId;
-        this.unclassifiedObjects = unclassifiedObjects;
-        this.results = results;
+        this.cells = results;
         this.analysis = analysis;
     }
 
@@ -68,20 +63,12 @@ public class ResultSetEntity implements Serializable {
         this.localId = localId;
     }
 
-    public Set<UnclassifiedObjectEntity> getUnclassifiedObjects() {
-        return this.unclassifiedObjects;
+    public Set<CellEntity> getResults() {
+        return this.cells;
     }
 
-    public void setUnclassifiedObjects(Set<UnclassifiedObjectEntity> unclassifiedObjects) {
-        this.unclassifiedObjects = unclassifiedObjects;
-    }
-
-    public Set<ResultEntity> getResults() {
-        return this.results;
-    }
-
-    public void setResults(Set<ResultEntity> results) {
-        this.results = results;
+    public void setResults(Set<CellEntity> results) {
+        this.cells = results;
     }
 
     
@@ -99,8 +86,7 @@ public class ResultSetEntity implements Serializable {
         int result = 1;
         result = prime * result + id;
         result = prime * result + localId;
-        result = prime * result + ((results == null) ? 0 : results.hashCode());
-        result = prime * result + ((unclassifiedObjects == null) ? 0 : unclassifiedObjects.hashCode());
+        result = prime * result + ((cells == null) ? 0 : cells.hashCode());
         return result;
     }
 
@@ -117,15 +103,10 @@ public class ResultSetEntity implements Serializable {
             return false;
         if (localId != other.getLocalId())
             return false;
-        if (results == null) {
+        if (cells == null) {
             if (other.getResults() != null)
                 return false;
-        } else if (!results.equals(other.getResults()))
-            return false;
-        if (unclassifiedObjects == null) {
-            if (other.getUnclassifiedObjects() != null)
-                return false;
-        } else if (!unclassifiedObjects.equals(other.getUnclassifiedObjects()))
+        } else if (!cells.equals(other.getResults()))
             return false;
         return true;
     }

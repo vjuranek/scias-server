@@ -22,7 +22,7 @@ import eu.imagecode.scias.model.jpa.ImageEntity;
 import eu.imagecode.scias.model.jpa.InputDataEntity;
 import eu.imagecode.scias.model.jpa.MimeTypeEntity;
 import eu.imagecode.scias.model.jpa.ResultSetEntity;
-import eu.imagecode.scias.model.jpa.UnclassifiedObjectEntity;
+import eu.imagecode.scias.model.jpa.DetectedObjectEntity;
 import eu.imagecode.scias.model.rest.malaria.Analysis;
 import eu.imagecode.scias.model.rest.malaria.Batch;
 import eu.imagecode.scias.model.rest.malaria.Image;
@@ -133,7 +133,7 @@ public class Generators {
         uoImg1.setSha256(TEST_UO_IMG1_SHA256);
         uoImg1.setWidth(TEST_IMG_WIDTH);
         uoImg1.setMimeType(MimeTypeEntity.IMAGE_JPEG);
-        UnclassifiedObjectEntity uo1 = new UnclassifiedObjectEntity();
+        DetectedObjectEntity uo1 = new DetectedObjectEntity();
         uo1.setImage(uoImg1);
 
         ImageEntity uoImg2 = new ImageEntity();
@@ -144,11 +144,11 @@ public class Generators {
         uoImg2.setSha256(TEST_UO_IMG2_SHA256);
         uoImg2.setWidth(TEST_IMG_WIDTH);
         uoImg2.setMimeType(MimeTypeEntity.IMAGE_JPEG);
-        UnclassifiedObjectEntity uo2 = new UnclassifiedObjectEntity();
+        DetectedObjectEntity uo2 = new DetectedObjectEntity();
         uo2.setImage(uoImg2);
 
         ResultSetEntity rs = new ResultSetEntity();
-        Set<UnclassifiedObjectEntity> uos = new HashSet<>();
+        Set<DetectedObjectEntity> uos = new HashSet<>();
         uos.add(uo1);
         uos.add(uo2);
         rs.setUnclassifiedObjects(uos);

@@ -94,27 +94,33 @@
         <xs:sequence>
             <xs:element name="id" type="xs:integer" />
             <xs:choice minOccurs="0" maxOccurs="unbounded">
-                <xs:element name="result" type="tns:result" />
+                <xs:element name="cell" type="tns:cell" />
             </xs:choice>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="cell">
+        <xs:sequence>
+            <xs:element name="id" type="xs:integer" />
+            <xs:element name="x" type="xs:integer" />
+            <xs:element name="y" type="xs:integer" />
+            <xs:element name="width" type="xs:integer" />
+            <xs:element name="height" type="xs:integer" />
             <xs:choice minOccurs="0" maxOccurs="unbounded">
-                <xs:element name="unclassifiedObject" type="tns:unclassified-object" />
+                <xs:element name="detectedObject" type="tns:detected-object" />
             </xs:choice>
         </xs:sequence>
     </xs:complexType>
 
-    <xs:complexType name="result">
+    <xs:complexType name="detected-object">
         <xs:sequence>
             <xs:element name="id" type="xs:integer" />
             <xs:element name="idClass" type="xs:integer" />
-            <xs:element name="amount" type="xs:double" />
-        </xs:sequence>
-    </xs:complexType>
-
-    <xs:complexType name="unclassified-object">
-        <xs:sequence>
-            <xs:element name="id" type="xs:integer" />
-            <xs:element name="idClass" type="xs:integer" />
-            <xs:element name="image" type="tns:image" />
+            <!-- <xs:element name="image" type="tns:image" /> -->
+            <xs:element name="x" type="xs:integer" />
+            <xs:element name="y" type="xs:integer" />
+            <xs:element name="width" type="xs:integer" />
+            <xs:element name="height" type="xs:integer" />
             <xs:choice minOccurs="0" maxOccurs="1">
                 <xs:sequence>
                     <xs:element name="resolved" type="xs:boolean" />
