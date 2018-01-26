@@ -4,8 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
@@ -15,34 +13,32 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.common.base.Functions;
-
 import eu.imagecode.scias.model.jpa.AnalysisEntity;
+import eu.imagecode.scias.model.jpa.CellEntity;
 import eu.imagecode.scias.model.jpa.ImageEntity;
 import eu.imagecode.scias.model.jpa.InputDataEntity;
 import eu.imagecode.scias.model.jpa.MimeTypeEntity;
 import eu.imagecode.scias.model.jpa.ResultSetEntity;
-import eu.imagecode.scias.model.jpa.DetectedObjectEntity;
 import eu.imagecode.scias.model.rest.malaria.Analysis;
 import eu.imagecode.scias.model.rest.malaria.Batch;
+import eu.imagecode.scias.model.rest.malaria.Cell;
 import eu.imagecode.scias.model.rest.malaria.Image;
 import eu.imagecode.scias.model.rest.malaria.InputData;
 import eu.imagecode.scias.model.rest.malaria.MimeType;
 import eu.imagecode.scias.model.rest.malaria.ResultSet;
 import eu.imagecode.scias.model.rest.malaria.Sample;
-import eu.imagecode.scias.model.rest.malaria.UnclassifiedObject;
 import eu.imagecode.scias.util.SciasFunctions;
 
 public class Generators {
 
     public static final Date TEST_DATE = new Date();
     public static final Timestamp TEST_TIMESTAMP = new Timestamp(TEST_DATE.getTime());
-    public static final String TEST_IMG_NAME = "Image01.jpg";
-    public static final String TEST_UO_IMG1_NAME = "Image02.jpg";
-    public static final String TEST_UO_IMG2_NAME = "Image03.jpg";
+    public static final String TEST_IMG1_NAME = "Image01.jpg";
+    public static final String TEST_IMG2_NAME = "Image02.jpg";
+    public static final String TEST_IMG3_NAME = "Image03.jpg";
     public static final String TEST_IMG1_SHA256 = "7172698439171a96716f2190061f214c55a22feadafa460ca5b8b8e2ebf6482e";
-    public static final String TEST_UO_IMG1_SHA256 = "7172698439171a96716f2190061f214c55a22feadafa460ca5b8b8e2ebf6482e";
-    public static final String TEST_UO_IMG2_SHA256 = "7172698439171a96716f2190061f214c55a22feadafa460ca5b8b8e2ebf6482e";
+    public static final String TEST_IMG2_SHA256 = "7172698439171a96716f2190061f214c55a22feadafa460ca5b8b8e2ebf6482e";
+    public static final String TEST_IMG3_SHA256 = "7172698439171a96716f2190061f214c55a22feadafa460ca5b8b8e2ebf6482e";
     public static final MimeType TEST_IMG_MIME_TYPE = MimeType.IMAGE_JPEG;
     public static final int TEST_IMG_WIDTH = 10;
     public static final double TEST_PIXEL_SIZE = 2.0;
@@ -59,39 +55,43 @@ public class Generators {
 
         Image uoImg1 = new Image();
         uoImg1.setId(1);
-        uoImg1.setName(TEST_UO_IMG1_NAME);
-        uoImg1.setSha256(TEST_UO_IMG1_SHA256);
+        uoImg1.setName(TEST_IMG2_NAME);
+        uoImg1.setSha256(TEST_IMG2_SHA256);
         uoImg1.setMimeType(TEST_IMG_MIME_TYPE);
         uoImg1.setPixelSize(TEST_PIXEL_SIZE);
         uoImg1.setWidth(TEST_IMG_WIDTH);
 
         Image uoImg2 = new Image();
         uoImg2.setId(2);
-        uoImg2.setName(TEST_UO_IMG2_NAME);
-        uoImg2.setSha256(TEST_UO_IMG2_SHA256);
+        uoImg2.setName(TEST_IMG3_NAME);
+        uoImg2.setSha256(TEST_IMG3_SHA256);
         uoImg2.setMimeType(TEST_IMG_MIME_TYPE);
         uoImg2.setPixelSize(TEST_PIXEL_SIZE);
         uoImg2.setWidth(TEST_IMG_WIDTH);
 
-        UnclassifiedObject uo1 = new UnclassifiedObject();
-        uo1.setId(1);
-        uo1.setImage(uoImg1);
-        uo1.setResolved(false);
+        Cell cell1 = new Cell();
+        cell1.setId(1);
+        cell1.setHeight(10);
+        cell1.setWidth(20);
+        cell1.setX(100);
+        cell1.setY(200);
 
-        UnclassifiedObject uo2 = new UnclassifiedObject();
-        uo2.setId(2);
-        uo2.setImage(uoImg2);
-        uo2.setResolved(false);
+        Cell cell2 = new Cell();
+        cell2.setId(2);
+        cell2.setHeight(30);
+        cell2.setWidth(40);
+        cell2.setX(300);
+        cell2.setY(400);
 
         ResultSet rs = new ResultSet();
         rs.setId(1);
-        rs.getUnclassifiedObject().add(uo1);
-        rs.getUnclassifiedObject().add(uo2);
+        rs.getCell().add(cell1);
+        rs.getCell().add(cell2);
 
         Image img = new Image();
         img.setId(1);
         img.setHeight(10);
-        img.setName(TEST_IMG_NAME);
+        img.setName(TEST_IMG1_NAME);
         img.setPixelSize(TEST_PIXEL_SIZE);
         img.setSha256(TEST_IMG1_SHA256);
         img.setWidth(TEST_IMG_WIDTH);
@@ -125,38 +125,22 @@ public class Generators {
     }
 
     public static AnalysisEntity generateAnalysisEntity() throws Exception {
-        ImageEntity uoImg1 = new ImageEntity();
-        uoImg1.setLocalId(1);
-        uoImg1.setHeight(10);
-        uoImg1.setName(TEST_UO_IMG1_NAME);
-        uoImg1.setPixelSize(TEST_PIXEL_SIZE);
-        uoImg1.setSha256(TEST_UO_IMG1_SHA256);
-        uoImg1.setWidth(TEST_IMG_WIDTH);
-        uoImg1.setMimeType(MimeTypeEntity.IMAGE_JPEG);
-        DetectedObjectEntity uo1 = new DetectedObjectEntity();
-        uo1.setImage(uoImg1);
-
-        ImageEntity uoImg2 = new ImageEntity();
-        uoImg2.setLocalId(2);
-        uoImg2.setHeight(10);
-        uoImg2.setName(TEST_UO_IMG2_NAME);
-        uoImg2.setPixelSize(TEST_PIXEL_SIZE);
-        uoImg2.setSha256(TEST_UO_IMG2_SHA256);
-        uoImg2.setWidth(TEST_IMG_WIDTH);
-        uoImg2.setMimeType(MimeTypeEntity.IMAGE_JPEG);
-        DetectedObjectEntity uo2 = new DetectedObjectEntity();
-        uo2.setImage(uoImg2);
-
+        CellEntity cell1 = new CellEntity();
+        cell1.setId(1);
+        cell1.setHeight(10);
+        cell1.setWidth(20);
+        cell1.setX(100);
+        cell1.setY(200);
+        
         ResultSetEntity rs = new ResultSetEntity();
-        Set<DetectedObjectEntity> uos = new HashSet<>();
-        uos.add(uo1);
-        uos.add(uo2);
-        rs.setUnclassifiedObjects(uos);
+        Set<CellEntity> cells = new HashSet<>();
+        cells.add(cell1);
+        rs.setCells(cells);
 
         ImageEntity img = new ImageEntity();
         img.setLocalId(1);
         img.setHeight(10);
-        img.setName(TEST_IMG_NAME);
+        img.setName(TEST_IMG1_NAME);
         img.setPixelSize(TEST_PIXEL_SIZE);
         img.setSha256(TEST_IMG1_SHA256);
         img.setWidth(TEST_IMG_WIDTH);
@@ -173,34 +157,50 @@ public class Generators {
         return anal;
     }
     
+    public static Map<String, byte[]> generateOneImgMap() throws IOException {
+        Map<String, byte[]> imgMap = new HashMap<>();
+        imgMap.put(TEST_IMG1_NAME, loadImgBytes(TEST_IMG1_NAME));
+        return imgMap;
+    }
+    
     public static Map<String, byte[]> generateImgMap() throws IOException {
         Map<String, byte[]> imgMap = new HashMap<>();
-        imgMap.put(TEST_IMG_NAME, loadImgBytes(TEST_IMG_NAME));
-        imgMap.put(TEST_UO_IMG1_NAME, loadImgBytes(TEST_UO_IMG1_NAME));
-        imgMap.put(TEST_UO_IMG2_NAME, loadImgBytes(TEST_UO_IMG2_NAME));
+        imgMap.put(TEST_IMG1_NAME, loadImgBytes(TEST_IMG1_NAME));
+        imgMap.put(TEST_IMG2_NAME, loadImgBytes(TEST_IMG2_NAME));
+        imgMap.put(TEST_IMG3_NAME, loadImgBytes(TEST_IMG3_NAME));
         return imgMap;
     }
 
+    public static void assertFirstImgName(List<Image> imgs) {
+        assertEquals(1, imgs.size());
+        assertTrue(imgs.get(0).getName().contains(Generators.TEST_IMG1_NAME));
+    }
+    
     public static void assertImgNames(List<Image> imgs) {
         assertEquals(3, imgs.size());
 
         List<String> imgNames = new LinkedList<>();
         imgs.forEach(img -> imgNames.add(img.getName()));
 
-        assertTrue(imgNames.contains(Generators.TEST_IMG_NAME));
-        assertTrue(imgNames.contains(Generators.TEST_UO_IMG1_NAME));
-        assertTrue(imgNames.contains(Generators.TEST_UO_IMG2_NAME));
+        assertTrue(imgNames.contains(Generators.TEST_IMG1_NAME));
+        assertTrue(imgNames.contains(Generators.TEST_IMG2_NAME));
+        assertTrue(imgNames.contains(Generators.TEST_IMG3_NAME));
     }
 
+    public static void assertFirstImgEntName(List<ImageEntity> imgs) {
+        assertEquals(1, imgs.size());
+        assertTrue(imgs.get(0).getName().contains(Generators.TEST_IMG1_NAME));
+    }
+    
     public static void assertImgEntNames(List<ImageEntity> imgs) {
         assertEquals(3, imgs.size());
 
         List<String> imgNames = new LinkedList<>();
         imgs.forEach(img -> imgNames.add(img.getName()));
 
-        assertTrue(imgNames.contains(Generators.TEST_IMG_NAME));
-        assertTrue(imgNames.contains(Generators.TEST_UO_IMG1_NAME));
-        assertTrue(imgNames.contains(Generators.TEST_UO_IMG2_NAME));
+        assertTrue(imgNames.contains(Generators.TEST_IMG1_NAME));
+        assertTrue(imgNames.contains(Generators.TEST_IMG2_NAME));
+        assertTrue(imgNames.contains(Generators.TEST_IMG3_NAME));
     }
 
     private static byte[] loadImgBytes(String imgName) throws IOException {

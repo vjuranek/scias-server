@@ -34,8 +34,7 @@ public class Functions {
     }
 
     /**
-     * Extracts all {@link ImageEntity} related to {@link AnalysisEntity}, i.e. input data image and unclassified data
-     * images.
+     * Extracts all {@link ImageEntity} related to {@link AnalysisEntity}, i.e. input data image.
      * 
      * @param analysis
      *            {@link AnalysisEntity} which images will be extracted from.
@@ -44,7 +43,6 @@ public class Functions {
     public static List<ImageEntity> imageFromAnalysisEntity(AnalysisEntity analysis) {
         List<ImageEntity> images = new ArrayList<>();
         images.add(analysis.getInputData().getImage());
-        analysis.getResultSet().getUnclassifiedObjects().forEach(uo -> images.add(uo.getImage()));
         return images;
     }
 
@@ -58,7 +56,6 @@ public class Functions {
     public static List<Image> imageFromAnalysis(Analysis analysis) {
         List<Image> images = new ArrayList<>();
         images.add(analysis.getInputData().getImage());
-        analysis.getResultSet().getUnclassifiedObject().forEach(uo -> images.add(uo.getImage()));
         return images;
     }
 
@@ -75,7 +72,6 @@ public class Functions {
         List<Image> imgs = new LinkedList<Image>();
         analyses.forEach(analysis -> {
             imgs.add(analysis.getInputData().getImage());
-            analysis.getResultSet().getUnclassifiedObject().forEach(uo -> imgs.add(uo.getImage()));
         });
         return imgs;
     }

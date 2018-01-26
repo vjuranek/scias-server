@@ -112,7 +112,7 @@ public class BatchServiceIT extends AbstractMalariaServiceIT {
         batch.getSample().add(sample);
         batch.setPatient(patient);
         
-        Map<String, byte[]> imgMap = Generators.generateImgMap();
+        Map<String, byte[]> imgMap = Generators.generateOneImgMap();
         
         BatchEntity be = batchService.uploadBatch(batch, imgMap, STATION1_UUID);
         
@@ -151,7 +151,7 @@ public class BatchServiceIT extends AbstractMalariaServiceIT {
         batch.getSample().add(sample);
         batch.setPatient(patient);
         
-        Map<String, byte[]> imgMap = Generators.generateImgMap();
+        Map<String, byte[]> imgMap = Generators.generateOneImgMap();
         
         batchService.uploadBatch(batch, imgMap, STATION1_UUID);
     }
@@ -176,7 +176,7 @@ public class BatchServiceIT extends AbstractMalariaServiceIT {
         batch.getSample().add(sample);
         batch.setPatient(patient);
         
-        Map<String, byte[]> imgMap = Generators.generateImgMap();
+        Map<String, byte[]> imgMap = Generators.generateOneImgMap();
         
         BatchEntity be = batchService.uploadBatch(batch, imgMap, STATION1_UUID);
         
@@ -221,7 +221,7 @@ public class BatchServiceIT extends AbstractMalariaServiceIT {
         batch.getSample().add(sample);
         batch.setPatient(patient);
         
-        Map<String, byte[]> imgMap = Generators.generateImgMap();
+        Map<String, byte[]> imgMap = Generators.generateOneImgMap();
         
         BatchEntity be = batchService.uploadBatch(batch, imgMap, "doesn't exists");
     }

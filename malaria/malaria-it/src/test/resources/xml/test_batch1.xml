@@ -41,16 +41,22 @@
             </inputData>
             <resultSet>
                 <id>6</id>
-                <result>
+                <cell>
                     <id>1</id>
                     <idClass>2</idClass>
-                    <amount>51</amount>
-                </result>
-                <result>
+                    <x>10</x>
+                    <y>20</y>
+                    <width>100</width>
+                    <height>200</height>
+                </cell>
+                <cell>
                     <id>2</id>
                     <idClass>3</idClass>
-                    <amount>8</amount>
-                </result>
+                    <x>30</x>
+                    <y>40</y>
+                    <width>300</width>
+                    <height>400</height>
+                </cell>
             </resultSet>
         </analysis>
         <analysis>
@@ -72,16 +78,22 @@
             </inputData>
             <resultSet>
                 <id>2</id>
-                <result>
+                <cell>
                     <id>3</id>
                     <idClass>2</idClass>
-                    <amount>51</amount>
-                </result>
-                <result>
+                    <x>10</x>
+                    <y>20</y>
+                    <width>100</width>
+                    <height>200</height>
+                </cell>
+                <cell>
                     <id>4</id>
                     <idClass>3</idClass>
-                    <amount>8</amount>
-                </result>
+                    <x>30</x>
+                    <y>40</y>
+                    <width>300</width>
+                    <height>400</height>
+                </cell>
             </resultSet>
         </analysis>
     </sample>

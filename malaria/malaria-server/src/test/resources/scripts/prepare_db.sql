@@ -121,15 +121,16 @@ CREATE TABLE IF NOT EXISTS analysis (
 );
 CREATE SEQUENCE analysis_id_seq INCREMENT BY 50;
 
-
-CREATE TABLE IF NOT EXISTS result (
+CREATE TABLE IF NOT EXISTS cell (
     id integer PRIMARY KEY,
     local_id integer NOT NULL,
-    class_id integer,
-    amount double precision,
+    x integer,
+    y integer,
+    width integer,
+    height integer,
     result_set_id integer REFERENCES result_set(id) -- TODO NOT NULL
 );
-CREATE SEQUENCE result_id_seq INCREMENT BY 50;
+CREATE SEQUENCE cell_id_seq INCREMENT BY 50;
 
 CREATE TABLE IF NOT EXISTS image (
     id integer PRIMARY KEY,
@@ -146,19 +147,21 @@ CREATE TABLE IF NOT EXISTS image (
 );
 CREATE SEQUENCE image_id_seq INCREMENT BY 50;
 
-
-CREATE TABLE IF NOT EXISTS unclassified_object (
+CREATE TABLE IF NOT EXISTS detected_object (
     id integer PRIMARY KEY,
     local_id integer NOT NULL,
-    class_id integer,
+    cell_id integer NOT NULL REFERENCES cell(id),
+    class_id integer NOT NULL,
+    x integer,
+    y integer,
+    width integer,
+    height integer,
     resolved boolean,
-    resolved_time timestamp,
-    result_set_id integer REFERENCES result_set(id), -- TODO NOT NULL
     resolved_by_id integer REFERENCES scias_user(id),
-    image_id integer REFERENCES image(id)
+    resolved_time timestamp
+    -- image_id integer REFERENCES image(id)
 );
-CREATE SEQUENCE unclassified_object_id_seq INCREMENT BY 50;
-
+CREATE SEQUENCE detected_object_id_seq INCREMENT BY 50;
 
 CREATE TABLE IF NOT EXISTS input_data (
     id integer PRIMARY KEY,

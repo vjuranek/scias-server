@@ -28,13 +28,13 @@ public class FunctionsTest {
     @Test
     public void testGetImageFromAnalysisEntity() throws Exception {
         List<ImageEntity> imgs = Functions.imageFromAnalysisEntity(Generators.generateAnalysisEntity());
-        Generators.assertImgEntNames(imgs);
+        Generators.assertFirstImgEntName(imgs);
     }
     
     @Test
     public void testGetImageFromAnalysis() {
         List<Image> imgs = Functions.imageFromAnalysis(Generators.generateAnalysis());
-        Generators.assertImgNames(imgs);
+        Generators.assertFirstImgName(imgs);
     }
 
     
@@ -42,6 +42,6 @@ public class FunctionsTest {
     public void testExtractImages() {
         Batch batch = Generators.generateBatch();
         List<Image> imgs = Functions.extractImages(batch);
-        Generators.assertImgNames(imgs);
+        Generators.assertFirstImgName(imgs);
     }
 }
