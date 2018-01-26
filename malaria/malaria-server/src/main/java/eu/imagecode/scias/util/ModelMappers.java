@@ -7,28 +7,28 @@ import java.util.stream.Collectors;
 
 import eu.imagecode.scias.model.jpa.AnalysisEntity;
 import eu.imagecode.scias.model.jpa.BatchEntity;
+import eu.imagecode.scias.model.jpa.CellEntity;
+import eu.imagecode.scias.model.jpa.DetectedObjectEntity;
 import eu.imagecode.scias.model.jpa.ImageEntity;
 import eu.imagecode.scias.model.jpa.InputDataEntity;
 import eu.imagecode.scias.model.jpa.LocalityEntity;
 import eu.imagecode.scias.model.jpa.MimeTypeEntity;
 import eu.imagecode.scias.model.jpa.PatientEntity;
-import eu.imagecode.scias.model.jpa.CellEntity;
 import eu.imagecode.scias.model.jpa.ResultSetEntity;
 import eu.imagecode.scias.model.jpa.SampleEntity;
 import eu.imagecode.scias.model.jpa.SciasUserEntity;
 import eu.imagecode.scias.model.jpa.StationEntity;
-import eu.imagecode.scias.model.jpa.DetectedObjectEntity;
 import eu.imagecode.scias.model.rest.malaria.Analysis;
 import eu.imagecode.scias.model.rest.malaria.Batch;
+import eu.imagecode.scias.model.rest.malaria.Cell;
+import eu.imagecode.scias.model.rest.malaria.DetectedObject;
 import eu.imagecode.scias.model.rest.malaria.Image;
 import eu.imagecode.scias.model.rest.malaria.InputData;
 import eu.imagecode.scias.model.rest.malaria.Locality;
 import eu.imagecode.scias.model.rest.malaria.MimeType;
 import eu.imagecode.scias.model.rest.malaria.Patient;
-import eu.imagecode.scias.model.rest.malaria.Result;
 import eu.imagecode.scias.model.rest.malaria.ResultSet;
 import eu.imagecode.scias.model.rest.malaria.Sample;
-import eu.imagecode.scias.model.rest.malaria.UnclassifiedObject;
 import eu.imagecode.scias.model.rest.malaria.User;
 
 /**
@@ -171,78 +171,92 @@ public class ModelMappers {
     public static ResultSetEntity resultSetToEntity(ResultSet rs) {
         ResultSetEntity rsEntList = new ResultSetEntity();
         rsEntList.setLocalId(rs.getId());
-        rsEntList.setResults(resultListToEntities(rs.getResult()));
-        rsEntList.setUnclassifiedObjects(unclassifiedObjectListToEntities(rs.getUnclassifiedObject()));
+        rsEntList.setCells(cellListToEntities(rs.getCell()));
         return rsEntList;
     }
 
     public static ResultSet entToResultSet(ResultSetEntity rse) {
         ResultSet rs = new ResultSet();
-        List<Result> resList = rs.getResult();
-        List<UnclassifiedObject> uoList = rs.getUnclassifiedObject();
-        rse.getResults().forEach(r -> resList.add(entToResult(r)));
-        rse.getUnclassifiedObjects().forEach(u -> uoList.add(entToUnclassifiedObject(u)));
+        List<Cell> cellList = rs.getCell();
+        rse.getCells().forEach(cell -> cellList.add(entToCell(cell)));
         return rs;
     }
 
-    public static CellEntity resultToEntity(Result res) {
-        CellEntity resEnt = new CellEntity();
-        resEnt.setLocalId(res.getId());
-        resEnt.setAmount(res.getAmount());
-        resEnt.setClassId(res.getIdClass());
-        return resEnt;
+    public static CellEntity cellToEntity(Cell cell) {
+        CellEntity cellEnt = new CellEntity();
+        cellEnt.setLocalId(cell.getId());
+        cellEnt.setX(cell.getX());
+        cellEnt.setY(cell.getY());
+        cellEnt.setWidth(cell.getWidth());
+        cellEnt.setHeight(cell.getHeight());
+        cellEnt.setDetectedObjects(detectedObjectListToEntities(cell.getDetectedObject()));
+        return cellEnt;
     }
 
-    public static Result entToResult(CellEntity ent) {
-        Result result = new Result();
-        result.setAmount(ent.getAmount());
-        result.setIdClass(ent.getClassId());
-        return result;
+    public static Cell entToCell(CellEntity ent) {
+        Cell cell = new Cell();
+        cell.setId(ent.getLocalId());
+        cell.setX(ent.getX());
+        cell.setY(ent.getY());
+        cell.setWidth(ent.getWidth());
+        cell.setHeight(ent.getHeight());
+        List<DetectedObject> dos = cell.getDetectedObject();
+        ent.getDetectedObjects().forEach(dobj -> dos.add(entToDetectedObject(dobj)));
+        return cell;
+    }
+    
+    public static Set<CellEntity> cellListToEntities(List<Cell> cells) {
+        return cells.stream().map(cell -> cellToEntity(cell)).collect(Collectors.toSet());
     }
 
-    public static Set<CellEntity> resultListToEntities(List<Result> results) {
-        return results.stream().map(res -> resultToEntity(res)).collect(Collectors.toSet());
+    public static List<Cell> entsToCellList(List<CellEntity> ents) {
+        return ents.stream().map(ent -> entToCell(ent)).collect(Collectors.toList());
     }
-
-    public static List<Result> entsToResultList(List<CellEntity> ents) {
-        return ents.stream().map(ent -> entToResult(ent)).collect(Collectors.toList());
-    }
-
-    public static DetectedObjectEntity unclassifiedObjecToEntity(UnclassifiedObject uo) {
-        DetectedObjectEntity uoEnt = new DetectedObjectEntity();
-        uoEnt.setLocalId(uo.getId());
-        uoEnt.setImage(imageToEntity(uo.getImage()));
-        uoEnt.setResolved(uo.isResolved());
-        if (uo.getResolvedTime() != null) {
-            uoEnt.setResolvedTime(new Timestamp(uo.getResolvedTime().getTime()));
+    
+    public static DetectedObjectEntity detectedObjectToEntity(DetectedObject dobj) {
+        DetectedObjectEntity de = new DetectedObjectEntity();
+        de.setLocalId(dobj.getId());
+        de.setClassId(dobj.getIdClass());
+        de.setX(dobj.getX());
+        de.setY(dobj.getY());
+        de.setWidth(dobj.getWidth());
+        de.setHeight(dobj.getHeight());
+        de.setResolved(dobj.isResolved());
+        if (de.getResolvedTime() != null) {
+            de.setResolvedTime(new Timestamp(dobj.getResolvedTime().getTime()));
         }
-        if (uo.getResolvedBy() != null) {
-            uoEnt.setResolvedBy(userToEntity(uo.getResolvedBy()));
+        if (de.getResolvedBy() != null) {
+            de.setResolvedBy(userToEntity(dobj.getResolvedBy()));
         }
-        return uoEnt;
+        return de;
     }
-
-    public static UnclassifiedObject entToUnclassifiedObject(DetectedObjectEntity ent) {
-        UnclassifiedObject uco = new UnclassifiedObject();
-        uco.setImage(entityToImage(ent.getImage()));
-        uco.setResolved(ent.getResolved());
+    
+    public static DetectedObject entToDetectedObject(DetectedObjectEntity ent) {
+        DetectedObject dobj = new DetectedObject();
+        dobj.setId(ent.getLocalId());
+        dobj.setIdClass(ent.getClassId());
+        dobj.setX(ent.getX());
+        dobj.setY(ent.getY());
+        dobj.setWidth(ent.getWidth());
+        dobj.setHeight(ent.getHeight());
+        dobj.setResolved(ent.getResolved());
         if (ent.getResolvedTime() != null) {
-            uco.setResolvedTime(ent.getResolvedTime());
+            dobj.setResolvedTime(ent.getResolvedTime());
         }
         if (ent.getResolvedBy() != null) {
-            uco.setResolvedBy(entityToUser(ent.getResolvedBy()));
+            dobj.setResolvedBy(entityToUser(ent.getResolvedBy()));
         }
-        return uco;
+        return dobj;
     }
 
-    public static Set<DetectedObjectEntity> unclassifiedObjectListToEntities(List<UnclassifiedObject> uos) {
-        return uos.stream().map(uo -> unclassifiedObjecToEntity(uo)).collect(Collectors.toSet());
+    public static Set<DetectedObjectEntity> detectedObjectListToEntities(List<DetectedObject> dos) {
+        return dos.stream().map(dobj -> detectedObjectToEntity(dobj)).collect(Collectors.toSet());
     }
 
-    public static List<UnclassifiedObject> entstoUnclassifiedObjectList(List<DetectedObjectEntity> ents) {
-        return ents.stream().map(ent -> entToUnclassifiedObject(ent)).collect(Collectors.toList());
+    public static List<DetectedObject> entsToDetectedObjectList(List<DetectedObjectEntity> ents) {
+        return ents.stream().map(ent -> entToDetectedObject(ent)).collect(Collectors.toList());
     }
-
+    
     public static InputDataEntity inputDataToEntity(InputData inputData) {
         InputDataEntity inputDataEnt = new InputDataEntity();
         inputDataEnt.setLocalId(inputData.getId());

@@ -63,12 +63,12 @@ public class ResultSetEntity implements Serializable {
         this.localId = localId;
     }
 
-    public Set<CellEntity> getResults() {
+    public Set<CellEntity> getCells() {
         return this.cells;
     }
 
-    public void setResults(Set<CellEntity> results) {
-        this.cells = results;
+    public void setCells(Set<CellEntity> cells) {
+        this.cells = cells;
     }
 
     
@@ -104,9 +104,9 @@ public class ResultSetEntity implements Serializable {
         if (localId != other.getLocalId())
             return false;
         if (cells == null) {
-            if (other.getResults() != null)
+            if (other.getCells() != null)
                 return false;
-        } else if (!cells.equals(other.getResults()))
+        } else if (!cells.equals(other.getCells()))
             return false;
         return true;
     }
