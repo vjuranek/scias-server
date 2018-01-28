@@ -185,7 +185,6 @@ public class DetectedObjectEntity implements Serializable {
         result = prime * result + ((resolved == null) ? 0 : resolved.hashCode());
         result = prime * result + ((resolvedBy == null) ? 0 : resolvedBy.hashCode());
         result = prime * result + ((resolvedTime == null) ? 0 : resolvedTime.hashCode());
-        result = prime * result + ((cell == null) ? 0 : cell.hashCode());
         return result;
     }
 
@@ -241,11 +240,6 @@ public class DetectedObjectEntity implements Serializable {
             if (other.getResolvedTime() != null)
                 return false;
         } else if (!resolvedTime.equals(other.getResolvedTime()))
-            return false;
-        if (cell == null) {
-            if (other.getCell() != null)
-                return false;
-        } else if (!cell.equals(other.getCell()))
             return false;
         return true;
     }

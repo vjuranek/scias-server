@@ -189,7 +189,7 @@ public class ModelMappers {
         cellEnt.setY(cell.getY());
         cellEnt.setWidth(cell.getWidth());
         cellEnt.setHeight(cell.getHeight());
-        cellEnt.setDetectedObjects(detectedObjectListToEntities(cell.getDetectedObject()));
+        cellEnt.setDetectedObjects(detectedObjectListToEntities(cell.getDetectedObject(), cellEnt));
         return cellEnt;
     }
 
@@ -204,7 +204,7 @@ public class ModelMappers {
         ent.getDetectedObjects().forEach(dobj -> dos.add(entToDetectedObject(dobj)));
         return cell;
     }
-    
+
     public static Set<CellEntity> cellListToEntities(List<Cell> cells) {
         return cells.stream().map(cell -> cellToEntity(cell)).collect(Collectors.toSet());
     }
@@ -212,7 +212,7 @@ public class ModelMappers {
     public static List<Cell> entsToCellList(List<CellEntity> ents) {
         return ents.stream().map(ent -> entToCell(ent)).collect(Collectors.toList());
     }
-    
+
     public static DetectedObjectEntity detectedObjectToEntity(DetectedObject dobj) {
         DetectedObjectEntity de = new DetectedObjectEntity();
         de.setLocalId(dobj.getId());
@@ -230,7 +230,7 @@ public class ModelMappers {
         }
         return de;
     }
-    
+
     public static DetectedObject entToDetectedObject(DetectedObjectEntity ent) {
         DetectedObject dobj = new DetectedObject();
         dobj.setId(ent.getLocalId());
@@ -249,14 +249,18 @@ public class ModelMappers {
         return dobj;
     }
 
-    public static Set<DetectedObjectEntity> detectedObjectListToEntities(List<DetectedObject> dos) {
-        return dos.stream().map(dobj -> detectedObjectToEntity(dobj)).collect(Collectors.toSet());
+    public static Set<DetectedObjectEntity> detectedObjectListToEntities(List<DetectedObject> dos, CellEntity cell) {
+        return dos.stream().map(dobj -> {
+            DetectedObjectEntity de = detectedObjectToEntity(dobj);
+            de.setCell(cell);
+            return de;
+        }).collect(Collectors.toSet());
     }
 
     public static List<DetectedObject> entsToDetectedObjectList(List<DetectedObjectEntity> ents) {
         return ents.stream().map(ent -> entToDetectedObject(ent)).collect(Collectors.toList());
     }
-    
+
     public static InputDataEntity inputDataToEntity(InputData inputData) {
         InputDataEntity inputDataEnt = new InputDataEntity();
         inputDataEnt.setLocalId(inputData.getId());

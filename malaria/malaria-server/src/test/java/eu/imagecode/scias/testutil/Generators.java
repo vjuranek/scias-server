@@ -22,6 +22,7 @@ import eu.imagecode.scias.model.jpa.ResultSetEntity;
 import eu.imagecode.scias.model.rest.malaria.Analysis;
 import eu.imagecode.scias.model.rest.malaria.Batch;
 import eu.imagecode.scias.model.rest.malaria.Cell;
+import eu.imagecode.scias.model.rest.malaria.DetectedObject;
 import eu.imagecode.scias.model.rest.malaria.Image;
 import eu.imagecode.scias.model.rest.malaria.InputData;
 import eu.imagecode.scias.model.rest.malaria.MimeType;
@@ -68,6 +69,22 @@ public class Generators {
         uoImg2.setMimeType(TEST_IMG_MIME_TYPE);
         uoImg2.setPixelSize(TEST_PIXEL_SIZE);
         uoImg2.setWidth(TEST_IMG_WIDTH);
+        
+        DetectedObject do1 = new DetectedObject();
+        do1.setId(1);
+        do1.setHeight(10);
+        do1.setWidth(20);
+        do1.setX(100);
+        do1.setY(200);
+        do1.setIdClass(1);
+        
+        DetectedObject do2 = new DetectedObject();
+        do2.setId(2);
+        do2.setHeight(30);
+        do2.setWidth(40);
+        do2.setX(300);
+        do2.setY(400);
+        do2.setIdClass(2);
 
         Cell cell1 = new Cell();
         cell1.setId(1);
@@ -75,6 +92,8 @@ public class Generators {
         cell1.setWidth(20);
         cell1.setX(100);
         cell1.setY(200);
+        cell1.getDetectedObject().add(do1);
+        cell1.getDetectedObject().add(do2);
 
         Cell cell2 = new Cell();
         cell2.setId(2);

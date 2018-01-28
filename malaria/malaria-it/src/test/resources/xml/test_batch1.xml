@@ -43,7 +43,6 @@
                 <id>6</id>
                 <cell>
                     <id>1</id>
-                    <idClass>2</idClass>
                     <x>10</x>
                     <y>20</y>
                     <width>100</width>
@@ -51,7 +50,6 @@
                 </cell>
                 <cell>
                     <id>2</id>
-                    <idClass>3</idClass>
                     <x>30</x>
                     <y>40</y>
                     <width>300</width>
@@ -80,15 +78,29 @@
                 <id>2</id>
                 <cell>
                     <id>3</id>
-                    <idClass>2</idClass>
                     <x>10</x>
                     <y>20</y>
                     <width>100</width>
                     <height>200</height>
+                    <detectedObject>
+                        <id>1</id>
+                        <idClass>1</idClass>
+                        <x>10</x>
+                        <y>20</y>
+                        <width>100</width>
+                        <height>200</height>
+                    </detectedObject>
+                    <detectedObject>
+                        <id>2</id>
+                        <idClass>2</idClass>
+                        <x>30</x>
+                        <y>40</y>
+                        <width>300</width>
+                        <height>400</height>
+                    </detectedObject>
                 </cell>
                 <cell>
                     <id>4</id>
-                    <idClass>3</idClass>
                     <x>30</x>
                     <y>40</y>
                     <width>300</width>
