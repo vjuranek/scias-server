@@ -3,10 +3,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-      <groupId>eu.imagecode.scias</groupId>
-      <artifactId>scias-server</artifactId>
-      <version>0.1-SNAPSHOT</version>
-      <relativePath>../pom.xml</relativePath>
+        <groupId>eu.imagecode.scias</groupId>
+        <artifactId>scias-server</artifactId>
+        <version>0.1-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>scias-server-parent</artifactId>
@@ -30,6 +30,7 @@
         <version.postgres.driver>9.4.1208</version.postgres.driver>
         <version.resteasy>3.1.0.CR3</version.resteasy>
         <version.shrinkwrap.resolver>2.2.2</version.shrinkwrap.resolver>
+        <version.weld-junit>1.3.0.Final</version.weld-junit>
         <version.wildfly>10.1.0.Final</version.wildfly>
         <version.wildfly.arquillian.managed>8.2.1.Final</version.wildfly.arquillian.managed>
 
@@ -117,6 +118,12 @@
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>${version.junit}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.weld</groupId>
+                <artifactId>weld-junit4</artifactId>
+                <version>${version.weld-junit}</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>
