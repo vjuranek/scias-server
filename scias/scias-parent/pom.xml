@@ -13,8 +13,10 @@
     <packaging>pom</packaging>
 
     <properties>
+        <!-- project properties -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        
         <!-- maven-compiler-plugin -->
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -79,6 +81,8 @@
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
+            
+            <!-- test dependencies -->
             <dependency>
                 <groupId>org.jboss.arquillian.protocol</groupId>
                 <artifactId>arquillian-protocol-servlet</artifactId>

@@ -20,6 +20,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "analysis", uniqueConstraints = @UniqueConstraint(columnNames = "result_set_id"))
@@ -47,6 +49,7 @@ public class AnalysisEntity implements Serializable {
     private int id;
 
     @Column(name = "local_id", nullable = false)
+    @NotNull
     private int localId;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -55,13 +58,16 @@ public class AnalysisEntity implements Serializable {
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "result_set_id", unique = true)
+    @NotNull
     private ResultSetEntity resultSet;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created", length = 29)
+    @NotNull
     private Date created;
 
     @Column(name = "algorithm_version")
+    @Size(max = 255)
     private String algorithmVersion;
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "analysis", fetch = FetchType.EAGER)
@@ -69,6 +75,7 @@ public class AnalysisEntity implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "station_id")
+    @NotNull
     private StationEntity station;
 
     public AnalysisEntity() {
