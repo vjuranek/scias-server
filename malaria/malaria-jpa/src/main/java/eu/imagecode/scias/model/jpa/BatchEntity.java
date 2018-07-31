@@ -20,6 +20,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "batch")
@@ -43,9 +44,11 @@ public class BatchEntity implements Serializable {
     private int id;
     
     @Column(name = "local_id", nullable = false)
+    @NotNull
     private int localId;
     
     @Column(name = "created")
+    @NotNull
     private Date created;
     
     @Column(name = "finished")
@@ -59,6 +62,7 @@ public class BatchEntity implements Serializable {
     
     @ManyToOne
     @JoinColumn(name = "station_id")
+    @NotNull
     private StationEntity station;
     
     public BatchEntity() {

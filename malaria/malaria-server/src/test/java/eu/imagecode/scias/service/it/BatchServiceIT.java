@@ -5,6 +5,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -109,6 +111,7 @@ public class BatchServiceIT extends AbstractMalariaServiceIT {
         Batch batch = new Batch();
         batch.setId(111);
         batch.setFinished(true);
+        batch.setCreated(Date.valueOf(LocalDate.now()));
         batch.getSample().add(sample);
         batch.setPatient(patient);
         
@@ -148,6 +151,7 @@ public class BatchServiceIT extends AbstractMalariaServiceIT {
         Batch batch = new Batch();
         batch.setId(100);
         batch.setFinished(true);
+        batch.setCreated(Date.valueOf(LocalDate.now()));
         batch.getSample().add(sample);
         batch.setPatient(patient);
         
@@ -173,6 +177,7 @@ public class BatchServiceIT extends AbstractMalariaServiceIT {
         Batch batch = new Batch();
         batch.setId(111);
         batch.setFinished(true);
+        batch.setCreated(Date.valueOf(LocalDate.now()));
         batch.getSample().add(sample);
         batch.setPatient(patient);
         
@@ -191,6 +196,7 @@ public class BatchServiceIT extends AbstractMalariaServiceIT {
         Batch batch2 = new Batch();
         batch2.setId(112);
         batch2.setFinished(true);
+        batch2.setCreated(Date.valueOf(LocalDate.now()));
         batch2.getSample().add(sample2);
         batch2.setPatient(patient);
         
