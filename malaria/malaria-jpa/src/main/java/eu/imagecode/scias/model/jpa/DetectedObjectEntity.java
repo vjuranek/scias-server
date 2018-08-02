@@ -16,6 +16,8 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 
 @Entity
 @Table(name = "detected_object")
@@ -28,6 +30,7 @@ public class DetectedObjectEntity implements Serializable {
     private int id;
     
     @Column(name = "local_id", nullable = false)
+    @NotNull
     private int localId;
     
     /*@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -36,9 +39,11 @@ public class DetectedObjectEntity implements Serializable {
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cell_id")
+    @NotNull
     private CellEntity cell;
     
     @Column(name = "class_id")
+    @NotNull
     private Integer classId;
     
     @Column(name = "x")
@@ -62,6 +67,7 @@ public class DetectedObjectEntity implements Serializable {
     
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "resolved_time", length = 29)
+    @Past
     private Date resolvedTime;
 
     public DetectedObjectEntity() {
