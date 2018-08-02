@@ -161,7 +161,7 @@ public class ModelMappers {
 
     public static Analysis entityToAnalysis(AnalysisEntity ent) {
         Analysis analysis = new Analysis();
-        analysis.setId(ent.getId());
+        analysis.setId(ent.getLocalId());
         analysis.setAlgorithmVersion(ent.getAlgorithmVersion());
         analysis.setCreated(ent.getCreated());
         analysis.setResultSet(entToResultSet(ent.getResultSet()));
