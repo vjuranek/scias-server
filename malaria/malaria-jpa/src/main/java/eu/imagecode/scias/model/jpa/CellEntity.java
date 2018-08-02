@@ -16,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "cell")
@@ -28,25 +29,31 @@ public class CellEntity implements Serializable {
     private int id;
     
     @Column(name = "local_id", nullable = false)
+    @NotNull
     private int localId;
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "result_set_id")
+    @NotNull
     private ResultSetEntity resultSet;
     
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "cell", cascade = CascadeType.ALL)
     private Set<DetectedObjectEntity> detectedObjects = new HashSet<DetectedObjectEntity>(0);
     
     @Column(name = "x")
+    @NotNull
     private Integer x;
     
     @Column(name = "y")
+    @NotNull
     private Integer y;
     
     @Column(name = "width")
+    @NotNull
     private Integer width;
     
     @Column(name = "height")
+    @NotNull
     private Integer height;
 
     public CellEntity() {

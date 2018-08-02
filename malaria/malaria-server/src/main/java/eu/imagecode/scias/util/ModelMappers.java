@@ -171,7 +171,7 @@ public class ModelMappers {
     public static ResultSetEntity resultSetToEntity(ResultSet rs) {
         ResultSetEntity rsEntList = new ResultSetEntity();
         rsEntList.setLocalId(rs.getId());
-        rsEntList.setCells(cellListToEntities(rs.getCell()));
+        rsEntList.setCells(cellListToEntities(rs.getCell(), rsEntList));
         return rsEntList;
     }
 
@@ -182,9 +182,10 @@ public class ModelMappers {
         return rs;
     }
 
-    public static CellEntity cellToEntity(Cell cell) {
+    public static CellEntity cellToEntity(Cell cell, ResultSetEntity rse) {
         CellEntity cellEnt = new CellEntity();
         cellEnt.setLocalId(cell.getId());
+        cellEnt.setResultSet(rse);
         cellEnt.setX(cell.getX());
         cellEnt.setY(cell.getY());
         cellEnt.setWidth(cell.getWidth());
@@ -205,8 +206,8 @@ public class ModelMappers {
         return cell;
     }
 
-    public static Set<CellEntity> cellListToEntities(List<Cell> cells) {
-        return cells.stream().map(cell -> cellToEntity(cell)).collect(Collectors.toSet());
+    public static Set<CellEntity> cellListToEntities(List<Cell> cells, ResultSetEntity rse) {
+        return cells.stream().map(cell -> cellToEntity(cell, rse)).collect(Collectors.toSet());
     }
 
     public static List<Cell> entsToCellList(List<CellEntity> ents) {
