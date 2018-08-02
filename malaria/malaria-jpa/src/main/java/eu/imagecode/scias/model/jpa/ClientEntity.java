@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "client", uniqueConstraints = @UniqueConstraint(columnNames = "version_id"))
@@ -26,6 +27,7 @@ public class ClientEntity implements Serializable {
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "version_id", unique = true)
+    @NotNull
     private ClientVersionEntity clientVersion;
 
     public ClientEntity() {
