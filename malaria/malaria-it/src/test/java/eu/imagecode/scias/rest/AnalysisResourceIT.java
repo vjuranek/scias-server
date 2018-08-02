@@ -64,10 +64,10 @@ public class AnalysisResourceIT {
             xml.getDocumentElement().normalize();
             
             assertEquals(ROOT_ELEM, xml.getDocumentElement().getNodeName());
-            NodeList ids = xml.getElementsByTagName(ID_ELEM);
-            assertEquals(2, ids.getLength());
-            assertEquals("3", ids.item(0).getTextContent());
-            assertEquals("4", ids.item(1).getTextContent());
+            NodeList analyses = xml.getElementsByTagName(ANALYSIS_ELEM);
+            assertEquals(2, analyses.getLength());
+            assertEquals("3", analyses.item(0).getChildNodes().item(0).getTextContent());
+            assertEquals("4", analyses.item(1).getChildNodes().item(0).getTextContent());
         }
     }
 
