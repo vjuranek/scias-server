@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "locality")
@@ -20,15 +21,19 @@ public class LocalityEntity implements java.io.Serializable {
     private int id;
     
     @Column(name = "local_id", nullable = false)
+    @NotNull
     private int localId;
     
     @Column(name = "longtitude", nullable = false, precision = 17, scale = 17)
+    @NotNull
     private double longtitude;
     
     @Column(name = "latitude", nullable = false, precision = 17, scale = 17)
+    @NotNull
     private double latitude;
     
     @Column(name = "altitude", nullable = false, precision = 17, scale = 17)
+    @NotNull
     private double altitude;
     
     public LocalityEntity() {
