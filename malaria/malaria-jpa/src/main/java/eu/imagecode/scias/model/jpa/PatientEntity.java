@@ -16,6 +16,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 
 @Entity
@@ -40,6 +41,7 @@ public class PatientEntity implements Serializable {
     private int id;
     
     @Column(name = "local_id", nullable = false)
+    @NotNull
     private int localId;
     
     @Column(name = "first_name")
@@ -57,6 +59,7 @@ public class PatientEntity implements Serializable {
     
     @ManyToOne
     @JoinColumn(name = "station_id")
+    @NotNull
     private StationEntity station;
     
 
