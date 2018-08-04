@@ -10,11 +10,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "input_data", uniqueConstraints = { @UniqueConstraint(columnNames = "analysis_id"),
@@ -28,13 +28,16 @@ public class InputDataEntity implements Serializable {
     private int id;
     
     @Column(name = "local_id", nullable = false)
+    @NotNull
     private int localId;
     
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "analysis_id", unique = true)
+    @NotNull
     private AnalysisEntity analysis;
     
     @OneToOne(cascade = CascadeType.ALL)
+    @NotNull
     private ImageEntity image;
     
     public InputDataEntity() {
