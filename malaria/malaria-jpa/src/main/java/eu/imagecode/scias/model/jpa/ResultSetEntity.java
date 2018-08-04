@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "result_set")
@@ -27,6 +28,7 @@ public class ResultSetEntity implements Serializable {
     private int id;
     
     @Column(name = "local_id", nullable = false)
+    @NotNull
     private int localId;
     
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "resultSet", cascade = CascadeType.ALL)
