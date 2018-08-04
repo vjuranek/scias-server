@@ -17,6 +17,8 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 
 @Entity
 @Table(name = "image")
@@ -29,15 +31,19 @@ public class ImageEntity implements Serializable {
     private int id;
 
     @Column(name = "local_id", nullable = false)
+    @NotNull
     private int localId;
     
+    //TODO unused? remove
     @Column(name = "path", length = 4095)
     private String path;
     
     @Column(name = "name")
+    @NotNull
     private String name;
     
     @Column(name = "sha256")
+    @NotNull
     private String sha256;
     
     @Column(name = "width")
@@ -51,10 +57,13 @@ public class ImageEntity implements Serializable {
     
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created", length = 29)
+    @NotNull
+    @Past
     private Date created;
     
     @Enumerated(EnumType.STRING)
     @Column(name = "mime_type", nullable = false, length = 16)
+    @NotNull
     private MimeTypeEntity mimeType;
     
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "image")
