@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "scias_role")
@@ -21,6 +22,7 @@ public class SciasRoleEntity implements Serializable {
     private int id;
     
     @Column(name = "role", nullable = false, length = 32)
+    @NotNull
     private String role;
     
     @Column(name = "description")
