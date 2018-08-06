@@ -5,6 +5,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -92,6 +94,8 @@ public class SampleServiceIT extends AbstractMalariaServiceIT {
         loc.setId(1);
         Sample sample = new Sample();
         sample.setId(111);
+        sample.setCreated(Date.valueOf(LocalDate.now()));
+        sample.setFinished(false);
         sample.setLocality(loc);
         sample.getAnalysis().add(anal);
         
@@ -156,6 +160,8 @@ public class SampleServiceIT extends AbstractMalariaServiceIT {
         loc.setId(1);
         Sample sample = new Sample();
         sample.setId(1);
+        sample.setCreated(Date.valueOf(LocalDate.now()));
+        sample.setFinished(false);
         sample.setLocality(loc);
         sample.getAnalysis().add(anal);
         

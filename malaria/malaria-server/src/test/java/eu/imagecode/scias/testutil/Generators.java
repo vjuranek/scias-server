@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -134,6 +135,7 @@ public class Generators {
     public static Batch generateBatch() {
         Sample sample = new Sample();
         sample.setId(1);
+        sample.setCreated(java.sql.Date.valueOf(LocalDate.now()));
         sample.getAnalysis().add(generateAnalysis());
 
         Batch batch = new Batch();

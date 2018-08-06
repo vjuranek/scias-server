@@ -15,6 +15,7 @@ import javax.inject.Inject;
 
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.persistence.ApplyScriptBefore;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -102,6 +103,8 @@ public class BatchServiceIT extends AbstractMalariaServiceIT {
         loc.setId(1);
         Sample sample = new Sample();
         sample.setId(111);
+        sample.setCreated(Date.valueOf(LocalDate.now()));
+        sample.setFinished(false);
         sample.setLocality(loc);
         sample.getAnalysis().add(anal);
         Patient patient = new Patient();
@@ -142,6 +145,8 @@ public class BatchServiceIT extends AbstractMalariaServiceIT {
         loc.setId(1);
         Sample sample = new Sample();
         sample.setId(1);
+        sample.setCreated(Date.valueOf(LocalDate.now()));
+        sample.setFinished(false);
         sample.setLocality(loc);
         sample.getAnalysis().add(anal);
         Patient patient = new Patient();
@@ -168,6 +173,8 @@ public class BatchServiceIT extends AbstractMalariaServiceIT {
         loc.setId(1);
         Sample sample = new Sample();
         sample.setId(1);
+        sample.setCreated(Date.valueOf(LocalDate.now()));
+        sample.setFinished(false);
         sample.setLocality(loc);
         sample.getAnalysis().add(anal);
         Patient patient = new Patient();
@@ -191,6 +198,8 @@ public class BatchServiceIT extends AbstractMalariaServiceIT {
         Analysis anal2 = Generators.generateAnalysis(2);
         Sample sample2 = new Sample();
         sample2.setId(2);
+        sample.setCreated(Date.valueOf(LocalDate.now()));
+        sample.setFinished(false);
         sample2.setLocality(loc);
         sample2.getAnalysis().add(anal2);
         Batch batch2 = new Batch();
@@ -215,6 +224,8 @@ public class BatchServiceIT extends AbstractMalariaServiceIT {
         loc.setId(1);
         Sample sample = new Sample();
         sample.setId(1);
+        sample.setCreated(Date.valueOf(LocalDate.now()));
+        sample.setFinished(false);
         sample.setLocality(loc);
         sample.getAnalysis().add(anal);
         Patient patient = new Patient();

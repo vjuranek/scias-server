@@ -19,6 +19,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 
 @Entity
 @Table(name = "sample")
@@ -44,19 +46,24 @@ public class SampleEntity implements Serializable {
     private int id;
     
     @Column(name = "local_id", nullable = false)
+    @NotNull
     private int localId;
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "batch_id")
+    @NotNull
     private BatchEntity batch;
 
     @Column(name = "created")
+    //@NotNull //TODO causes test failures
+    @Past
     private Date created;
     
     @Column(name = "update_time")
     private Date updateTime;
     
     @Column(name = "finished")
+    @NotNull
     private Boolean finished;
     
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -64,10 +71,12 @@ public class SampleEntity implements Serializable {
     private LocalityEntity locality;
     
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "sample", cascade = CascadeType.ALL)
+    @NotNull
     private List<AnalysisEntity> analysises = new ArrayList<AnalysisEntity>(0);
     
     @ManyToOne
     @JoinColumn(name = "station_id")
+    @NotNull
     private StationEntity station;
 
     public SampleEntity() {
