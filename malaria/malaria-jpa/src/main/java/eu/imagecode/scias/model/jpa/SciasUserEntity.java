@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "scias_user")
@@ -25,12 +26,15 @@ public class SciasUserEntity implements Serializable {
     private int id;
     
     @Column(name = "username", nullable = false)
+    @NotNull
     private String username;
     
     @Column(name = "password", nullable = false)
+    @NotNull
     private String password;
     
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "sciasUser")
+    @NotNull
     private Set<UserRoleEntity> userRoles = new HashSet<UserRoleEntity>(0);
 
     public SciasUserEntity() {
