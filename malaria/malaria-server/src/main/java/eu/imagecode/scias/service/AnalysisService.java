@@ -1,14 +1,9 @@
 package eu.imagecode.scias.service;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.NonUniqueResultException;
 
 import eu.imagecode.scias.model.jpa.AnalysisEntity;
 
@@ -19,97 +14,55 @@ import eu.imagecode.scias.model.jpa.AnalysisEntity;
  *
  */
 @Stateless
-public class AnalysisService {
-
-    @Inject
-    private EntityManager em;
+public interface AnalysisService {
 
     /**
      * Loads all analyses from DB 
      *
      */
-    public List<AnalysisEntity> getAllAnalyses() {
-        return em.createNamedQuery(AnalysisEntity.QUERY_FIND_ALL, AnalysisEntity.class).getResultList();
-    }
+    public List<AnalysisEntity> getAllAnalyses();
 
     /**
      * Loads analysis with given global/server ID 
      *
      */
-    public AnalysisEntity getAnalysisById(int id) {
-        return em.createNamedQuery(AnalysisEntity.QUERY_FIND_BY_ID, AnalysisEntity.class).setParameter("analysisId", id).getSingleResult();
-    }
+    public AnalysisEntity getAnalysisById(int id);
     
     /**
      * Loads all analyses related to given batch ID
      * 
      */
-    public List<AnalysisEntity> getAnalysisByBatchId(int batchId) {
-        try {
-            return em.createNamedQuery(AnalysisEntity.QUERY_FIND_BY_BATCH_ID, AnalysisEntity.class).setParameter("batchId", batchId).getResultList();
-        } catch (NoResultException e) {
-            return new ArrayList<AnalysisEntity>();
-        }
-    }
+    public List<AnalysisEntity> getAnalysisByBatchId(int batchId);
     
     /**
      * Loads analysis with specified local/client ID for given station (local ID has to be unique for one station).
      * 
      */
-    public AnalysisEntity getAnalysisByLocalId(int analysisId, int stationId) {
-        return em.createNamedQuery(AnalysisEntity.QUERY_FIND_BY_LOCAL_ID_AND_STATION, AnalysisEntity.class).setParameter("localId", analysisId).setParameter("stationID", stationId).getSingleResult();
-    }
+    public AnalysisEntity getAnalysisByLocalId(int analysisId, int stationId);
     
     /**
      * Loads analysis with specified local/client ID for given station (local ID has to be unique for one station).
      * 
      */
-    public AnalysisEntity getAnalysisByLocalId(int analysisId, String stationUuid) {
-        return em.createNamedQuery(AnalysisEntity.QUERY_FIND_BY_LOCAL_ID_AND_STATION_UUID, AnalysisEntity.class).setParameter("localId", analysisId).setParameter("stationUUID", stationUuid).getSingleResult();
-    }
+    public AnalysisEntity getAnalysisByLocalId(int analysisId, String stationUuid);
     
     /**
      * Loads all analyses in specified time range.
      * 
      */
-    public List<AnalysisEntity> getAnalysisInTimeRange(Timestamp from, Timestamp to) {
-        try {
-            return em.createNamedQuery(AnalysisEntity.QUERY_FIND_IN_TIME_RANGE, AnalysisEntity.class).setParameter("from", from).setParameter("to", to).getResultList();
-        } catch (NoResultException e) {
-            return new ArrayList<AnalysisEntity>();
-        }
-    }
+    public List<AnalysisEntity> getAnalysisInTimeRange(Timestamp from, Timestamp to);
     
     
     /**
      * Checks, whether analysis with given local/client ID was already uploaded from given station.
      * 
      */
-    public boolean isAnalysisUploaded(int analysisId, int stationId) {
-        try {
-            em.createNamedQuery(AnalysisEntity.QUERY_FIND_BY_LOCAL_ID_AND_STATION, AnalysisEntity.class).setParameter("localId", analysisId).setParameter("stationID", stationId).getSingleResult();
-        } catch (NoResultException e) {
-            return false;
-        } catch (NonUniqueResultException e) {
-            return true;
-        }
-        return true;
-    }
+    public boolean isAnalysisUploaded(int analysisId, int stationId);
     
     
     /**
      * Checks, whether analysis with given local/client ID was already uploaded from given station.
      * 
      */
-    public boolean isAnalysisUploaded(int analysisId, String stationUuid) {
-        try {
-            em.createNamedQuery(AnalysisEntity.QUERY_FIND_BY_LOCAL_ID_AND_STATION_UUID, AnalysisEntity.class).setParameter("localId", analysisId).setParameter("stationUUID", stationUuid).getSingleResult();
-        } catch (NoResultException e) {
-            return false;
-        } catch (NonUniqueResultException e) {
-            return true;
-        }
-        return true;
-    }
-
+    public boolean isAnalysisUploaded(int analysisId, String stationUuid);
 }

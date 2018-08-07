@@ -23,6 +23,7 @@ public class DeploymentBuilder {
                 .addAsLibrary(jpaJar)
                 .addClass(AbstractMalariaServiceIT.class)
                 .addPackage("eu.imagecode.scias.service")
+                .addPackage("eu.imagecode.scias.service.impl")
                 .addPackage("eu.imagecode.scias.util")
                 .addPackage("eu.imagecode.scias.testutil")
                 .addAsResource("img/Image01.jpg")
