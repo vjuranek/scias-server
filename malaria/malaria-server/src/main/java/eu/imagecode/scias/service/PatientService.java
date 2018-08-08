@@ -2,11 +2,6 @@ package eu.imagecode.scias.service;
 
 import java.util.List;
 
-import javax.ejb.Stateless;
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-
 import eu.imagecode.scias.model.jpa.PatientEntity;
 
 /**
@@ -15,49 +10,30 @@ import eu.imagecode.scias.model.jpa.PatientEntity;
  * @author vjuranek
  *
  */
-@Stateless
-public class PatientService {
-    
-    @Inject
-    private EntityManager em;
-    
+public interface PatientService {
+
     /**
      * Loads all patients from DB.
      * 
      */
-    public List<PatientEntity> getAllPatients() {
-        return em.createNamedQuery(PatientEntity.QUERY_FIND_ALL, PatientEntity.class).getResultList();
-    }
-    
+    List<PatientEntity> getAllPatients();
+
     /**
      * Loads patient with specified global/server ID.
      * 
      */
-    public PatientEntity getPatientById(int id) {
-        return em.createNamedQuery(PatientEntity.QUERY_FIND_BY_ID, PatientEntity.class).setParameter("patientId", id).getSingleResult();
-    }
-    
+    PatientEntity getPatientById(int id);
+
     /**
      * Loads patient with specified local/client ID for given station (local ID has to be unique for one station).
      * 
      */
-    public PatientEntity getPatientByLocalId(int localId, int stationId) {
-        try {
-            return em.createNamedQuery(PatientEntity.QUERY_FIND_BY_LOCAL_ID_AND_STATION, PatientEntity.class).setParameter("localId", localId).setParameter("stationID", stationId).getSingleResult();
-        } catch (NoResultException e) {
-            return null;
-        }        
-    }
-    
+    PatientEntity getPatientByLocalId(int localId, int stationId);
+
     /**
      * Loads patient with specified local/client ID for given station (local ID has to be unique for one station).
      * 
      */
-    public PatientEntity getPatientByLocalId(int localId, String stationUuid) {
-        try {
-            return em.createNamedQuery(PatientEntity.QUERY_FIND_BY_LOCAL_ID_STATION_UUID, PatientEntity.class).setParameter("localId", localId).setParameter("stationUUID", stationUuid).getSingleResult();
-        } catch (NoResultException e) {
-            return null;
-        }        
-    }
+    PatientEntity getPatientByLocalId(int localId, String stationUuid);
+
 }
