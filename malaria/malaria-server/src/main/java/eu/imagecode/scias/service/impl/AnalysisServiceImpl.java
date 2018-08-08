@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ejb.Stateless;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -20,6 +21,7 @@ import eu.imagecode.scias.service.AnalysisService;
  *
  */
 @Dependent
+@Stateless
 public class AnalysisServiceImpl implements AnalysisService {
 
     @Inject

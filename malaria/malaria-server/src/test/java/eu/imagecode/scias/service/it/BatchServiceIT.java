@@ -15,7 +15,6 @@ import javax.inject.Inject;
 
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.persistence.ApplyScriptBefore;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
