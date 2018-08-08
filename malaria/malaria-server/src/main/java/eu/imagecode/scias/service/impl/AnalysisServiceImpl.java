@@ -27,15 +27,18 @@ public class AnalysisServiceImpl implements AnalysisService {
     @Inject
     private EntityManager em;
 
+    @Override
     public List<AnalysisEntity> getAllAnalyses() {
         return em.createNamedQuery(AnalysisEntity.QUERY_FIND_ALL, AnalysisEntity.class).getResultList();
     }
 
+    @Override
     public AnalysisEntity getAnalysisById(int id) {
         return em.createNamedQuery(AnalysisEntity.QUERY_FIND_BY_ID, AnalysisEntity.class).setParameter("analysisId", id)
                         .getSingleResult();
     }
 
+    @Override
     public List<AnalysisEntity> getAnalysisByBatchId(int batchId) {
         try {
             return em.createNamedQuery(AnalysisEntity.QUERY_FIND_BY_BATCH_ID, AnalysisEntity.class)
@@ -45,16 +48,19 @@ public class AnalysisServiceImpl implements AnalysisService {
         }
     }
 
+    @Override
     public AnalysisEntity getAnalysisByLocalId(int analysisId, int stationId) {
         return em.createNamedQuery(AnalysisEntity.QUERY_FIND_BY_LOCAL_ID_AND_STATION, AnalysisEntity.class)
                         .setParameter("localId", analysisId).setParameter("stationID", stationId).getSingleResult();
     }
 
+    @Override
     public AnalysisEntity getAnalysisByLocalId(int analysisId, String stationUuid) {
         return em.createNamedQuery(AnalysisEntity.QUERY_FIND_BY_LOCAL_ID_AND_STATION_UUID, AnalysisEntity.class)
                         .setParameter("localId", analysisId).setParameter("stationUUID", stationUuid).getSingleResult();
     }
 
+    @Override
     public List<AnalysisEntity> getAnalysisInTimeRange(Timestamp from, Timestamp to) {
         try {
             return em.createNamedQuery(AnalysisEntity.QUERY_FIND_IN_TIME_RANGE, AnalysisEntity.class)
@@ -64,6 +70,7 @@ public class AnalysisServiceImpl implements AnalysisService {
         }
     }
 
+    @Override
     public boolean isAnalysisUploaded(int analysisId, int stationId) {
         try {
             em.createNamedQuery(AnalysisEntity.QUERY_FIND_BY_LOCAL_ID_AND_STATION, AnalysisEntity.class)
@@ -76,6 +83,7 @@ public class AnalysisServiceImpl implements AnalysisService {
         return true;
     }
 
+    @Override
     public boolean isAnalysisUploaded(int analysisId, String stationUuid) {
         try {
             em.createNamedQuery(AnalysisEntity.QUERY_FIND_BY_LOCAL_ID_AND_STATION_UUID, AnalysisEntity.class)

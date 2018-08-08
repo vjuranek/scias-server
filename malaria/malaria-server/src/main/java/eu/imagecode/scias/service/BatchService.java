@@ -10,7 +10,7 @@ import eu.imagecode.scias.model.jpa.BatchEntity;
 import eu.imagecode.scias.model.rest.malaria.Batch;
 
 /**
- * Service for manipulating with batches. 
+ * Service for manipulating with batches.
  * 
  * @author vjuranek
  *

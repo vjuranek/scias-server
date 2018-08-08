@@ -49,15 +49,18 @@ public class BatchServiceImpl implements BatchService {
     @Inject
     private Logger log;
 
+    @Override
     public List<BatchEntity> getAllBatches() {
         return em.createNamedQuery(BatchEntity.QUERY_FIND_ALL, BatchEntity.class).getResultList();
     }
 
+    @Override
     public BatchEntity getBatchById(int id) {
         return em.createNamedQuery(BatchEntity.QUERY_FIND_BY_ID, BatchEntity.class).setParameter("batchId", id)
                         .getSingleResult();
     }
 
+    @Override
     public BatchEntity getBatchByLocalId(int localId, int stationId) {
         try {
             return em.createNamedQuery(BatchEntity.QUERY_FIND_BY_LOCAL_ID_AND_STATION, BatchEntity.class)
@@ -67,6 +70,7 @@ public class BatchServiceImpl implements BatchService {
         }
     }
 
+    @Override
     public BatchEntity getBatchByLocalId(int localId, String stationUuid) {
         try {
             return em.createNamedQuery(BatchEntity.QUERY_FIND_BY_LOCAL_ID_AND_STATION_UUID, BatchEntity.class)
@@ -77,6 +81,7 @@ public class BatchServiceImpl implements BatchService {
         }
     }
 
+    @Override
     public boolean isBatchUploaded(int batchId, int stationId) {
         try {
             em.createNamedQuery(BatchEntity.QUERY_FIND_BY_LOCAL_ID_AND_STATION, BatchEntity.class)
@@ -89,6 +94,7 @@ public class BatchServiceImpl implements BatchService {
         return true;
     }
 
+    @Override
     public boolean isBatchUploaded(int batchId, String stationUuid) {
         try {
             em.createNamedQuery(BatchEntity.QUERY_FIND_BY_LOCAL_ID_AND_STATION_UUID, BatchEntity.class)
@@ -102,6 +108,7 @@ public class BatchServiceImpl implements BatchService {
         return true;
     }
 
+    @Override
     public BatchEntity uploadBatch(Batch batch, Map<String, byte[]> imgMap, String stationUuid)
                     throws NoSuchAlgorithmException {
         StationEntity stationEnt = getStationByUuid(stationUuid);

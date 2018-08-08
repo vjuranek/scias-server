@@ -66,8 +66,8 @@ public class SampleServiceImpl implements SampleService {
 
     @Override
     public List<SampleEntity> getSamplesByBatchId(int batchId) {
-        return em.createNamedQuery(SampleEntity.QUERY_FIND_BY_BATCH_ID, SampleEntity.class).setParameter("batchId", batchId)
-                        .getResultList();
+        return em.createNamedQuery(SampleEntity.QUERY_FIND_BY_BATCH_ID, SampleEntity.class)
+                        .setParameter("batchId", batchId).getResultList();
     }
 
     @Override
