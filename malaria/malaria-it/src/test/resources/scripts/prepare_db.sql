@@ -13,7 +13,7 @@ CREATE SEQUENCE client_version_id_seq INCREMENT BY 50; -- Hibernate default allo
 
 CREATE TABLE IF NOT EXISTS client (
     id integer PRIMARY KEY,
-    version_id integer UNIQUE REFERENCES client_version(id) -- TODO NOT NULL
+    version_id integer NOT NULL UNIQUE REFERENCES client_version(id)
 );
 CREATE SEQUENCE client_id_seq INCREMENT BY 50;
 
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS user_role (
 CREATE TABLE IF NOT EXISTS station_group (
     id integer PRIMARY KEY,
     name varchar(255),
-    parent_group_id integer REFERENCES station_group(id) -- TODO NOT NULL
+    parent_group_id integer REFERENCES station_group(id)
 );
 CREATE SEQUENCE station_group_id_seq INCREMENT BY 50;
 
@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS station (
     id integer PRIMARY KEY,
     uuid char(36) UNIQUE NOT NULL,
     name varchar(255),
-    station_group_id integer REFERENCES station_group(id) -- TODO NOT NULL
+    station_group_id integer REFERENCES station_group(id)
 );
 CREATE SEQUENCE station_id_seq INCREMENT BY 50;
 
@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS patient (
     middle_name varchar(255),
     last_name varchar(255),
     day_of_birth date,
-    station_id integer REFERENCES station(id) -- TODO NOT NULL
+    station_id integer NOT NULL REFERENCES station(id)
 );
 CREATE SEQUENCE patient_id_seq INCREMENT BY 50;
 
@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS batch (
     created time,
     finished boolean,
     patient_id integer REFERENCES patient(id),
-    station_id integer REFERENCES station(id) -- TODO NOT NULL
+    station_id integer NOT NULL REFERENCES station(id)
 );
 CREATE SEQUENCE batch_id_seq INCREMENT BY 50;
 
@@ -104,8 +104,8 @@ CREATE TABLE IF NOT EXISTS sample (
     update_time time,
     finished boolean,
     locality_id integer REFERENCES locality(id),
-    batch_id integer REFERENCES batch(id), -- TODO NOT NULL
-    station_id integer REFERENCES station(id) -- TODO NOT NULL
+    batch_id integer NOT NULL REFERENCES batch(id),
+    station_id integer NOT NULL REFERENCES station(id)
 );
 CREATE SEQUENCE sample_id_seq INCREMENT BY 50;
 
@@ -116,8 +116,8 @@ CREATE TABLE IF NOT EXISTS analysis (
     created timestamp,
     algorithm_version varchar(255),
     sample_id integer REFERENCES sample(id),
-    result_set_id integer UNIQUE REFERENCES result_set(id), -- TODO NOT NULL
-    station_id integer REFERENCES station(id) -- TODO NOT NULL
+    result_set_id integer NOT NULL UNIQUE REFERENCES result_set(id),
+    station_id integer NOT NULL REFERENCES station(id)
 );
 CREATE SEQUENCE analysis_id_seq INCREMENT BY 50;
 
@@ -129,7 +129,7 @@ CREATE TABLE IF NOT EXISTS cell (
     y integer,
     width integer,
     height integer,
-    result_set_id integer REFERENCES result_set(id) -- TODO NOT NULL
+    result_set_id integer NOT NULL REFERENCES result_set(id)
 );
 CREATE SEQUENCE cell_id_seq INCREMENT BY 50;
 
@@ -171,7 +171,7 @@ CREATE TABLE IF NOT EXISTS input_data (
     id integer PRIMARY KEY,
     local_id integer NOT NULL,
     image_id integer UNIQUE REFERENCES image(id),
-    analysis_id integer UNIQUE REFERENCES analysis(id), -- TODO NOT NULL
+    analysis_id integer NOT NULL UNIQUE REFERENCES analysis(id),
     client_id integer  REFERENCES client(id)
 );
 CREATE SEQUENCE input_data_id_seq INCREMENT BY 50;
