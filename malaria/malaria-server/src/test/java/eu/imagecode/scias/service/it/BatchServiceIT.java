@@ -197,8 +197,8 @@ public class BatchServiceIT extends AbstractMalariaServiceIT {
         Analysis anal2 = Generators.generateAnalysis(2);
         Sample sample2 = new Sample();
         sample2.setId(2);
-        sample.setCreated(Date.valueOf(LocalDate.now()));
-        sample.setFinished(false);
+        sample2.setCreated(Date.valueOf(LocalDate.now()));
+        sample2.setFinished(false);
         sample2.setLocality(loc);
         sample2.getAnalysis().add(anal2);
         Batch batch2 = new Batch();

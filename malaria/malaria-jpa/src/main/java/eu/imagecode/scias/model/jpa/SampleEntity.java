@@ -55,7 +55,7 @@ public class SampleEntity implements Serializable {
     private BatchEntity batch;
 
     @Column(name = "created")
-    //@NotNull //TODO causes test failures
+    @NotNull
     @Past
     private Date created;
     

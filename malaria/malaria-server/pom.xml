@@ -123,6 +123,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
+                <configuration>
+                    <forkCount>1</forkCount> <!-- it's the default, but configure it explicitly to make it obvious. No fork results in test failures, as tests don't 
+                        find relative path to server when run from root dir -->
+                </configuration>
             </plugin>
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>

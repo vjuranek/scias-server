@@ -16,7 +16,7 @@
         <module>malaria-it</module>
         <module>malaria-jpa</module>
         <module>malaria-rest</module>
-	<module>malaria-server</module>
+        <module>malaria-server</module>
     </modules>
 
     <dependencyManagement>
