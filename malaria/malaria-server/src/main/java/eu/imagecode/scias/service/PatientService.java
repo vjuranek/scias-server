@@ -12,7 +12,6 @@ import eu.imagecode.scias.model.jpa.PatientEntity;
  * @author vjuranek
  *
  */
-@Stateless
 public interface PatientService {
 
     /**

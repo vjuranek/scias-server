@@ -3,7 +3,6 @@ package eu.imagecode.scias.service.impl;
 import java.util.List;
 
 import javax.ejb.Stateless;
-import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -17,7 +16,6 @@ import eu.imagecode.scias.service.PatientService;
  * @author vjuranek
  *
  */
-@Dependent
 @Stateless
 public class PatientServiceImpl implements PatientService {
 

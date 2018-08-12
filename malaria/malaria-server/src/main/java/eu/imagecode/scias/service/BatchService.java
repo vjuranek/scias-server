@@ -15,7 +15,6 @@ import eu.imagecode.scias.model.rest.malaria.Batch;
  * @author vjuranek
  *
  */
-@Stateless
 public interface BatchService {
 
     /**

@@ -16,7 +16,6 @@ import eu.imagecode.scias.model.rest.malaria.Sample;
  * @author vjuranek
  *
  */
-@Stateless
 public interface SampleService {
 
     /**

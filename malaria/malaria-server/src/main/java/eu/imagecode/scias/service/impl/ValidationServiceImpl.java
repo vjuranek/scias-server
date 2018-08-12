@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.ejb.Stateless;
-import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.persistence.NonUniqueResultException;
 
@@ -26,7 +25,6 @@ import eu.imagecode.scias.util.SciasFunctions;
  * @author vjuranek
  *
  */
-@Dependent
 @Stateless
 public class ValidationServiceImpl implements ValidationService {
 

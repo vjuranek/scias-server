@@ -13,7 +13,6 @@ import eu.imagecode.scias.model.jpa.AnalysisEntity;
  * @author vjuranek
  *
  */
-@Stateless
 public interface AnalysisService {
 
     /**

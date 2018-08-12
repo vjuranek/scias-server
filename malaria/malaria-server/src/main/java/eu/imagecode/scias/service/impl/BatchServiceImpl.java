@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.ejb.Stateless;
-import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -30,7 +29,6 @@ import eu.imagecode.scias.util.ModelMappers;
  * @author vjuranek
  *
  */
-@Dependent
 @Stateless
 public class BatchServiceImpl implements BatchService {
 
