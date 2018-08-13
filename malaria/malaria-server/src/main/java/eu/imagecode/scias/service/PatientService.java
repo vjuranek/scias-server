@@ -2,8 +2,6 @@ package eu.imagecode.scias.service;
 
 import java.util.List;
 
-import javax.ejb.Stateless;
-
 import eu.imagecode.scias.model.jpa.PatientEntity;
 
 /**

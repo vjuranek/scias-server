@@ -3,8 +3,6 @@ package eu.imagecode.scias.service;
 import java.sql.Timestamp;
 import java.util.List;
 
-import javax.ejb.Stateless;
-
 import eu.imagecode.scias.model.jpa.AnalysisEntity;
 
 /**

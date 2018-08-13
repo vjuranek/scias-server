@@ -3,8 +3,6 @@ package eu.imagecode.scias.service;
 import java.util.List;
 import java.util.Map;
 
-import javax.ejb.Stateless;
-
 import eu.imagecode.scias.model.jpa.BatchEntity;
 import eu.imagecode.scias.model.jpa.SampleEntity;
 import eu.imagecode.scias.model.jpa.StationEntity;

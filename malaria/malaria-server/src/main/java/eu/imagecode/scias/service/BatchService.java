@@ -4,8 +4,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Map;
 
-import javax.ejb.Stateless;
-
 import eu.imagecode.scias.model.jpa.BatchEntity;
 import eu.imagecode.scias.model.rest.malaria.Batch;
 
