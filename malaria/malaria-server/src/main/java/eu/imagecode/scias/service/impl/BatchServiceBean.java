@@ -30,7 +30,7 @@ import eu.imagecode.scias.util.ModelMappers;
  *
  */
 @Stateless
-public class BatchServiceImpl implements BatchService {
+public class BatchServiceBean implements BatchService {
 
     @Inject
     private EntityManager em;

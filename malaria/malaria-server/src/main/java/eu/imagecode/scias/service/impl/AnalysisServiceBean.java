@@ -22,7 +22,7 @@ import eu.imagecode.scias.service.AnalysisService;
  */
 @Dependent
 @Stateless
-public class AnalysisServiceImpl implements AnalysisService {
+public class AnalysisServiceBean implements AnalysisService {
 
     @Inject
     private EntityManager em;

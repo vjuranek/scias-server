@@ -26,7 +26,7 @@ import eu.imagecode.scias.util.SciasFunctions;
  *
  */
 @Stateless
-public class ValidationServiceImpl implements ValidationService {
+public class ValidationServiceBean implements ValidationService {
 
     @Inject
     BatchService batchSrv;

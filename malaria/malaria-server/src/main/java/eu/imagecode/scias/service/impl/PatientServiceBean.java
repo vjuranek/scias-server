@@ -17,7 +17,7 @@ import eu.imagecode.scias.service.PatientService;
  *
  */
 @Stateless
-public class PatientServiceImpl implements PatientService {
+public class PatientServiceBean implements PatientService {
 
     @Inject
     private EntityManager em;

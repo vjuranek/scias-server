@@ -28,7 +28,7 @@ import eu.imagecode.scias.util.ModelMappers;
  *
  */
 @Stateless
-public class SampleServiceImpl implements SampleService {
+public class SampleServiceBean implements SampleService {
 
     @Inject
     private EntityManager em;
