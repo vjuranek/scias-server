@@ -1,8 +1,9 @@
 package eu.imagecode.scias.util;
 
-import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -296,7 +297,7 @@ public class ModelMappers {
         imgEnt.setHeight(img.getHeight());
         imgEnt.setWidth(img.getWidth());
         imgEnt.setMimeType(mimeTypeToEntity(img.getMimeType()));
-        imgEnt.setCreated(Date.valueOf(LocalDate.now()));
+        imgEnt.setCreated(Date.from(Instant.now()));
         return imgEnt;
     }
 
