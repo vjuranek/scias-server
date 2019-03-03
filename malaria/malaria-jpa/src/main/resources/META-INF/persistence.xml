@@ -26,7 +26,7 @@
         <properties>
             <property name="hibernate.show_sql" value="true" />
             <!-- <property name="hibernate.flushMode" value="FLUSH_AUTO" /> -->
-            <property name="hibernate.hbm2ddl.auto" value="false" />
+            <!-- <property name="hibernate.hbm2ddl.auto" value="false" /> -->
             <!-- <property name="hibernate.jdbc.use_streams_for_binary" value="true" /> -->
         </properties>
     </persistence-unit>
